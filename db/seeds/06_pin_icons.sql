@@ -3,7 +3,7 @@ INSERT INTO pin_icons (category_name, icon_url) VALUES ('Dining','http://maps.go
 INSERT INTO pin_icons (category_name, icon_url) VALUES ('Entertainment','http://maps.google.com/mapfiles/ms/micons/movies.png');
 INSERT INTO pin_icons (category_name, icon_url) VALUES ('Cafe','http://maps.google.com/mapfiles/ms/micons/coffeehouse.png');
 
-/* List of Icons
+/* List of Google Icons
     http://maps.google.com/mapfiles/ms/icons/POI.png
     http://maps.google.com/mapfiles/ms/icons/POI.shadow.png
     http://maps.google.com/mapfiles/ms/icons/arts.png
