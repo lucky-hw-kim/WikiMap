@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const mapsQueries = require('../lib/maps-queries');
 const pinsQueries = require('../lib/pins-queries');
-const userId = 2;
+const user_id = 2;
 /*
 ********* Maps router
 */
-//**** To Test each router fiexd userId = 2;
+//**** To Test each router fiexd user_id = 2;
 
 // GET /maps/ -- Get all the maps 
 router.get('/', (req, res) => {
@@ -22,15 +22,15 @@ router.get('/', (req, res) => {
     });
 })
 
-// GET /maps/ -- Get maps that the user created
+// GET /maps/saved -- Get maps that the user created
 router.get('/saved', (req, res) => {
-  // const userId = req.session.userId;
-  if (!userId) {
+  // const user_id = req.session.user_id;
+  if (!user_id) {
     //Need to login message
     res.error("💩");
     return;
   }
-  mapsQueries.getSavedMaps(userId)
+  mapsQueries.getSavedMaps(user_id)
     .then( maps => {
       // Change to render page with data
       res.json(maps);
@@ -42,14 +42,14 @@ router.get('/saved', (req, res) => {
     });
 })
 
-// GET /maps/ -- Get maps that the user liked (favorite) 
+// GET /maps/favorite -- Get maps that the user liked (favorite) 
 router.get('/favorite', (req, res) => {
-  // const userId = req.session.userId;
-  if (!userId) {
+  // const user_id = req.session.user_id;
+  if (!user_id) {
     res.error("💩");
     return;
   }
-  mapsQueries.getFavoriteMaps(userId)
+  mapsQueries.getFavoriteMaps(user_id)
     .then( maps => {
       // Change to render page with data
       res.json(maps);
@@ -79,11 +79,11 @@ router.get('/:mapId', (req, res) => {
 
 // POST /maps/:id/edit -- Edit a map
 router.post('/:mapId/edit', (req, res) => {
-  // const userId = req.session.userId;
+  // const user_id = req.session.user_id;
   const map_id = req.params.mapId;
   const mapDetails = { map_id, ...req.body };
 
-  if (!userId) {
+  if (!user_id) {
     //Need to login message
     res.error("💩");
     return;
@@ -103,9 +103,9 @@ router.post('/:mapId/edit', (req, res) => {
 
 // POST /maps/ -- Create a map
 router.post('/', (req, res) => {
-  // const userId = req.session.userId;
-  const mapDetails = { userId, ...req.body };
-  if (!userId) {
+  // const user_id = req.session.user_id;
+  const mapDetails = { user_id, ...req.body };
+  if (!user_id) {
     //Need to login message
     res.error("💩");
     return;
@@ -125,14 +125,14 @@ router.post('/', (req, res) => {
 
 // POST /maps/:id/delete -- Delete a map
 router.post('/:mapId/delete', (req, res) => {
-  // const userId = req.session.userId;
+  // const user_id = req.session.user_id;
   const map_id = req.params.mapId;
-  if (!userId) {
+  if (!user_id) {
     //Need to login message
     res.error("💩");
     return;
   }
-  mapsQueries.deleteMap(map_id, userId)
+  mapsQueries.deleteMap(map_id, user_id)
     .then( maps => {
       // Change to render page with data
       res.json(maps);
@@ -143,6 +143,45 @@ router.post('/:mapId/delete', (req, res) => {
         .json({ error: err.message });
     });
 });
+
+// POST /maps/favorite -- Add favorite map
+router.post('/maps/favorite', (req, res) => {
+  // const user_id = req.session.user_id;
+  const map_id = req.params.mapId;
+  if (!user_id) {
+    //Need to login message
+    res.error("💩");
+    return;
+  }
+
+  mapsQueries.addFavorite(map_id, user_id)
+    .then( fav => {
+      // Change to render page with data
+      res.json(fav);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+})
+
+// GET /maps -- Search maps
+router.get('/', (req, res) => {
+  const title = req.body;
+  mapsQueries.searchMaps(title)
+    .then( maps => {
+      // Change to render page with data
+      res.json(maps);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+})
+
+
 
 
 /*
@@ -197,7 +236,7 @@ router.get('/:mapId/pins/:pinId', (req, res) => {
 // POST /maps/:mapId/pins/:pidId/edit -- Edit a pin
 router.post('/:mapId/pins/:pinId/edit', (req, res) => {
   const map_id = req.params.mapId;
-// const userId = req.session.userId;
+// const user_id = req.session.user_id;
   const pinId = req.params.pinId;
   const pinDetails = {
     ...req,
@@ -205,7 +244,7 @@ router.post('/:mapId/pins/:pinId/edit', (req, res) => {
     map_id
   }
 
-  if (!userId) {
+  if (!user_id) {
     //Need to login message
     res.error("💩");
     return;
@@ -225,9 +264,9 @@ router.post('/:mapId/pins/:pinId/edit', (req, res) => {
 // POST /maps/:mapId/pins -- Add a pin
 router.post('/:mapId/pins', (req, res) => {
   const map_id = req.params.mapId;
-  // const userId = req.session.userId;
-  const pinDetails = { map_id, userId, ...req.body };
-  if (!userId) {
+  // const user_id = req.session.user_id;
+  const pinDetails = { map_id, user_id, ...req.body };
+  if (!user_id) {
     //Need to login message
     res.error("💩");
     return;
@@ -249,15 +288,15 @@ router.post('/:mapId/pins', (req, res) => {
 router.post('/:mapId/pins/:pinId/delete', (req, res) => {
   const pin_id = req.params.pinId;
   const map_id = req.params.mapId;
-  // const userId = req.session.userId;
-  const pinDetails = {pin_id, userId, map_id}
+  // const user_id = req.session.user_id;
+  const pinDetails = {pin_id, user_id, map_id}
 
-  if (!userId) {
+  if (!user_id) {
     //Need to login message
     res.error("💩");
     return;
   }
-  pinsQueries.deletePin(pin_id, userId, map_id)
+  pinsQueries.deletePin(pinDetails)
     .then( pins => {
       // Change to render page with data
       res.json(pins);
