@@ -56,8 +56,8 @@ app.get("/profile", (req, res) => {
   res.render("profile");
 });
 
-app.get("/maps", (req, res) => {
-  res.render("maps");
+app.get("/create-map", (req, res) => {
+  res.render("create-map");
 });
 
 app.listen(PORT, () => {

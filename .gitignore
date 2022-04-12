@@ -1,5 +1,8 @@
 node_modules/
-public/styles
+public/styles/
+!public/styles/
+public/styles/*
+!public/styles/fonts/
 .env
 *.log
 *.sqlite3
