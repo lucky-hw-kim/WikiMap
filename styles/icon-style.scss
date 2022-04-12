@@ -1,0 +1,130 @@
+@import "variables";
+
+@font-face {
+  font-family: '#{$icomoon-font-family}';
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?hrbg55');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?hrbg55#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?hrbg55') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?hrbg55') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?hrbg55##{$icomoon-font-family}') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="wm-icon-"], [class*=" wm-icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: '#{$icomoon-font-family}' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.wm-icon-user-01 {
+  &:before {
+    content: $wm-icon-user-01; 
+  }
+}
+.wm-icon-search {
+  &:before {
+    content: $wm-icon-search; 
+  }
+}
+.wm-icon-like {
+  &:before {
+    content: $wm-icon-like; 
+  }
+}
+.wm-icon-favorite {
+  &:before {
+    content: $wm-icon-favorite; 
+  }
+}
+.wm-icon-flag {
+  &:before {
+    content: $wm-icon-flag; 
+  }
+}
+.wm-icon-map-marker {
+  &:before {
+    content: $wm-icon-map-marker; 
+  }
+}
+.wm-icon-add {
+  &:before {
+    content: $wm-icon-add; 
+  }
+}
+.wm-icon-remove {
+  &:before {
+    content: $wm-icon-remove; 
+  }
+}
+.wm-icon-delete {
+  &:before {
+    content: $wm-icon-delete; 
+  }
+}
+.wm-icon-correct {
+  &:before {
+    content: $wm-icon-correct; 
+  }
+}
+.wm-icon-question-circle {
+  &:before {
+    content: $wm-icon-question-circle; 
+  }
+}
+.wm-icon-info-circle {
+  &:before {
+    content: $wm-icon-info-circle; 
+  }
+}
+.wm-icon-exclamation-circle {
+  &:before {
+    content: $wm-icon-exclamation-circle; 
+  }
+}
+.wm-icon-exclamation-triangle {
+  &:before {
+    content: $wm-icon-exclamation-triangle; 
+  }
+}
+.wm-icon-warning {
+  &:before {
+    content: $wm-icon-warning; 
+  }
+}
+.wm-icon-reply {
+  &:before {
+    content: $wm-icon-reply; 
+  }
+}
+.wm-icon-send {
+  &:before {
+    content: $wm-icon-send; 
+  }
+}
+.wm-icon-user-circle {
+  &:before {
+    content: $wm-icon-user-circle; 
+  }
+}
+.wm-icon-user-circle-o {
+  &:before {
+    content: $wm-icon-user-circle-o; 
+  }
+}
+.wm-icon-user-o {
+  &:before {
+    content: $wm-icon-user-o; 
+  }
+}
+

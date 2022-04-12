@@ -140,6 +140,24 @@ nav.crumbs ul {
 }
 /* End of Header */
 
+aside {
+  position: absolute;
+  left: 0px;
+  width: 25vw;
+  z-index: 9999;
+  background-color: lighten($background, 20%);
+  border-right: solid  darken($background, 20%) 2px;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5em;
+  height: 100vh;
+  top: 0;
+}
+
+aside label {
+  margin-top: 1em;
+}
+
 /* The Map */
 #map { 
   height: 90vh;
