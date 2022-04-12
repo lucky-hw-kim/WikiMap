@@ -36,16 +36,12 @@ app.use(express.static("public"));
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
-const usersRoutes = require("./routes/users");
-const widgetsRoutes = require("./routes/widgets");
 const mapsRoutes = require("./routes/maps-router");
 
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-app.use("/api/users", usersRoutes(db));
-app.use("/api/widgets", widgetsRoutes(db));
-app.use("/api/maps", mapsRoutes);
+app.use("/maps", mapsRoutes);
 // Note: mount other resources here, using the same pattern above
 
 // Home page
@@ -56,15 +52,15 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.get("/profile", (req, res) => {
-  res.render("profile");
-});
+// app.get("/profile", (req, res) => {
+//   res.render("profile");
+// });
 
-app.get("/maps", (req, res) => {
-  res.render("maps");
-});
+// app.get("/maps", (req, res) => {
+//   res.render("maps");
+// });
 
-app.get("/create-map", (req, res) => {
+app.get("/api/maps/create-map", (req, res) => {
   res.render("create-map");
 });
 

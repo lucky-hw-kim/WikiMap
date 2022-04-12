@@ -9,18 +9,32 @@ const user_id = 1;
 ********* Maps router
 */
 //**** To Test each router fiexd user_id = 2;
-
 // GET /maps/ -- Get all the maps 
-router.get('/', (req, res) => {
+router.get('/create', (req, res) => {
   mapsQueries.getAllMaps()
     .then( maps => {
-      res.json(maps);
+      res.send({maps});
     })
     .catch(err => {
       res
         .status(500)
         .json({ error: err.message });
     });
+  res.render("create-map");
+})
+
+// GET /maps/ -- Get all the maps 
+router.get('/', (req, res) => {
+  mapsQueries.getAllMaps()
+    .then( maps => {
+      res.send({maps});
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+
 })
 
 // GET /maps/saved -- Get maps that the user created
@@ -34,6 +48,7 @@ router.get('/saved', (req, res) => {
         .status(500)
         .json({ error: err.message });
     });
+    res.render("profile");
 })
 
 // GET /maps/favorite -- Get maps that the user liked (favorite) 
@@ -47,6 +62,7 @@ router.get('/favorite', (req, res) => {
         .status(500)
         .json({ error: err.message });
     });
+    res.render("profile");
 })
 
 
@@ -84,7 +100,8 @@ router.post('/', (req, res) => {
   const mapDetails = { user_id, ...req.body };
   mapsQueries.addMap(mapDetails)
     .then( maps => {
-      res.json(maps);
+      // res.json(maps);
+      res.render("view-map", maps[0])
     })
     .catch(err => {
       res

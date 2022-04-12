@@ -18,12 +18,13 @@
     <h1>WikiMap Logo</h1>
 
     <!-- Required to update: action="target the post route for create-maps"-->
-    <form action="/create-maps-route" method="post">
-      <label for="map-title">Title</label>
-      <input type="text" id="map-title" name="map-title" required >
+    <!-- not sure it has to be exact route? -->
+    <form action="/api/maps" method="post">
+      <label for="name">Title</label>
+      <input type="text" id="map-title" name="name" required >
 
       <label for="map-description">Description</label>
-      <textarea type="text" id="map-description" name="map-description" rows="2" cols="1" required></textarea>
+      <textarea type="text" id="description" name="description" rows="2" cols="1" required></textarea>
 
       <label for="restaurant-pin">Select Pin</label>
       
@@ -44,9 +45,12 @@
 
       <label for="myfile">Gallery</label>
 
-      <label for="myfile">Select a file:</label>
-      <input type="file" id="myfile" name="myfile"><br><br>
+      <label for="header_image">Select a file:</label>
+      <input type="file" id="myfile" name="header_image">
+      <input type="hidden" value = "true" name = "public">
+      <br><br>
       <input type="submit" value="Submit">
+     
     </form>
   </aside>
   <div id="map"></div>
