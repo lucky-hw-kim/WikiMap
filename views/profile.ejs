@@ -1,71 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Profile Page - Wiki Maps</title>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <%- include('./partials/head'); %>
-  
-</head>
+    <title>Profile Page - Wiki Maps</title>
+
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/main.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/icons.css" type="text/css" />
+
+  <!-- JQuery CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <body>
   
   <%- include('./partials/header'); %>
-
-  <div class="mini-map-container">
-
-    <section class="mini-map">
-      <div class="maps">
-        <span class="icon-like"></span>
-        <div>Message</div>
-        <div>Share</div>  
-      </div>
-      
-      <author>@Author</author>
-    </section>
-    
-    <section class="mini-map">
-      <div class="maps">
-        <span class="icon-like"></span>
-        <div>Message</div>
-        <div>Share</div>  
-      </div>
-      
-      <author>@Author</author>
-    </section>
-
-    <section class="mini-map">
-      <div class="maps">
-        <span class="icon-like"></span>
-        <div>Message</div>
-        <div>Share</div>  
-      </div>
-      
-      <author>@Author</author>
-    </section>
-
-    <section class="mini-map">
-      <div class="maps">
-        <div>Heart</div>
-        <div>Message</div>
-        <div>Share</div>  
-      </div>
-      
-      <author>@Author</author>
-    </section>
-
-    <section class="mini-map">
-      <div class="maps">
-        <div>Heart</div>
-        <div>Message</div>
-        <div>Share</div>  
-      </div>
-      
-      <author>@Author</author>
-    </section>
-
+  <div id="saved-maps"> Saved Maps </div>
+  <% for (let map of maps) { %>
+ <div class="mini-map-container">
+      <section class="mini-map">
+        <div class="maps">
+          <p><%= map.name %></p>
+          <p><%= map.header_image %></p>  
+          <p>Title: <%= map.name %></p>
+          <p>Description: <%= map.description %></p>
+        </div>
+        <author>@<%= map.user_id %></author> 
+      </section>
+  </div>
+  <% } %>
   </div>
 
 </body>

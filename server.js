@@ -60,9 +60,6 @@ app.get("/", (req, res) => {
 //   res.render("maps");
 // });
 
-app.get("/api/maps/create-map", (req, res) => {
-  res.render("create-map");
-});
 
 app.get("*", (req, res) => {
   res.render("errorPage404");
