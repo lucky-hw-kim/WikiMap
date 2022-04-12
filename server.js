@@ -65,6 +65,27 @@ app.get("*", (req, res) => {
   res.render("errorPage404");
 });
 
+app.post("/view", (req, res) => {
+
+  $templatevars = {
+
+  }
+
+  res.render("map-view", $templatevars);
+});
+
+app.get("/view", (req, res) => {
+  res.render("map-view");
+});
+
+app.get("/favorites", (req, res) => {
+  res.render("profile");
+});
+
+app.get("/saved", (req, res) => {
+  res.render("profile");
+});
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });

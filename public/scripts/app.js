@@ -10,18 +10,24 @@ $(()=>{
     latitude = 49.2222919;
     longitude = -122.6141347;
 
-    /*
-    function showPosition(position) {
-      x.innerHTML = position.coords.latitude + 
-      "," + position.coords.longitude;
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
     }
 
-    console.log('database test', navigator.geolocation.getCurrentPosition(showPosition()))
-Array.push(`${latitude}, ${longitude}`)
-    */
-   
+    function showPosition(position) {
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
+    }
+
+    getLocation();
+    
     const zoomLevel = 13;
-    const map = L.map('map').setView([latitude, longitude], zoomLevel);
+    const map = L.map('map');
+    map.setView([latitude, longitude], zoomLevel);
   
     /*note look into how to Preconnect to required origins for api.mapbox to improve performance */
     
@@ -39,25 +45,52 @@ Array.push(`${latitude}, ${longitude}`)
 
     /* Start of Modal */
     
-    const loginModal = $("#login-modal");
-    const aboutModal = $("#about-modal");
-
+    /* Start of Button onClick Triggers */
     // Login Button
     $("#login-btn").click(()=>{
-      loginModal.attr('display', 'block');
-      alert('trigger login modal');
+      window.location.href = "/maps";
+      // $("#login-modal").attr('display', 'block');
+      // alert('trigger login modal');
     });
    
     // About Button
     $("#about-btn").click(()=>{
-      aboutModal.attr('display', 'block');
+
+      $("#about-modal").attr('display', 'block');
       alert('trigger about modal');
     });
+
+
+    // create a map button (Footer)
+    $("#create-map-btn").click(()=>{
+      window.location.href = "/maps/2/create";
+    });
+
+    // create a map button (Footer)
+    $("#edit-map-btn").click(()=>{
+      window.location.href = "/maps/2/edit";
+    });
+
+    // create a map button (Footer)
+    $("#view-map-btn").click(()=>{
+      window.location.href = "/maps";
+    });
+    // create a map button (Footer)
+    $("#favorite-map-btn").click(()=>{
+      window.location.href = "/maps/2/favorites";
+    });
+    // create a map button (Footer)
+    $("#saved-map-btn").click(()=>{
+      window.location.href = "maps/2/saved";
+    });
+  
   
     // Close Button
     $(".modal-content span.close").click(()=>{
       loginModal.attr('display', 'none');
     });
+
+    /* End of Button onClick Triggers */
 
     // Get the <span> element that closes the modal
     const closeIcon = document.getElementsByClassName("close")[0];

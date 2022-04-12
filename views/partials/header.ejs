@@ -4,17 +4,18 @@
 
     <form id="searchForm">
         <label for="search">Search</label>
-        <input id="search" name="search" type="search" placeholder="Search the Wiki Maps for...">
-        <button>Search</button>
+        <div class="search-container">
+            <form action="/maps" method="post">
+                <input id="search" name="search" type="search" placeholder="Favorite Places to ...">
+                <button id="search-btn" name="search-btn" class="wm-icon-search"></button>
+            </form>
+        </div>
     </form>
 
     <nav class="crumbs">
         <ul>
             <li class="crumb">
-                <button id="about-btn">About</button>
-              </li>
-              <li class="crumb">
-                <button id="login-btn">Login</button>
+                <button id="login-btn">Explore</button>
             </li>
         </ul>
     </nav>

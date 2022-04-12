@@ -35,7 +35,6 @@ router.get('/:userId/saved', (req, res) => {
           saved: maps,
           favs: favdb,
         }
-        // console.log("temp: ", temp);
         res.render("saved", temp);
       })
     .catch(err => {
@@ -50,41 +49,6 @@ router.get('/:userId/saved', (req, res) => {
       .json({ error: err.message });
   });
 })
-
-  // mapsQueries.getSavedMaps(user_id)
-  //   .then( (maps) => {
-  //     const temp = {
-  //       saved: maps,
-  //       favs: favorite,
-  //     }
-  //     console.log("temp:",temp);
-  //     // console.log("tempfavs:", temp.favs);
-  //     res.render("saved", temp);
-  //   })
-  //   .catch(err => {
-  //     res
-  //       .status(500)
-  //       .json({ error: err.message });
-  //   });
-    
-
-
-// GET /maps/favorite -- Get maps that the user liked (favorite) 
-// router.get('/:userId/favorite', (req, res) => {
-//   const user_id = req.params.userId;
-//   mapsQueries.getFavoriteMaps(user_id)
-//     .then( favs => {
-//       // maps = [{obj1}, {obj2}, {obj3}]
-//         res.render("favorite", {favs});
-//     })
-//     .catch(err => {
-//       res
-//         .status(500)
-//         .json({ error: err.message });
-//     });
-    
-// })
-
 
 // GET /maps/:id -- Get specific map user cliked
 router.get('/:mapId', (req, res) => {
