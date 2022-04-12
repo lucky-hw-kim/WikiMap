@@ -26,35 +26,64 @@ router.get('/', (req, res) => {
 
 // GET /maps/saved -- Get maps that the user created
 router.get('/:userId/saved', (req, res) => {
-  const user_id = req.params.userId;
-  mapsQueries.getSavedMaps(user_id)
-    .then( maps => {
-      // res.json(maps);
-      res.render("profile", {maps});
-    })
+    const user_id = req.params.userId;
+    mapsQueries.getFavoriteMaps(user_id)
+    .then((favdb) => {
+      mapsQueries.getSavedMaps(user_id)
+      .then( (maps) => {
+        const temp = {
+          saved: maps,
+          favs: favdb,
+        }
+        // console.log("temp: ", temp);
+        res.render("saved", temp);
+      })
     .catch(err => {
       res
         .status(500)
         .json({ error: err.message });
     });
-    
+  })
+  .catch(err => {
+    res
+      .status(500)
+      .json({ error: err.message });
+  });
 })
 
-// GET /maps/favorite -- Get maps that the user liked (favorite) 
-router.get('/:userId/favorite', (req, res) => {
-  const user_id = req.params.userId;
-  mapsQueries.getFavoriteMaps(user_id)
-    .then( favs => {
-      // maps = [{obj1}, {obj2}, {obj3}]
-        res.render("profile", {favs});
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
+  // mapsQueries.getSavedMaps(user_id)
+  //   .then( (maps) => {
+  //     const temp = {
+  //       saved: maps,
+  //       favs: favorite,
+  //     }
+  //     console.log("temp:",temp);
+  //     // console.log("tempfavs:", temp.favs);
+  //     res.render("saved", temp);
+  //   })
+  //   .catch(err => {
+  //     res
+  //       .status(500)
+  //       .json({ error: err.message });
+  //   });
     
-})
+
+
+// GET /maps/favorite -- Get maps that the user liked (favorite) 
+// router.get('/:userId/favorite', (req, res) => {
+//   const user_id = req.params.userId;
+//   mapsQueries.getFavoriteMaps(user_id)
+//     .then( favs => {
+//       // maps = [{obj1}, {obj2}, {obj3}]
+//         res.render("favorite", {favs});
+//     })
+//     .catch(err => {
+//       res
+//         .status(500)
+//         .json({ error: err.message });
+//     });
+    
+// })
 
 
 // GET /maps/:id -- Get specific map user cliked
@@ -267,3 +296,20 @@ module.exports = router;
 
 
 
+
+
+// <% for (let fav in favs) { %>
+//   <!-- <% for (let fa of fav) { %> -->
+// <div class="mini-map-container">
+//     <section class="mini-map">
+//       <div class="maps">
+//         <p><%= fav[0].name %></p>
+//         <p><%= fav[0].header_image %></p>  
+//         <p>Title: <%= fav[0].name %></p>
+//         <p>Description: <%= fav[0].description %></p>
+//       </div>
+//       <author>@<%= fav[0].user_id %></author> 
+//     </section>
+// </div>
+//   <!-- <% } %> -->
+// <% } %>
