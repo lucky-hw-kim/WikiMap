@@ -14,23 +14,24 @@
   
   <%- include('./partials/header'); %>
 
-  <aside>
+  <aside id="create-map">
     <h1>WikiMap Logo</h1>
 
     <!-- Required to update: action="target the post route for create-maps"-->
-    <form action="/create-maps-route" method="post">
-      <label for="map-title">Title</label>
-      <input type="text" id="map-title" name="map-title" required >
+    <form action="/view" method="post">
+      <label for="name">Title</label>
+      <input type="text" id="name" name="name" required >
 
-      <label for="map-description">Description</label>
-      <textarea type="text" id="map-description" name="map-description" rows="2" cols="1" required></textarea>
+      <label for="description">Description</label>
+      <textarea type="text" id="description" name="description" rows="2" cols="1" required></textarea>
 
-      <label for="restaurant-pin">Select Pin</label>
+    <!-- <fieldset>
+      <legend for="restaurant-pin">Select Category</legend>
       
       <ul>
         <li>
           <input type="checkbox" id="restaurant-pin" name="restaurant" value="restaurant">
-          <label for="restaurant-pin">Restaurant</label>
+          <label for="restaurant-pin"><span class="wm-icon-map-marker"></span> Restaurant</label>
         </li>
         <li>
           <input type="checkbox" id="entertainment-pin" name="entertainment" value="entertainment">
@@ -41,6 +42,7 @@
           <label for="activity-pin">Activity</label>
         </li>
       </ul>
+    </fieldset> -->
 
       <label for="myfile">Gallery</label>
 

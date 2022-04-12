@@ -4,14 +4,19 @@ $primary: #5a59a7;
 $secondary: #3a397e;
 $background: #f3f3f5;
 $button: #5a59a7;
-$commonBorderRadius: 25px;
+$commonBorderRadius: 10px;
 
 body,
 html {
   margin: 0;
 }
 
+// Anything set default to display:none
 .hidden { display:none; }
+
+#create-map ul{
+  list-style:none;
+}
 
 .welcomeMessage {
   position: absolute;
@@ -28,6 +33,7 @@ section.welcomeMap{
   transition: 0.2s;
 }
 
+
 // Limits ability to click map
 section.welcomeMap div#map {
   z-index: -1;
@@ -36,19 +42,19 @@ section.welcomeMap div#map {
 .mini-map-container {
   display: flex;
   flex-direction: row;
-  width: 100vw;
   height: 90vh;
   background-color: darken($background, 3%);
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 section.mini-map {
   display: flex;
   flex-direction: column;
   align-items: end;
-  margin: 2em;
-  width: 400px;
+  margin: 1.5em;
 }
+
 
 .maps {
   background-image: url(http://via.placeholder.com/400x225);
@@ -88,15 +94,26 @@ header #logo {
 form#searchForm label {
   font-size: 0.8em;
   text-transform: uppercase;
-  margin: 0 10px 0 0;
+  margin: 0 0 5px 10px;
 }
 
 form#searchForm {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: stretch;
-  align-items: center;
+  align-items: stretch;
   width: 40vw;
+}
+
+form#searchForm .search-container {
+  display: inherit;
+  justify-content: left;
+}
+
+button#search-btn {
+  margin: 0 0 0 -40px;
+  background-color: transparent;
+  border: transparent;
 }
 
 form#searchForm input#search{
@@ -104,10 +121,10 @@ form#searchForm input#search{
   border-radius: $commonBorderRadius;
   font-size: 1.3em;
   padding: 5px 10px;
-  flex-grow: 1;
+  width: 100%;
 }
 
-nav button{
+nav li.crumb button, .btn{
   font-size: 2em;
   color: $button;
   border: solid $background 1px;
@@ -158,12 +175,52 @@ aside label {
   margin-top: 1em;
 }
 
+fieldset {
+  border: solid darken($background, 20%) 2px;
+  margin: 1em 0;
+}
+
+fieldset ul {
+  width: auto;
+}
+
+textarea, input{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+// simulated marker
+#create-map li:nth-child(1) span {
+  font-size: 2em;
+  color: red;
+}
+
 /* The Map */
 #map { 
   height: 90vh;
   border-top: solid  darken($background, 20%) 2px;
   border-bottom: solid #000000 2px;
 }
+
+/* Favorite / Saved Maps Layouts START */
+section.mini-map .maps span {
+  margin: 0 0.8em 0 0;
+  font-size: 1.5em;
+}
+
+section.mini-map .maps {
+  display: inherit;
+  align-items: end;
+  justify-content: space-evenly;
+  margin: 0 0 0.5em 0;
+}
+
+span.wm-icon-reply {
+  padding-bottom: 2px;
+}
+/* Favorite / Saved Maps Layouts END */
 
 
 /* The Modal (background) */
@@ -204,8 +261,34 @@ aside label {
   cursor: pointer;
 }
 
-@media only screen and (max-width: 425px) {
+footer {
+  position: fixed;
+  z-index: 999;
+  height: 15vh;
+  width: 100vw;
+  bottom: 0;
+  background-color: white;
+  padding: 1em;
+}
+
+footer ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  list-style: none;
+}
+
+@media only screen and (max-width: 768px) {
   
+  aside{
+   width: 80vw; 
+  }
+
+  form#searchForm {
+    width: 100%;
+    padding: 2em 1em 0.5em 1em;
+  }
+
   header{
     height: fit-content;
     flex-direction: column;

@@ -52,12 +52,37 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+app.get("/maps", (req, res) => {
+  res.render("maps");
+});
+
 app.get("/profile", (req, res) => {
   res.render("profile");
 });
 
-app.get("/create-map", (req, res) => {
+app.get("/create", (req, res) => {
   res.render("create-map");
+});
+
+app.post("/view", (req, res) => {
+
+  $templatevars = {
+
+  }
+
+  res.render("map-view", $templatevars);
+});
+
+app.get("/view", (req, res) => {
+  res.render("map-view");
+});
+
+app.get("/favorites", (req, res) => {
+  res.render("profile");
+});
+
+app.get("/saved", (req, res) => {
+  res.render("profile");
 });
 
 app.listen(PORT, () => {
