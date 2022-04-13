@@ -42,12 +42,12 @@ $(()=>{
 
     /* End of LeafLetJS */
 
-    const imageTemplate = `<fieldset><legend>Gallery</legend>
+    let imageTemplate = `<fieldset><legend>Gallery</legend>
     <img src="http://via.placeholder.com/295x160" title="Science World" alt="Science World" style="width: 100%;">
     </fieldset>`;
-    const titleTemplate = `<h1>Science World!</h1>`;
-    const descriptionTemplate = `This is an awesome place to check out science events!`;
-    const authorTemplate = `Email of user (Or their ID unless we add a username)`;
+    let titleTemplate = `<h1>Science World!</h1>`;
+    let descriptionTemplate = `This is an awesome place to check out science events!`;
+    let authorTemplate = `Email of user (Or their ID unless we add a username)`;
 
     /* Science World Test Marker */
     L.marker([latitude, longitude])

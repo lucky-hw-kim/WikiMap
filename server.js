@@ -78,39 +78,6 @@ app.post("/edit", (req, res) => {
   res.render("edit-map");
 });
 
-//Assigns location for image storage
-const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-      cb(null, 'public/condensed_image/uploads/');
-  },
-//Creates new filename for reformatted image!
-  filename: function(req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now() + '.webp');
-  }
-});
-
-let upload = multer({ storage: storage })
-
-//Takes any image given
-app.get('/images', (req, res) => {
-  res.sendFile(__dirname + '/image_index.html');
-});
-
-//Reformats image to given criteria
-app.post('/images', upload.single('image'),async (req, res) => {
-       const { filename: image } = req.file;
-
-       await sharp(req.file.path)
-        .resize(200, 200)
-        .webp({ quality: 90 })
-        .toFile(
-            path.resolve(req.file.destination,'resized',image)
-        )
-        fs.unlinkSync(req.file.path)
-
-       res.redirect('/images');
-});
-
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });

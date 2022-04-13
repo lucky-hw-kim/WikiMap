@@ -1,9 +1,28 @@
 const express = require('express');
 const { defaults } = require('pg');
 const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+const sharp = require('sharp');
+const fs = require('fs');
 const mapsQueries = require('../lib/maps-queries');
 const pinsQueries = require('../lib/pins-queries');
 const user_id = 2;
+
+
+
+//Assigns location for image storage
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+      cb(null, 'public/condensed_image/uploads/');
+  },
+//Creates new filename for reformatted image!
+  filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + '.webp');
+  }
+});
+
+let upload = multer({ storage: storage })
 // const user_id = req.session.user_id;
 /*
 ********* Maps router
@@ -20,6 +39,7 @@ router.get('/', (req, res) => {
         .json({ error: err.message });
     });
     res.render("maps");
+
 })
 
 // problem with looping and rendering both data to save page is giving me trouble
@@ -82,13 +102,16 @@ router.post('/:mapId/edit', (req, res) => {
 
 
 // POST /maps/ -- Create a map
-router.post('/', (req, res) => {
+router.post('/',upload.single('header_image') ,(req, res,next) => {
     // 2 is user id
   const mapDetails = { user_id, ...req.body };
+
+  console.log("Req.File:",req.file);
   mapsQueries.addMap(mapDetails)
     .then( maps => {
       // res.json(maps);
-      res.render("view-map", maps[0])
+      // res.render("view-map", maps[0])
+      next();
     })
     .catch(err => {
       res
@@ -254,6 +277,33 @@ router.post('/:userId/:mapId/pins/:pinId/delete', (req, res) => {
         .json({ error: err.message });
     });
 });
+
+
+
+
+
+//Takes any image given
+router.get('/2/create', (req, res) => {
+  res.sendFile("./views/create-map.ejs");
+});
+
+
+//Reformats image to given criteria
+router.post('/', upload.single('header_image'),async (req, res) => {
+      const { filename: image } = req.file;
+      console.log("Path:",path.resolve(req.file.destination,'resized',image));
+       await sharp(req.file.path)
+        .resize(200, 200)
+        .webp({ quality: 90 })
+        .toFile(
+            path.resolve(req.file.destination,'resized',image)
+        )
+        fs.unlinkSync(req.file.path)
+
+       res.redirect('/maps');
+});
+
+
 
 
 module.exports = router;

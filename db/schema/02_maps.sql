@@ -9,5 +9,5 @@ CREATE TABLE maps (
   header_image VARCHAR(255) NOT NULL,
   date_created DATE NOT NULL,
   date_modified DATE NOT NULL,
-  public BOOLEAN NOT NULL DEFAULT TRUE
+  public BOOLEAN DEFAULT TRUE
 );
