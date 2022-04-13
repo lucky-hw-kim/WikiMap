@@ -1,16 +1,33 @@
 const express = require('express');
 const { defaults } = require('pg');
 const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+const sharp = require('sharp');
+const fs = require('fs');
 const mapsQueries = require('../lib/maps-queries');
 const pinsQueries = require('../lib/pins-queries');
 const user_id = 2;
+
+//Assigns location for image storage
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+      cb(null, 'public/styles/condensed_image/uploads');
+      // public/condensed_image/uploads/
+  },
+//Creates new filename for reformatted image!
+  filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + '.webp');
+  }
+});
+let upload = multer({ storage: storage })
+
 
 
 /*
 ********* Maps router
 */
-
-//Home Page
+// GET /maps/ -- Get all the pins to one map
 router.get('/', (req, res) => {
   pinsQueries.getAllPinsFromAllMaps()
     .then( maps => {
@@ -22,20 +39,20 @@ router.get('/', (req, res) => {
         .json({ error: err.message });
     });
     res.render("maps");
+
 })
 
 // GET /maps/ -- Get all the maps 
 router.get('/list', (req, res) => {
   mapsQueries.getAllMaps()
     .then( maps => {
-      res.json({maps});
+      res.render("map-list", {maps});
     })
     .catch(err => {
       res
         .status(500)
         .json({ error: err.message });
     });
-    res.render("map-list");
 })
 
 // GET /maps//:userId/profile 
@@ -98,13 +115,16 @@ router.post('/:mapId/edit', (req, res) => {
 
 
 // POST /maps/ -- Create a map
-router.post('/', (req, res) => {
-    // 2 is user id
-  const mapDetails = { user_id, ...req.body };
+router.post('/',upload.single('header_image') ,(req, res, next) => {
+  let header_image = 
+  '/styles/condensed_image/uploads/resized/' + req.file.filename
+  console.log("Req.File:", header_image);
+  let mapDetails = { user_id, ...req.body, header_image};
   mapsQueries.addMap(mapDetails)
     .then( maps => {
       // res.json(maps);
-      res.render("view-map", maps[0])
+      // console.log("mapDetails:", mapDetails);
+      next();
     })
     .catch(err => {
       res
@@ -112,6 +132,30 @@ router.post('/', (req, res) => {
         .json({ error: err.message });
     });
 })
+
+/*
+ * Image compression and save 
+ */
+
+//Takes any image given
+router.get('/1/create', (req, res) => {
+  res.sendFile("./views/create-map.ejs");
+});
+
+//Reformats image to given criteria
+router.post('/', upload.single('header_image'),async (req, res) => {
+  const { filename: image } = req.file;
+  //console.log("Path:",path.resolve(req.file.destination,'resized',image));
+   await sharp(req.file.path)
+    .resize(375, 245)
+    .webp({ quality: 90 })
+    .toFile(
+        path.resolve(req.file.destination,'resized',image)
+    )
+    fs.unlinkSync(req.file.path)
+    res.redirect('/maps');
+});
+
 
 // Render create map page
 router.get('/:userId/create', (req, res) => {

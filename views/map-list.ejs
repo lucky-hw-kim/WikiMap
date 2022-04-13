@@ -13,156 +13,32 @@
 <body>
   
   <%- include('./partials/header'); %>
-
-  <div class="mini-map-container">
-
-    <section class="mini-map">
-
-      <div class="maps">
-        <span class="wm-icon-like"></span>
-        <span class="wm-icon-reply"></span>
-        <span class="wm-icon-flag"></span>
-        <span class="wm-icon-favorite"></span>
-        <span class="wm-icon-send"></span>
-      </div>
-      
-      <author>Posted by Email</author>
-    </section>
   
-    
-    <section class="mini-map">
-
-      <div class="maps">
-        <span class="wm-icon-like"></span>
-        <span class="wm-icon-reply"></span>
-        <span class="wm-icon-flag"></span>
-        <span class="wm-icon-favorite"></span>
-        <span class="wm-icon-send"></span>
+    <div class="maps-heading"> LIST OF MAPS </div>
+    <div class="map-list-containers">
+      <% for (let map of maps) { %>
+      <div class="mini-map-containers">
+        <section class="mini-maps">
+          <div class="maps-list">
+            <img src="<%= map.header_image %>" alt="map_image" >
+            <p class="map-name"><%= map.name %></p>
+            <p class="map-desc"><%= map.description %></p>
+            <div class="icon-container">
+              <!-- <span class="wm-icon-flag icon"></span> -->
+              <!-- <span class="wm-icon-favorite icon"></span> -->
+              <div class="icons">
+                <span class="wm-icon-like icon"></span>
+                <span class="wm-icon-reply icon"></span>
+                <span class="wm-icon-send icon"></span>
+              </div>
+              <author id="author_id">@<%= map.user_id %></author> 
+            </div>
+          </div>
+        </section>
       </div>
-      
-      <author>Posted by Email</author>
-    </section>
-  
-    <section class="mini-map">
-
-      <div class="maps">
-        <span class="wm-icon-like"></span>
-        <span class="wm-icon-reply"></span>
-        <span class="wm-icon-flag"></span>
-        <span class="wm-icon-favorite"></span>
-        <span class="wm-icon-send"></span>
+      <% } %>
       </div>
-      
-      <author>Posted by Email</author>
-    </section>
-  
-    <section class="mini-map">
-
-      <div class="maps">
-        <span class="wm-icon-like"></span>
-        <span class="wm-icon-reply"></span>
-        <span class="wm-icon-flag"></span>
-        <span class="wm-icon-favorite"></span>
-        <span class="wm-icon-send"></span>
-      </div>
-      
-      <author>Posted by Email</author>
-    </section>
-  
-    <section class="mini-map">
-
-      <div class="maps">
-        <span class="wm-icon-like"></span>
-        <span class="wm-icon-reply"></span>
-        <span class="wm-icon-flag"></span>
-        <span class="wm-icon-favorite"></span>
-        <span class="wm-icon-send"></span>
-      </div>
-      
-      <author>Posted by Email</author>
-    </section>
-  
-    <section class="mini-map">
-
-      <div class="maps">
-        <span class="wm-icon-like"></span>
-        <span class="wm-icon-reply"></span>
-        <span class="wm-icon-flag"></span>
-        <span class="wm-icon-favorite"></span>
-        <span class="wm-icon-send"></span>
-      </div>
-      
-      <author>Posted by Email</author>
-    </section>
-  
-    <section class="mini-map">
-
-      <div class="maps">
-        <span class="wm-icon-like"></span>
-        <span class="wm-icon-reply"></span>
-        <span class="wm-icon-flag"></span>
-        <span class="wm-icon-favorite"></span>
-        <span class="wm-icon-send"></span>
-      </div>
-      
-      <author>Posted by Email</author>
-    </section>
-  
-    <section class="mini-map">
-
-      <div class="maps">
-        <span class="wm-icon-like"></span>
-        <span class="wm-icon-reply"></span>
-        <span class="wm-icon-flag"></span>
-        <span class="wm-icon-favorite"></span>
-        <span class="wm-icon-send"></span>
-      </div>
-      
-      <author>Posted by Email</author>
-    </section>
-  
-    <section class="mini-map">
-
-      <div class="maps">
-        <span class="wm-icon-like"></span>
-        <span class="wm-icon-reply"></span>
-        <span class="wm-icon-flag"></span>
-        <span class="wm-icon-favorite"></span>
-        <span class="wm-icon-send"></span>
-      </div>
-      
-      <author>Posted by Email</author>
-    </section>
-  
-    <section class="mini-map">
-
-      <div class="maps">
-        <span class="wm-icon-like"></span>
-        <span class="wm-icon-reply"></span>
-        <span class="wm-icon-flag"></span>
-        <span class="wm-icon-favorite"></span>
-        <span class="wm-icon-send"></span>
-      </div>
-      
-      <author>Posted by Email</author>
-    </section>
-  
-    <section class="mini-map">
-
-      <div class="maps">
-        <span class="wm-icon-like"></span>
-        <span class="wm-icon-reply"></span>
-        <span class="wm-icon-flag"></span>
-        <span class="wm-icon-favorite"></span>
-        <span class="wm-icon-send"></span>
-      </div>
-      
-      <author>Posted by Email</author>
-    </section>
-  
-
-
-  </div>
+    </div>
 
 </body>
 </html>

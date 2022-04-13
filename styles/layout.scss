@@ -140,7 +140,7 @@ nav li.crumb button, .btn{
     background-color: darken($button, 10%);
     border: solid lighten($button, 10%) 1px;
   }
-  
+
 }
 
 nav.crumbs {
@@ -198,7 +198,7 @@ textarea, input{
 }
 
 /* The Map */
-#map { 
+#map {
   height: 90vh;
   border-top: solid  darken($background, 20%) 2px;
   border-bottom: solid #000000 2px;
@@ -279,9 +279,9 @@ footer ul {
 }
 
 @media only screen and (max-width: 768px) {
-  
+
   aside{
-   width: 80vw; 
+   width: 80vw;
   }
 
   form#searchForm {

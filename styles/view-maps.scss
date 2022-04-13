@@ -1,16 +1,31 @@
 /*
+* Variables 
+*/
+
+$primary: #5a59a7;
+$secondary: #3a397e;
+$background: #f3f3f5;
+$button: #5a59a7;
+$commonBorderRadius: 10px;
+$base-font-color: rgba(83, 83, 83, 1);
+$base-font: 'Lato', sans-serif;
+$light-color-gray: rgba(145, 145, 145, 0.2);
+$light-background: rgba(128, 128, 128, 0.07);
+
+
+/*
 * After creating or clicking a map aside bar
 */
 
 .view-aside {
-  color: rgba(83, 83, 83, 0.9);
+  color: $base-font-color;
 }
 // Header with logo
 
 #logo-placement {
   display: flex;
   justify-content: center;
-  color: #4C25E1;
+  color: $primary;
   font-size: 2em;
 }
 
@@ -21,9 +36,9 @@
 // Main Element
 
 #header-image {
-  height: 24vh; 
-  margin:1em -0.4em 1em -0.4em; 
-  border: 10px solid rgba(145, 145, 145, 0.2);
+  height: 24vh;
+  margin:1em -0.4em 1em -0.4em;
+  border: 10px solid $light-color;
   border-radius: 3px;
   padding: 0;
 }
@@ -31,7 +46,7 @@
 .line-break {
   padding: 1.5em 0 2em -1.5em;
   margin: 1em 0em 1em -1.5em;
-  border-bottom: 3px solid rgba(145, 145, 145, 0.2);
+  border-bottom: 3px solid $light-color;
   width: 25vw;
 }
 .map-title {
@@ -74,68 +89,53 @@
 .maps-heading {
   font-size: 3em;
   text-align: center;
+  margin-top: 1em;
+  margin-left: 40%;
+  color: $primary;
+  font-family: $base-font;
+  letter-spacing: 2px;
+  box-shadow: 10px 10px $light-color;
+  width: fit-content;
 }
 
 .map-list-containers {
   display: flex;
   justify-content: center;
+  font-family: $base-font;
   width: 100vw;
   height: auto;
-  border: 2px dotted gray;
   margin: 2em 0 2em 0;
   padding: 2em 0 2em 0;
-
+  flex-wrap: wrap;
+  color: $base-font-color;
 }
 
 .maps-list > img {
-  width: 25vw; // or 400px
-  height: 25vh; // or 250px
+  width: 375px; 
+  height: 245px; 
+  align-self: center;
 }
 
-// .mini-map-container {
-//   display: flex;
-//   flex-direction: row;
-//   height: 35vh;
-//   background-color: darken($background, 3%);
-//   flex-wrap: wrap;
-//   justify-content: center;
-// }
+.maps-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  padding: 0.6em;
+  border-radius: 10px;
+  margin: 1em;
+  min-height: 395px;
+  background-color: white;
+}
 
-// section.mini-map {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: end;
-//   margin: 1.5em;
-// }
+.maps-list > .map-name {
+  font-size: 1.2em;
+  font-weight: 600;
+}
 
+.maps-list > .map-desc {
+  margin: 3em;
+}
 
-// .maps {
-//   background-image: url(http://via.placeholder.com/400x225);
-//   background-color: $background;
-//   height: 225px;
-//   width: 400px;
-//   padding: 10px;
-//   display: flex;
-//   justify-content: flex-start;
-//   align-items: flex-end;
-//   border-radius: $commonBorderRadius;
-// }
-
-// section.mini-map .maps span {
-//   margin: 0 0.8em 0 0;
-//   font-size: 1.5em;
-// }
-
-// section.mini-map .maps {
-//   display: inherit;
-//   align-items: end;
-//   justify-content: space-evenly;
-//   margin: 0 0 0.5em 0;
-// }
-
-// span.wm-icon-reply {
-//   padding-bottom: 2px;
-// }
-
-
-
+.maps-list > author {
+  align-self: flex-end;
+}

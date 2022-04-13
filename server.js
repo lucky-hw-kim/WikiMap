@@ -7,6 +7,10 @@ const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const multer = require('multer');
+const path = require('path');
+const sharp = require('sharp');
+const fs = require('fs');
 
 // PG database client/connection setup
 const { Pool } = require("pg");
@@ -14,7 +18,6 @@ const dbParams = require("./lib/db.js");
 const db = new Pool(dbParams);
 module.exports = db;
 //db.connect();
-
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
@@ -34,6 +37,8 @@ app.use(
 
 app.use(express.static("public"));
 
+// Separated Routes for each Resource
+// Note: Feel free to replace the example routes below with your own
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
 const mapsRoutes = require("./routes/maps-router");
@@ -60,25 +65,13 @@ app.get("/profile", (req, res) => {
   res.render("profile");
 });
 
-
-app.get("*", (req, res) => {
-  res.render("errorPage404");
+//Renders the image submission page
+app.get("/images", (req, res) => {
+  res.render("images/image_index");
 });
 
 app.post("/edit", (req, res) => {
   res.render("edit-map");
-});
-
-app.get("/view", (req, res) => {
-  res.render("map-view");
-});
-
-app.get("/favorites", (req, res) => {
-  res.render("profile");
-});
-
-app.get("/saved", (req, res) => {
-  res.render("profile");
 });
 
 app.listen(PORT, () => {
@@ -86,3 +79,4 @@ app.listen(PORT, () => {
 });
 
 
+// Create a function to make a name for each image (id, user_id ...)
