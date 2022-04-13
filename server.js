@@ -16,7 +16,8 @@ const fs = require('fs');
 const { Pool } = require("pg");
 const dbParams = require("./lib/db.js");
 const db = new Pool(dbParams);
-db.connect();
+module.exports = db;
+//db.connect();
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -39,13 +40,12 @@ app.use(express.static("public"));
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
-const usersRoutes = require("./routes/users");
-const widgetsRoutes = require("./routes/widgets");
+const mapsRoutes = require("./routes/maps-router");
+
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-app.use("/api/users", usersRoutes(db));
-app.use("/api/widgets", widgetsRoutes(db));
+app.use("/maps", mapsRoutes);
 // Note: mount other resources here, using the same pattern above
 
 // Home page
@@ -56,6 +56,7 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+<<<<<<< HEAD
 
 app.get("/images", (req, res) => {
   res.render("images/image_index");
@@ -90,8 +91,44 @@ app.post('/images', upload.single('image'),async (req, res) => {
         fs.unlinkSync(req.file.path)
 
        res.redirect('/images');
+=======
+// app.get("/profile", (req, res) => {
+//   res.render("profile");
+// });
+
+// app.get("/maps", (req, res) => {
+//   res.render("maps");
+// });
+
+
+app.get("*", (req, res) => {
+  res.render("errorPage404");
+});
+
+app.post("/view", (req, res) => {
+
+  $templatevars = {
+
+  }
+
+  res.render("map-view", $templatevars);
+});
+
+app.get("/view", (req, res) => {
+  res.render("map-view");
+});
+
+app.get("/favorites", (req, res) => {
+  res.render("profile");
+});
+
+app.get("/saved", (req, res) => {
+  res.render("profile");
+>>>>>>> ca4d91edb6c9a0fcedf517dc9b43006e41b5eeec
 });
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
+
+

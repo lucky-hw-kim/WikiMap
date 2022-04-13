@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Explore Maps - Wiki Maps</title>
+
+  <%- include('./partials/head'); %>
+  
+</head>
+<body>
+  
+  <%- include('./partials/header'); %>
+
+  <aside id="create-map">
+    <h1>WikiMap Logo</h1>
+
+    <!-- Required to update: action="target the post route for create-maps"-->
+    <!-- not sure it has to be exact route? -->
+      <label for="map-description">Description</label>
+    <form action="/maps" method="post">
+      <label for="name">Title</label>
+      <input type="text" id="name" name="name" required >
+
+      <label for="description">Description</label>
+      <textarea type="text" id="description" name="description" rows="2" cols="1" required></textarea>
+
+    <!-- <fieldset>
+      <legend for="restaurant-pin">Select Category</legend>
+      
+      <ul>
+        <li>
+          <input type="checkbox" id="restaurant-pin" name="restaurant" value="restaurant">
+          <label for="restaurant-pin"><span class="wm-icon-map-marker"></span> Restaurant</label>
+        </li>
+        <li>
+          <input type="checkbox" id="entertainment-pin" name="entertainment" value="entertainment">
+          <label for="entertainment-pin">Entertainment</label>
+        </li>
+        <li>
+          <input type="checkbox" id="activity-pin" name="activity" value="activity">
+          <label for="activity-pin">Activity</label>
+        </li>
+      </ul>
+    </fieldset> -->
+
+      <label for="myfile">Gallery</label>
+
+      <label for="header_image">Select a file:</label>
+      <input type="file" id="myfile" name="header_image">
+      <input type="hidden" value = "true" name = "public">
+      <br><br>
+      <input type="submit" value="Submit">
+     
+    </form>
+  </aside>
+  <div id="map"></div>
+
+</body>
+</html>

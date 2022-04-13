@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Explore Maps - Wiki Maps</title>
+
+  <%- include('./partials/head'); %>
+  
+</head>
+<body>
+  
+  <%- include('./partials/header'); %>
+
+  <aside class="view-aside">
+    <div id="logo-placement">
+    <h1>WIKI MAP</h1>
+    </div>
+    <div class="line-break"></div>
+    <h2 class="map-title"><%= name %></h2>
+    <p class="description"><%= description %></p>
+    <p> <i><strong>Date Created:</strong></i> <%= date_created %></p>
+    <p><i><strong>Created By:</strong></i> <%= user_id %></p>
+     <!-- Need to change data -->
+    <p><i><strong>Collaborators:</strong></i> @fake_id</p>
+    <div class="line-break"></div>
+    <img id="header-image" src="../public/styles/assets/wiki map-logos_transparent.png" alt="fake-image">
+    <div class="line-break"></div>
+    <div id="view-footer">
+      <!-- Need to change data -->
+    <span class="empty-span"></span>
+    <span class="number-under-line">0</span>
+    <span class="likes">Likes</span>
+    </div>
+    
+  </aside>
+  <div id="map"></div>
+
+</body>
+</html>
