@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Explore Maps - Wiki Maps</title>
+
+  <%- include('./partials/head'); %>
+  
+</head>
+<body>
+  
+  <%- include('./partials/header'); %>
+
+  <aside id="create-map">
+    <h1>WikiMap Logo</h1>
+    
+    <h2>Map Name (Pull from Map ID)</h2>
+    <!-- Required to update: action="mapID (required as a templateVar in route)"-->
+    <form action="/map/mapID" method="post">
+      <label for="name">Location</label>
+      <input type="text" id="name" name="name" placeholder="Optional">
+
+      <label for="description">Description</label>
+      <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
+
+    <fieldset>
+      <legend>Gallery</legend>
+      
+      <label for="myfile">Select a file:</label>
+      <input type="file" id="myfile" name="myfile">
+    </fieldset>
+ 
+    <fieldset>
+      <legend>Add Pin</legend>
+      <button id="create-pin" type="button">Add Pin to Map</button>
+    </fieldset>
+
+
+    <input type="submit" value="Save Map">
+
+    </form>
+  </aside>
+  <div id="map"></div>
+
+</body>
+</html>
