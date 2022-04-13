@@ -95,7 +95,7 @@ section.welcomeMap div#map {
 .mini-map-container {
   display: flex;
   flex-direction: row;
-  height: 90vh;
+  height: 35vh;
   background-color: darken($background, 3%);
   flex-wrap: wrap;
   justify-content: center;
@@ -193,7 +193,7 @@ nav li.crumb button, .btn{
     background-color: darken($button, 10%);
     border: solid lighten($button, 10%) 1px;
   }
-  
+
 }
 
 nav.crumbs {
@@ -252,28 +252,28 @@ textarea, input{
 }
 
 /* The Map */
-#map { 
+#map {
   height: 90vh;
   border-top: solid  darken($background, 20%) 2px;
   border-bottom: solid #000000 2px;
 }
 
 /* Favorite / Saved Maps Layouts START */
-section.mini-map .maps span {
-  margin: 0 0.8em 0 0;
-  font-size: 1.5em;
-}
+// section.mini-map .maps span {
+//   margin: 0 0.8em 0 0;
+//   font-size: 1.5em;
+// }
 
-section.mini-map .maps {
-  display: inherit;
-  align-items: end;
-  justify-content: space-evenly;
-  margin: 0 0 0.5em 0;
-}
+// section.mini-map .maps {
+//   display: inherit;
+//   align-items: end;
+//   justify-content: space-evenly;
+//   margin: 0 0 0.5em 0;
+// }
 
-span.wm-icon-reply {
-  padding-bottom: 2px;
-}
+// span.wm-icon-reply {
+//   padding-bottom: 2px;
+// }
 /* Favorite / Saved Maps Layouts END */
 
 
@@ -333,9 +333,9 @@ footer ul {
 }
 
 @media only screen and (max-width: 768px) {
-  
+
   aside{
-   width: 80vw; 
+   width: 80vw;
   }
 
   form#searchForm {

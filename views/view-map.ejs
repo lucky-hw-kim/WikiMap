@@ -15,39 +15,26 @@
   
   <%- include('./partials/header'); %>
 
-  <aside>
-    <h1>WikiMap Logo</h1>
-
-    <!-- Required to update: action="target the post route for create-maps"-->
-    
-    <label for="map-title">Title</label>
-    <input type="text" id="map-title" name="map-title" required >
-
-    <label for="map-description">Description</label>
-    <textarea type="text" id="map-description" name="map-description" rows="2" cols="1" required></textarea>
-
-    <label for="restaurant-pin">Select Pin</label>
-    
-    <ul>
-      <li>
-        <input type="checkbox" id="restaurant-pin" name="restaurant" value="restaurant">
-        <label for="restaurant-pin">Restaurant</label>
-      </li>
-      <li>
-        <input type="checkbox" id="entertainment-pin" name="entertainment" value="entertainment">
-        <label for="entertainment-pin">Entertainment</label>
-      </li>
-      <li>
-        <input type="checkbox" id="activity-pin" name="activity" value="activity">
-        <label for="activity-pin">Activity</label>
-      </li>
-    </ul>
-
-    <label for="myfile">Gallery</label>
-
-    <label for="myfile">Select a file:</label>
-    <input type="file" id="myfile" name="myfile"><br><br>
-    <input type="submit" value="Submit">
+  <aside class="view-aside">
+    <div id="logo-placement">
+    <h1>WIKI MAP</h1>
+    </div>
+    <div class="line-break"></div>
+    <h2 class="map-title"><%= name %></h2>
+    <p class="description"><%= description %></p>
+    <p> <i><strong>Date Created:</strong></i> <%= date_created %></p>
+    <p><i><strong>Created By:</strong></i> <%= user_id %></p>
+     <!-- Need to change data -->
+    <p><i><strong>Collaborators:</strong></i> @fake_id</p>
+    <div class="line-break"></div>
+    <img id="header-image" src="../public/styles/assets/wiki map-logos_transparent.png" alt="fake-image">
+    <div class="line-break"></div>
+    <div id="view-footer">
+      <!-- Need to change data -->
+    <span class="empty-span"></span>
+    <span class="number-under-line">0</span>
+    <span class="likes">Likes</span>
+    </div>
     
   </aside>
   <div id="map"></div>

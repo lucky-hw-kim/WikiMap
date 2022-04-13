@@ -7,13 +7,17 @@ const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const multer = require('multer');
+const path = require('path');
+const sharp = require('sharp');
+const fs = require('fs');
 
 // PG database client/connection setup
 const { Pool } = require("pg");
 const dbParams = require("./lib/db.js");
 const db = new Pool(dbParams);
-db.connect();
-
+module.exports = db;
+//db.connect();
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
@@ -35,13 +39,14 @@ app.use(express.static("public"));
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
-const usersRoutes = require("./routes/users");
-const widgetsRoutes = require("./routes/widgets");
+// Separated Routes for each Resource
+// Note: Feel free to replace the example routes below with your own
+const mapsRoutes = require("./routes/maps-router");
+
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-app.use("/api/users", usersRoutes(db));
-app.use("/api/widgets", widgetsRoutes(db));
+app.use("/maps", mapsRoutes);
 // Note: mount other resources here, using the same pattern above
 
 // Home page
@@ -52,10 +57,6 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.get("/maps", (req, res) => {
-  res.render("maps");
-});
-
 app.get("/map/:id/add", (req, res) => {
   res.render("add-pin");
 });
@@ -64,26 +65,18 @@ app.get("/profile", (req, res) => {
   res.render("profile");
 });
 
-app.get("/create", (req, res) => {
-  res.render("create-map");
+//Renders the image submission page
+app.get("/images", (req, res) => {
+  res.render("images/image_index");
 });
 
 app.post("/edit", (req, res) => {
   res.render("edit-map");
 });
 
-app.get("/view", (req, res) => {
-  res.render("map-view");
-});
-
-app.get("/favorites", (req, res) => {
-  res.render("profile");
-});
-
-app.get("/saved", (req, res) => {
-  res.render("profile");
-});
-
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
+
+
+// Create a function to make a name for each image (id, user_id ...)

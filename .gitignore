@@ -1,7 +1,8 @@
 node_modules/
 public/styles/
+!public/styles/assets/condensed_image/*
 !public/styles/
-public/styles/*
+public/styles/*.css
 !public/styles/fonts/
 !public/styles/icon-style.scss
 !public/styles/icon-variables.scss
