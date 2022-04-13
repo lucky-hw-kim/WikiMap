@@ -66,6 +66,7 @@ router.get('/:mapId', (req, res) => {
 
 // POST /maps/:id/edit -- Edit a map
 router.post('/:mapId/edit', (req, res) => {
+  //add user
   const map_id = req.params.mapId;
   const mapDetails = { map_id, ...req.body };
   mapsQueries.editMap(mapDetails)
