@@ -123,7 +123,7 @@ router.post('/',upload.single('header_image') ,(req, res, next) => {
   mapsQueries.addMap(mapDetails)
     .then( maps => {
       // res.json(maps);
-      // console.log("mapDetails:", mapDetails);
+      console.log("mapDetails:", mapDetails);
       next();
     })
     .catch(err => {
