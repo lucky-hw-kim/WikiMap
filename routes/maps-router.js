@@ -8,7 +8,7 @@ const user_id = 2;
 /*
 ********* Maps router
 */
-// GET /maps/ -- Get all the maps 
+// GET /maps/ -- Get all the maps
 router.get('/', (req, res) => {
   mapsQueries.getAllMaps()
     .then( maps => {
@@ -269,11 +269,11 @@ module.exports = router;
 //     <section class="mini-map">
 //       <div class="maps">
 //         <p><%= fav[0].name %></p>
-//         <p><%= fav[0].header_image %></p>  
+//         <p><%= fav[0].header_image %></p>
 //         <p>Title: <%= fav[0].name %></p>
 //         <p>Description: <%= fav[0].description %></p>
 //       </div>
-//       <author>@<%= fav[0].user_id %></author> 
+//       <author>@<%= fav[0].user_id %></author>
 //     </section>
 // </div>
 //   <!-- <% } %> -->

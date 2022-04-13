@@ -57,10 +57,25 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+app.get("/maps", (req, res) => {
+  res.render("maps");
+});
+
+app.get("/map/:id/add", (req, res) => {
+  res.render("add-pin");
+});
+
+app.get("/profile", (req, res) => {
+  res.render("profile");
+});
 
 //Renders the image submission page
 app.get("/images", (req, res) => {
   res.render("images/image_index");
+});
+
+app.post("/edit", (req, res) => {
+  res.render("edit-map");
 });
 
 //Assigns location for image storage
@@ -68,14 +83,13 @@ const storage = multer.diskStorage({
   destination: function(req, file, cb) {
       cb(null, 'public/condensed_image/uploads/');
   },
-
 //Creates new filename for reformatted image!
   filename: function(req, file, cb) {
       cb(null, file.fieldname + '-' + Date.now() + '.webp');
   }
 });
 
-var upload = multer({ storage: storage })
+let upload = multer({ storage: storage })
 
 //Takes any image given
 app.get('/images', (req, res) => {
