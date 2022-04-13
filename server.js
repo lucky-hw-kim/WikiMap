@@ -52,26 +52,21 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-// app.get("/profile", (req, res) => {
-//   res.render("profile");
-// });
+app.get("/map/:id/add", (req, res) => {
+  res.render("add-pin");
+});
 
-// app.get("/maps", (req, res) => {
-//   res.render("maps");
-// });
+app.get("/profile", (req, res) => {
+  res.render("profile");
+});
 
 
 app.get("*", (req, res) => {
   res.render("errorPage404");
 });
 
-app.post("/view", (req, res) => {
-
-  $templatevars = {
-
-  }
-
-  res.render("map-view", $templatevars);
+app.post("/edit", (req, res) => {
+  res.render("edit-map");
 });
 
 app.get("/view", (req, res) => {

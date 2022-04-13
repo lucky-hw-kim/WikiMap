@@ -259,22 +259,3 @@ router.post('/:userId/:mapId/pins/:pinId/delete', (req, res) => {
 module.exports = router;
 
 
-
-
-
-
-// <% for (let fav in favs) { %>
-//   <!-- <% for (let fa of fav) { %> -->
-// <div class="mini-map-container">
-//     <section class="mini-map">
-//       <div class="maps">
-//         <p><%= fav[0].name %></p>
-//         <p><%= fav[0].header_image %></p>  
-//         <p>Title: <%= fav[0].name %></p>
-//         <p>Description: <%= fav[0].description %></p>
-//       </div>
-//       <author>@<%= fav[0].user_id %></author> 
-//     </section>
-// </div>
-//   <!-- <% } %> -->
-// <% } %>

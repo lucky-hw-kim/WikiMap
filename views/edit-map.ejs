@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Explore Maps - Wiki Maps</title>
+
+  <%- include('./partials/head'); %>
+  
+</head>
+<body>
+  
+  <%- include('./partials/header'); %>
+
+  <aside id="create-map">
+    <h1>WikiMap Logo</h1>
+
+    <!-- Required to update: action="target the post route for create-maps"-->
+      <h2>Title</h2> <button class="btn">Edit</button>
+      The top shops in Vancouver
+
+      <h3>Description</h3> <button class="btn">Edit</button>
+      "These are the top shops I've found across the years of viewing Vancouver."
+  
+      <br><br>
+      <button class="btn"><a href="/create">Edit Map</a></button>
+  </aside>
+  <div id="map"></div>
+
+</body>
+</html>
