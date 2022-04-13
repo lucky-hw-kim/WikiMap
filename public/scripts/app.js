@@ -113,7 +113,7 @@ $(()=>{
 
     // create a map button (Footer)
     $("#view-map-btn").click(()=>{
-      window.location.href = "/maps";
+      window.location.href = "/maps/list";
     });
     // create a map button (Footer)
     $("#favorite-map-btn").click(()=>{
@@ -121,7 +121,7 @@ $(()=>{
     });
     // create a map button (Footer)
     $("#saved-map-btn").click(()=>{
-      window.location.href = "maps/2/saved";
+      window.location.href = "maps/2/profile";
     });
   
   

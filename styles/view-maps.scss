@@ -1,3 +1,7 @@
+/*
+* After creating or clicking a map aside bar
+*/
+
 .view-aside {
   color: rgba(83, 83, 83, 0.9);
 }
@@ -62,6 +66,76 @@
   margin-right: 3em;
 
 }
+
+/*
+* List of maps & Profile
+*/
+
+.maps-heading {
+  font-size: 3em;
+  text-align: center;
+}
+
+.map-list-containers {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: auto;
+  border: 2px dotted gray;
+  margin: 2em 0 2em 0;
+  padding: 2em 0 2em 0;
+
+}
+
+.maps-list > img {
+  width: 25vw; // or 400px
+  height: 25vh; // or 250px
+}
+
+// .mini-map-container {
+//   display: flex;
+//   flex-direction: row;
+//   height: 35vh;
+//   background-color: darken($background, 3%);
+//   flex-wrap: wrap;
+//   justify-content: center;
+// }
+
+// section.mini-map {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: end;
+//   margin: 1.5em;
+// }
+
+
+// .maps {
+//   background-image: url(http://via.placeholder.com/400x225);
+//   background-color: $background;
+//   height: 225px;
+//   width: 400px;
+//   padding: 10px;
+//   display: flex;
+//   justify-content: flex-start;
+//   align-items: flex-end;
+//   border-radius: $commonBorderRadius;
+// }
+
+// section.mini-map .maps span {
+//   margin: 0 0.8em 0 0;
+//   font-size: 1.5em;
+// }
+
+// section.mini-map .maps {
+//   display: inherit;
+//   align-items: end;
+//   justify-content: space-evenly;
+//   margin: 0 0 0.5em 0;
+// }
+
+// span.wm-icon-reply {
+//   padding-bottom: 2px;
+// }
 
 
 

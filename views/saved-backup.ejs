@@ -12,7 +12,6 @@
   <link rel="stylesheet" href="/styles/main.css" type="text/css" />
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
   <link rel="stylesheet" href="/styles/icons.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/view-maps.css" type="text/css" />
 
   <!-- JQuery CDN -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -21,13 +20,13 @@
 
 
 <div class="maps-heading"> Saved Maps </div>
-<div class="map-list-containers">
+<div class="map-list-container">
   <% for (let sav of saved) { %>
-  <div class="mini-map-containers">
-    <section class="mini-maps">
-      <div class="maps-list">
-        <img src="<%= sav.header_image %>" alt="map_image" >
+  <div class="mini-map-container">
+    <section class="mini-map">
+      <div class="maps">
         <p><%= sav.name %></p>
+        <p><%= sav.header_image %></p>  
         <p>Title: <%= sav.name %></p>
         <p>Description: <%= sav.description %></p>
       </div>
@@ -39,13 +38,13 @@
 </div>
 
 <div class="maps-heading"> Fav Maps </div>
-<div class="map-list-containers">
+<div class="map-list-container">
 <% for (let fav of favs) { %>
-<div class="mini-map-containers">
-    <section class="mini-maps">
-      <div class="maps-list">
-        <img src="<%= fav.header_image %>" alt="map_image" >
+<div class="mini-map-container">
+    <section class="mini-map">
+      <div class="maps">
         <p><%= fav.favs %></p>
+        <p><%= fav.header_image %></p>  
         <p>Title: <%= fav.name %></p>
         <p>Description: <%= fav.description %></p>
       </div>

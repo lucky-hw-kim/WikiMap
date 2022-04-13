@@ -4,13 +4,15 @@ const router = express.Router();
 const mapsQueries = require('../lib/maps-queries');
 const pinsQueries = require('../lib/pins-queries');
 const user_id = 2;
-// const user_id = req.session.user_id;
+
+
 /*
 ********* Maps router
 */
-// GET /maps/ -- Get all the maps 
+
+//Home Page
 router.get('/', (req, res) => {
-  mapsQueries.getAllMaps()
+  pinsQueries.getAllPinsFromAllMaps()
     .then( maps => {
       res.json({maps});
     })
@@ -22,10 +24,23 @@ router.get('/', (req, res) => {
     res.render("maps");
 })
 
-// problem with looping and rendering both data to save page is giving me trouble
+// GET /maps/ -- Get all the maps 
+router.get('/list', (req, res) => {
+  mapsQueries.getAllMaps()
+    .then( maps => {
+      res.json({maps});
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+    res.render("map-list");
+})
 
-// GET /maps/saved -- Get maps that the user created
-router.get('/:userId/saved', (req, res) => {
+// GET /maps//:userId/profile 
+//-- Profile Page (fav & saved)
+router.get('/:userId/profile', (req, res) => {
     const user_id = req.params.userId;
     mapsQueries.getFavoriteMaps(user_id)
     .then((favdb) => {
@@ -35,6 +50,7 @@ router.get('/:userId/saved', (req, res) => {
           saved: maps,
           favs: favdb,
         }
+        console.log(temp.favs);
         res.render("saved", temp);
       })
     .catch(err => {
@@ -164,18 +180,6 @@ router.get('/', (req, res) => {
 // GET /maps/:mapId/pins -- Get all the pins from a map or maps
 router.get('/:userId/:mapId/pins', (req, res) => {
   const map_id = req.params.mapId;
-  if(!map_id) {
-    pinsQueries.getAllPinsFromAllMaps()
-    .then( pins => {
-      res.json(pins);
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
-  return
-  }
   pinsQueries.getAllPins(map_id)
     .then( pins => {
       res.json(pins);
