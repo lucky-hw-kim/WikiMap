@@ -244,7 +244,7 @@ router.post('/:userId/:mapId/pins/:pinId/edit', (req, res) => {
 })
 
 // POST /maps/:mapId/pins -- Add a pin
-router.post('/:userId/:mapId/pins', (req, res) => {
+router.post('/:userId/:mapId/pins',upload.single('Pin_image'), (req, res, next) => {
   const user_id = req.params.userId;
   const map_id = req.params.mapId;
   const pinDetails = { map_id, user_id, ...req.body }
@@ -252,6 +252,7 @@ router.post('/:userId/:mapId/pins', (req, res) => {
   pinsQueries.addPin(pinDetails)
     .then( pins => {
       res.json(pins);
+      next();
     })
     .catch(err => {
       res
@@ -280,6 +281,18 @@ router.post('/:userId/:mapId/pins/:pinId/delete', (req, res) => {
 
 
 
+router.post('/:userId/:mapId/pins', upload.single('Pin_image'),async (req, res, e) => {
+  const { filename: image } = req.file;
+   await sharp(req.file.path)
+    .resize(295, 160)
+    .webp({ quality: 90 })
+    .toFile(
+        path.resolve(req.file.destination,'resized',image)
+    )
+    fs.unlinkSync(req.file.path)
+    e.preventdefault();
+  //  res.redirect('/maps');
+});
 
 
 //Takes any image given
@@ -289,7 +302,7 @@ router.get('/2/create', (req, res) => {
 
 
 //Reformats image to given criteria
-router.post('/', upload.single('header_image'),async (req, res) => {
+router.post('/', upload.single('header_image'),async (req, res, e) =>  {
       const { filename: image } = req.file;
       console.log("Path:",path.resolve(req.file.destination,'resized',image));
        await sharp(req.file.path)
@@ -299,8 +312,8 @@ router.post('/', upload.single('header_image'),async (req, res) => {
             path.resolve(req.file.destination,'resized',image)
         )
         fs.unlinkSync(req.file.path)
-
-       res.redirect('/maps');
+      e.preventdefault();
+      //  res.redirect('/maps');
 });
 
 
