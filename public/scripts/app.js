@@ -10,20 +10,20 @@ $(()=>{
     latitude = 49.273376;
     longitude = -123.103834;
 
-    function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-      } else {
-        alert("Geolocation is not supported by this browser.");
-      }
-    }
+    // function getLocation() {
+    //   if (navigator.geolocation) {
+    //     navigator.geolocation.getCurrentPosition(showPosition);
+    //   } else {
+    //     alert("Geolocation is not supported by this browser.");
+    //   }
+    // }
 
-    function showPosition(position) {
-      latitude = position.coords.latitude;
-      longitude = position.coords.longitude;
-    }
+    // function showPosition(position) {
+    //   latitude = position.coords.latitude;
+    //   longitude = position.coords.longitude;
+    // }
 
-    getLocation();
+    // getLocation();
     
     const zoomLevel = 13;
     const map = L.map('map').setView([latitude, longitude], zoomLevel);
@@ -45,26 +45,82 @@ $(()=>{
     const imageTemplate = `<fieldset><legend>Gallery</legend> 
     <img src="http://via.placeholder.com/295x160" title="Science World" alt="Science World" style="width: 100%;">
     </fieldset>`;
-    const titleTemplate = `<h1>Science World!</h1>`;
+    const titleTemplate = `Science World!`;
     const descriptionTemplate = `This is an awesome place to check out science events!`;
     const authorTemplate = `Email of user (Or their ID unless we add a username)`;
 
-    /* Science World Test Marker */
+    /* Science World Test Marker SEED DATA */
     L.marker([latitude, longitude])
       .addTo(map)
-        .bindPopup(`${titleTemplate}${descriptionTemplate}${imageTemplate}<br><br>${authorTemplate}`); // (May need to sanitize this input)
+        .bindPopup(`<h1>${titleTemplate}</h1>${descriptionTemplate}${imageTemplate}<br><br>${authorTemplate}`); // (May need to sanitize this input)
 
 
-    const onMapClick = (e) => {
-      alert("You clicked the map at " + e.latlng);
+    // tracks the markers for adjustment if needed.
+    let markerGroup = L.layerGroup().addTo(map);
 
-      L.marker(e.latlng).addTo(map)
-      .bindPopup(`Longitude & Latitude: ${e.latlng}`)
+    /**
+     * Allows the user to create a marker on the map.
+     * ### Includes:
+     * * Alt, and Title tags for accesability
+     * * keyboard control
+     * * riseOnHover to reduce cluttered pins
+     * @param {EventHandler} e 
+     */
+    const createMarker = (e)=>{
+     
+      const markerOptions = {
+        alt: titleTemplate,
+        title: titleTemplate,
+        keyboard: true,
+        draggable: true,
+        riseOnHover: true,
+        closeButton: true
+      }
+
+      const popupOptions = {
+        maxWidth: 560,
+        minWidth: 350
+      }
+      
+      const leafletId = L._leaflet_id 
+      const popupFormat = `
+        <form action="/maps" method="post">
+          <label for="name">Title</label>
+          <input type="text" id="name" name="name" placeholder="Optional">
+
+          <label for="description">Description</label>
+          <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
+
+          <fieldset>
+          <legend>Gallery</legend>
+          <label for="myfile">Select a file:</label>
+          <input type="file" id="myfile" name="myfile">
+          </fieldset>
+
+          <input type="button" id="save-pin" value="Save Pin">
+          <input type="button" id="delete-pin" name="delete-pin" value="Delete Pin">
+          ID: ${leafletId}
+        </form>
+      `;
+      
+      L.marker(e.latlng, markerOptions).addTo(markerGroup)
+      .bindPopup(popupFormat, popupOptions)
       .openPopup();
-
+      
     }
     
 
+    // e.preventDefault();
+    const onMapClick = (e) => {
+      createMarker(e);
+      
+      // alert("You clicked the map at " + e.latlng);
+
+      // L.marker(e.latlng).addTo(map)
+      // .bindPopup(`Longitude & Latitude: ${e.latlng}`)
+      // .openPopup();
+    }
+    
     // Create a pin on map
     $("#create-pin").click(()=>{
 
@@ -74,8 +130,7 @@ $(()=>{
       
       // L.marker([0, 0]).addTo(map)
       // .bindPopup('<h1>Science World!</h1> This is an awesome place to check out science events!')
-      // .openPopup();
-      
+      // .openPopup();      
     });
     
 
@@ -94,6 +149,24 @@ $(()=>{
 
       $("#about-modal").attr('display', 'block');
       alert('trigger about modal');
+    });
+
+    // Save pin button (on popup)
+    $("#save-pin").click(()=>{
+      e.preventDefault();
+      // We can add save-pin commands here
+
+    });
+
+    $('.sidebarElement').on('click', 'span', function() {
+      //...
+  });
+
+    // Delete pin button (on popup)
+    $("#map").on('click', '#delete-pin', ()=>{
+
+      markerGroup.removeLayer(2)
+
     });
 
     // create a map button (Footer)
