@@ -18,7 +18,6 @@ const dbParams = require("./lib/db.js");
 const db = new Pool(dbParams);
 module.exports = db;
 //db.connect();
-
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
@@ -40,6 +39,8 @@ app.use(express.static("public"));
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
+// Separated Routes for each Resource
+// Note: Feel free to replace the example routes below with your own
 const mapsRoutes = require("./routes/maps-router");
 
 
@@ -56,17 +57,19 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-<<<<<<< HEAD
 
+//Renders the image submission page
 app.get("/images", (req, res) => {
   res.render("images/image_index");
 });
 
+//Assigns location for image storage
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
       cb(null, 'public/condensed_image/uploads/');
   },
 
+//Creates new filename for reformatted image!
   filename: function(req, file, cb) {
       cb(null, file.fieldname + '-' + Date.now() + '.webp');
   }
@@ -74,11 +77,12 @@ const storage = multer.diskStorage({
 
 var upload = multer({ storage: storage })
 
-
+//Takes any image given
 app.get('/images', (req, res) => {
   res.sendFile(__dirname + '/image_index.html');
 });
 
+//Reformats image to given criteria
 app.post('/images', upload.single('image'),async (req, res) => {
        const { filename: image } = req.file;
 
@@ -91,40 +95,6 @@ app.post('/images', upload.single('image'),async (req, res) => {
         fs.unlinkSync(req.file.path)
 
        res.redirect('/images');
-=======
-// app.get("/profile", (req, res) => {
-//   res.render("profile");
-// });
-
-// app.get("/maps", (req, res) => {
-//   res.render("maps");
-// });
-
-
-app.get("*", (req, res) => {
-  res.render("errorPage404");
-});
-
-app.post("/view", (req, res) => {
-
-  $templatevars = {
-
-  }
-
-  res.render("map-view", $templatevars);
-});
-
-app.get("/view", (req, res) => {
-  res.render("map-view");
-});
-
-app.get("/favorites", (req, res) => {
-  res.render("profile");
-});
-
-app.get("/saved", (req, res) => {
-  res.render("profile");
->>>>>>> ca4d91edb6c9a0fcedf517dc9b43006e41b5eeec
 });
 
 app.listen(PORT, () => {
@@ -132,3 +102,4 @@ app.listen(PORT, () => {
 });
 
 
+// Create a function to make a name for each image (id, user_id ...)
