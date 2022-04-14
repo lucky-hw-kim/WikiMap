@@ -21,7 +21,7 @@
           <p class="map-desc"><%= sav.description %></p>
           <div class="icon-container">
             <div class="icons">
-              <form action= '/maps/list/<%= user_id %>/<%= sav.id %>/favorite' method="post">
+              <form action= '/maps/list/<%= user_id %>/<%= sav.id %>/favorite-profile' method="post">
                 <button id="fav-btn" name="favorite" value="favorite" type="submit" onclick="alert('<3')"><span  class="wm-icon-like icon"></span></button>
               </form>
               <!-- <span class="wm-icon-like icon"></span> -->
@@ -48,7 +48,7 @@
             <p class="map-name"><%= fav.name %></p>
             <p class="map-desc"><%= fav.description %></p><div class="icon-container">
               <div class="icons">
-                <form action= '/maps/list/<%= user_id %>/<%= fav.id %>/favorite' method="post">
+                <form action= '/maps/list/<%= user_id %>/<%= fav.id %>/favorite-profile' method="post">
                   <button id="fav-btn" name="favorite" value="favorite" type="submit" onclick="alert('<3')"><span  class="wm-icon-like icon"></span></button>
                 </form>
                 <!-- <span class="wm-icon-like icon"></span> -->

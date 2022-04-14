@@ -19,7 +19,7 @@ const user_id = 3;
 */
 
 //Assigns location for image storage
-const storage = multer.diskStorage({
+const storage1 = multer.diskStorage({
   destination: function(req, file, cb) {
       cb(null, 'public/styles/condensed_image/uploads');
       // public/condensed_image/uploads/
@@ -29,7 +29,20 @@ const storage = multer.diskStorage({
       cb(null, file.fieldname + '-' + Date.now() + '.webp');
   }
 });
-let upload = multer({ storage: storage })
+let upload1 = multer({ storage: storage1 })
+
+//Assigns location for image storage
+const storage2 = multer.diskStorage({
+  destination: function(req, file, cb) {
+      cb(null, 'public/styles/condensed_image/uploads');
+      // public/condensed_image/uploads/
+  },
+//Creates new filename for reformatted image!
+  filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + '.webp');
+  }
+});
+let upload2 = multer({ storage: storage2 })
 
 
 /*
@@ -122,14 +135,15 @@ router.get('/:userId/:mapId/edit', (req, res) => {
 });
 
 // POST /maps/:userId/:id/edit -- Edit a map (submission)
-router.post('/:userId/:mapId/edit', (req, res) => {
-  console.log(req);
+router.post('/:userId/:mapId/edit', upload2.single('header_image'), (req, res, next) => {
+  let header_image = '/styles/condensed_image/uploads/resized/' + req.file.filename
   const map_id = req.params.mapId;
-  const mapDetails = {map_id, ...req.body};
+  const mapDetails = {map_id, ...req.body, header_image};
 
   mapsQueries.editMap(mapDetails)
     .then( maps => {
-      res.render("view-map",{maps});
+      // res.render("view-map",{maps});
+      next()
     })
     .catch(err => {
       res
@@ -139,9 +153,25 @@ router.post('/:userId/:mapId/edit', (req, res) => {
 });
 
 
+//Reformats image to given criteria
+router.post('/:userId/:mapId/edit', upload2.single('header_image'),async (req, res, next) => {
+  const { filename: image } = req.file;
+  console.log(req.file);
+   await sharp(req.file.path)
+    .resize(375, 245)
+    .webp({ quality: 90 })
+    .toFile(
+        path.resolve(req.file.destination,'resized',image)
+    )
+    fs.unlinkSync(req.file.path)
+    res.redirect('/maps/list');
+});
+
+
+
 
 // POST /maps/ -- Create a map
-router.post('/',upload.single('header_image') ,(req, res, next) => {
+router.post('/',upload1.single('header_image') ,(req, res, next) => {
   let header_image = 
   '/styles/condensed_image/uploads/resized/' + req.file.filename
   console.log("Req.File:", header_image);
@@ -167,7 +197,7 @@ router.post('/',upload.single('header_image') ,(req, res, next) => {
 // });
 
 //Reformats image to given criteria
-router.post('/', upload.single('header_image'),async (req, res, next) => {
+router.post('/', upload1.single('header_image'),async (req, res, next) => {
   const { filename: image } = req.file;
    await sharp(req.file.path)
     .resize(375, 245)
@@ -180,6 +210,9 @@ router.post('/', upload.single('header_image'),async (req, res, next) => {
 });
 
 
+/*
+ * Redirect back to list page
+ */
 // POST /maps/favorite -- Add favorite map or Delete
 router.post('/list/:userId/:mapId/favorite', (req, res) => {
   // check if there is already a same map id with same user id
@@ -204,6 +237,36 @@ router.post('/list/:userId/:mapId/favorite', (req, res) => {
       return mapsQueries.addFavorite(map_id, user_id)
       .then( fav => {
          res.redirect('/maps/list')
+      })
+    })
+})
+
+/*
+ * Redirect back to profile page
+ */
+// POST /maps/favorite -- Add favorite map or Delete
+router.post('/list/:userId/:mapId/favorite-profile', (req, res) => {
+  const map_id = req.params.mapId;
+  const user_id = req.params.userId;
+  mapsQueries.checkIfFavoriteExist(map_id, user_id)
+    .then (check => {
+      let temp = {...check};
+      for( let i in temp){
+        if(temp[i].check){
+          return mapsQueries.deleteFavorite(map_id, user_id)
+          .then( fav => {
+             res.redirect('/maps/list')
+          })
+          .catch(err => {
+            res
+              .status(500)
+              .json({ error: err.message });
+          })
+        }
+      }
+      return mapsQueries.addFavorite(map_id, user_id)
+      .then( fav => {
+         res.redirect(`/maps/${user_id}/profile`)
       })
     })
 })
