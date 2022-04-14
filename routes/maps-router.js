@@ -31,14 +31,15 @@ let upload = multer({ storage: storage })
 router.get('/', (req, res) => {
   pinsQueries.getAllPinsFromAllMaps()
     .then( maps => {
-      res.json({maps});
+      res.render("maps",{maps});
+      // res.json({maps});
     })
     .catch(err => {
       res
         .status(500)
         .json({ error: err.message });
     });
-    res.render("maps");
+    // res.render("maps");
 
 })
 

@@ -26,6 +26,7 @@ app.use(morgan("dev"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
+app.use(express.static("public"));
 app.use(
   "/styles",
   sassMiddleware({
@@ -35,7 +36,6 @@ app.use(
   })
 );
 
-app.use(express.static("public"));
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own

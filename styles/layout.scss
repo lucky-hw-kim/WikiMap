@@ -28,11 +28,12 @@ html {
       padding: 14px 16px;
       margin: 0;
       text-transform: uppercase;
+      background-color: $primary;
   }
 
   /* Add a red background color to navbar links on hover */
   .dropdown:hover .dropbtn {
-  background-color: $primary;
+  background-color: darken($primary, 15%);
   }
 
   /* Dropdown content (hidden by default) */

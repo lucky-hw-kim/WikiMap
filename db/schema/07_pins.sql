@@ -9,9 +9,10 @@ DROP TABLE IF EXISTS pins CASCADE;
 CREATE TABLE pins (
   id SERIAL PRIMARY KEY NOT NULL,
   map_id INT REFERENCES maps(id) ON DELETE CASCADE,
-  pin_icon_id INT REFERENCES pin_icons(id) ON DELETE CASCADE,
-  name VARCHAR(255) NOT NULL,
-  description TEXT NOT NULL,
-  location VARCHAR(255) NOT NULL,
-  locked BOOLEAN NOT NULL DEFAULT FALSE
+  pin_icon_id INT DEFAULT 1 REFERENCES pin_icons(id) ON DELETE CASCADE,
+  name VARCHAR(255),
+  description TEXT,
+  location VARCHAR(255),
+  locked BOOLEAN DEFAULT FALSE,
+  image_url VARCHAR(255) NOT NULL
 );

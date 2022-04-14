@@ -28,9 +28,6 @@ $(()=>{
     const zoomLevel = 13;
     const map = L.map('map').setView([latitude, longitude], zoomLevel);
 
-    /*note look into how to Preconnect to required origins for api.mapbox to improve performance */
-
-    // setup tiles
     const tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
       maxZoom: 18,
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
@@ -39,7 +36,7 @@ $(()=>{
       tileSize: 512,
       zoomOffset: -1
     }).addTo(map);
-
+    
     /* End of LeafLetJS */
 
     let imageTemplate = `<fieldset><legend>Gallery</legend>
@@ -82,33 +79,96 @@ $(()=>{
         minWidth: 350
       }
       
-      const leafletId = L._leaflet_id 
+      const geolocation = `${e.latlng.lat} ${e.latlng.lng}`;
       const popupFormat = `
-        <form action="/maps" method="post">
+        <form action="/maps/6/2/pins" method="post">
           <label for="name">Title</label>
           <input type="text" id="name" name="name" placeholder="Optional">
-
+          <input type="hidden" id="location" name="location" value="${geolocation}">
           <label for="description">Description</label>
           <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
 
           <fieldset>
           <legend>Gallery</legend>
-          <label for="myfile">Select a file:</label>
-          <input type="file" id="myfile" name="myfile">
+          <label for="image_url">Select a file:</label>
+          <input type="file" id="image_url" name="image_url">
           </fieldset>
 
-          <input type="button" id="save-pin" value="Save Pin">
-          <input type="button" id="delete-pin" name="delete-pin" value="Delete Pin">
-          ID: ${leafletId}
+          <input type="submit" id="save-pin" value="Save Pin"></input>
         </form>
       `;
-      
+      // <input type="button" id="delete-pin" name="delete-pin" value="Delete Pin"></input>
       L.marker(e.latlng, markerOptions).addTo(markerGroup)
       .bindPopup(popupFormat, popupOptions)
       .openPopup();
+
+      /* - create element
+        - modify the element with given id OR
+
+         - REMOVE DELETE UNTIL SAVED
+        - receive as an array, itterate through array
+        - JQUERY check if page isload THEN run through array
+      */
       
     }
+
+    const loadPins = () => {
+
+      const markerOptions = {
+        alt: titleTemplate,
+        title: titleTemplate,
+        keyboard: true,
+        draggable: true,
+        riseOnHover: true,
+        closeButton: true
+      }
+
+      const popupOptions = {
+        maxWidth: 560,
+        minWidth: 350
+      }
+      
+      const geolocation = `${e.latlng.lat} ${e.latlng.lng}`;
+      const popupFormat = `
+        <form action="/maps/6/2/pins" method="post">
+          <label for="name">Title</label>
+          <input type="text" id="name" name="name" placeholder="Optional">
+          <input type="hidden" id="location" name="location" value="${geolocation}">
+          <label for="description">Description</label>
+          <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
+
+          <fieldset>
+          <legend>Gallery</legend>
+          <label for="image_url">Select a file:</label>
+          <input type="file" id="image_url" name="image_url">
+          </fieldset>
+
+          <input type="submit" id="save-pin" value="Save Pin"></input>
+        </form>
+      `;
+      // <input type="button" id="delete-pin" name="delete-pin" value="Delete Pin"></input>
+      L.marker(e.latlng, markerOptions).addTo(markerGroup)
+      .bindPopup(popupFormat, popupOptions)
+      .openPopup();
+
+    }
     
+    const modalTest = ()=>{
+      const modalContainer = `
+      <div id="modalContainer">
+        <section>
+          <header>Header</header>
+          <p>Modal information</p>
+        </section>
+      </div>
+      `;
+      $("body").append(modalContainer);
+    }
+
+    $("#modalTest").click(()=>{
+      alert("modal triggered")
+      modalTest();
+    });
 
     // e.preventDefault();
     const onMapClick = (e) => {
@@ -123,20 +183,12 @@ $(()=>{
     
     // Create a pin on map
     $("#create-pin").click(()=>{
-
       alert("Click on the map to create a pin");
-
-      map.on('click', onMapClick);
-
-      // L.marker([0, 0]).addTo(map)
-      // .bindPopup('<h1>Science World!</h1> This is an awesome place to check out science events!')
-      // .openPopup();      
+      map.on('click', onMapClick);    
     });
 
-
-    /* Start of Modal */
-
     /* Start of Button onClick Triggers */
+
     // Login Button
     $("#login-btn").click(()=>{
       window.location.href = "/maps";
@@ -151,18 +203,19 @@ $(()=>{
       alert('trigger about modal');
     });
 
-    // Save pin button (on popup)
-    $("#save-pin").click(()=>{
-      e.preventDefault();
-      // We can add save-pin commands here
-
+    $("#refresh-btn").click(()=>{
+      alert('trigger about modal');
+      pinsQueries.getAllPinsFromAllMaps();
+      console.log(pinsQueries.getAllPinsFromAllMaps())
     });
 
-    $('.sidebarElement').on('click', 'span', function() {
-      //...
-  });
+    // Save pin button (on popup)
+    $("#save-pin").click(()=>{
+      // e.preventDefault();
+      
+    });
 
-    // Delete pin button (on popup)
+    // Delete pin button (on popup) should ONLY show if the pin is in database.
     $("#map").on('click', '#delete-pin', ()=>{
 
       markerGroup.removeLayer(2)
@@ -219,8 +272,4 @@ $(()=>{
     // span.onclick = function() {
     //   modal.style.display = "none";
     // }
-
-
-
-
 });
