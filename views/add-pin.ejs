@@ -8,14 +8,20 @@
   <title>Explore Maps - Wiki Maps</title>
 
   <%- include('./partials/head'); %>
+<<<<<<< HEAD
 
+=======
+  <%- include('./partials/map-head'); %>
+  
+>>>>>>> d81a238248d2085b3c1a2a0c60dad27245fb0dd3
 </head>
 <body>
 
   <%- include('./partials/header'); %>
 
-  <aside id="create-map">
+  <aside id="create-map" class="animate__animated animate__bounceInLeft">
     <h1>WikiMap Logo</h1>
+<<<<<<< HEAD
 
     <h2>Map Name (Pull from Map ID)</h2>
     <!-- Required to update: action="mapID (required as a templateVar in route)"-->
@@ -36,15 +42,17 @@
       <!-- <input type="file" id="myfile" name="myfile"> -->
     </fieldset>
 
+=======
+    
+    <h2>Map Name (Pull from maps name)</h2>
+    <p>Map Description (pull from maps description)</p>
+
+>>>>>>> d81a238248d2085b3c1a2a0c60dad27245fb0dd3
     <fieldset>
       <legend>Add Pin</legend>
       <button id="create-pin" type="button">Add Pin to Map</button>
     </fieldset>
 
-
-    <input type="submit" value="Save Map">
-
-    </form>
   </aside>
   <div id="map"></div>
 
