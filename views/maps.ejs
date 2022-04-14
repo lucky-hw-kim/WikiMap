@@ -8,12 +8,25 @@
   <title>Explore Maps - Wiki Maps</title>
 
   <%- include('./partials/head'); %>
+  <%- include('./partials/map-head'); %>
   
 </head>
 <body>
-  
+
   <%- include('./partials/header'); %>
 
+<%= 
+/*
+  // Loop through the data
+for (let i = 0; i < maps.length; i++) {
+  let info = maps[i];
+
+  // Create and save a reference to each marker
+  markers[info.id] = L.marker(info.latLng, {
+  }).addTo(map);
+}
+*/
+%>
   <section id="map"></section>
 
   <div id="login-modal" class="modal">

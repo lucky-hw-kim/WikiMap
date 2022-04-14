@@ -4,12 +4,66 @@ $primary: #5a59a7;
 $secondary: #3a397e;
 $background: #f3f3f5;
 $button: #5a59a7;
-$commonBorderRadius: 10px;
+$commonBorderRadius: 15px;
 
 body,
 html {
   margin: 0;
 }
+
+/* Navbar container */
+
+  /* The dropdown container */
+  .dropdown {
+    float: left;
+    overflow: hidden;
+  }
+
+  .dropdown .dropbtn {
+      cursor: pointer;
+      border: none;
+      outline: none;
+      font-size: 1.5em;
+      color: white;
+      padding: 14px 16px;
+      margin: 0;
+      text-transform: uppercase;
+      background-color: $primary;
+  }
+
+  /* Add a red background color to navbar links on hover */
+  .dropdown:hover .dropbtn {
+  background-color: darken($primary, 15%);
+  }
+
+  /* Dropdown content (hidden by default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: rgba($background, .75);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 99999;
+    min-width: 176px;
+  }
+
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  /* Add a grey background color to dropdown links on hover */
+  .dropdown-content a:hover {
+  background-color: #ddd;
+  }
+
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+  display: block;
+  }
 
 // Anything set default to display:none
 .hidden { display:none; }
@@ -159,16 +213,17 @@ nav.crumbs ul {
 
 aside {
   position: absolute;
-  left: 0px;
-  width: 25vw;
-  z-index: 9999;
-  background-color: lighten($background, 20%);
-  border-right: solid  darken($background, 20%) 2px;
   display: flex;
   flex-direction: column;
+  z-index: 9999;
+  top: 23vh;
+  left: 5vw;
+  width: 25vw;
+  height: fit-content;
+  background-color: lighten($background, 20%);
+  border-right: solid  darken($background, 20%) 2px;
   padding: 1.5em;
-  height: 100vh;
-  top: 0;
+  border-radius: $commonBorderRadius;
 }
 
 aside label {
