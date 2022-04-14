@@ -101,27 +101,29 @@ $(()=>{
       window.location.href = "/maps/2/create";
     });
 
-    // create a map button (Footer)
+    // edit a map button (Footer)
     $("#edit-map-btn").click(()=>{
       window.location.href = "/maps/2/edit";
     });
 
-    // create a map button (Footer)
+    // add a pin button (Footer)
     $("#add-pin-map-btn").click(()=>{
       window.location.href = "/map/1/add";
     });
 
-    // create a map button (Footer)
+    // view a map button (Footer)
     $("#view-map-btn").click(()=>{
-      window.location.href = "/maps";
+      window.location.href = "/maps/list";
     });
+
     // create a map button (Footer)
-    $("#favorite-map-btn").click(()=>{
-      window.location.href = "/maps/2/favorites";
-    });
-    // create a map button (Footer)
+    // $("#favorite-map-btn").click(()=>{
+    //   window.location.href = "/maps/2/favorites";
+    // });
+
+    // Profile button (Footer)
     $("#saved-map-btn").click(()=>{
-      window.location.href = "maps/2/saved";
+      window.location.href = "maps/2/profile";
     });
 
 

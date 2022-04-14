@@ -57,10 +57,6 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.get("/maps", (req, res) => {
-  res.render("maps");
-});
-
 app.get("/map/:id/add", (req, res) => {
   res.render("add-pin");
 });

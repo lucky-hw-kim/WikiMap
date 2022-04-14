@@ -7,52 +7,58 @@
 
     <title>Profile Page - Wiki Maps</title>
 
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/main.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/icons.css" type="text/css" />
-
-  <!-- JQuery CDN -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <%- include('./partials/head'); %>
 <body>  
-
 <%- include('./partials/header'); %>
-<div id="saved-maps"> Saved Maps </div>
-<% for (let sav of saved) { %>
-<div class="mini-map-container">
-  <section class="mini-map">
-    <div class="maps">
-      <p><%= sav.name %></p>
-      <p><%= sav.header_image %></p>  
-      <p>Title: <%= sav.name %></p>
-      <p>Description: <%= sav.description %></p>
+  <div class="maps-heading"> SAVED MAPS </div>
+  <div class="map-list-containers">
+    <% for (let sav of saved) { %>
+    <div class="mini-map-containers">
+      <section class="mini-maps">
+        <div class="maps-list">
+          <img src="<%= sav.header_image %>" alt="map_image" >
+          <p class="map-name"><%= sav.name %></p>
+          <p class="map-desc"><%= sav.description %></p>
+          <div class="icon-container">
+            <!-- <span class="wm-icon-flag icon"></span> -->
+            <!-- <span class="wm-icon-favorite icon"></span> -->
+            <div class="icons">
+              <span class="wm-icon-like icon"></span>
+              <span class="wm-icon-reply icon"></span>
+              <span class="wm-icon-send icon"></span>
+            </div>
+            <author>@<%= sav.user_id %></author> 
+          </div>
+        </div>
+      </section>
     </div>
-    <author>@<%= sav.user_id %></author> 
-  </section>
-</div>
-<% } %>
-</div>
-
-
-<div id="fav-maps"> Fav Maps </div>
-<% for (let fav of favs) { %>
-<div class="mini-map-container">
-    <section class="mini-map">
-      <div class="maps">
-        <p><%= fav.favs %></p>
-        <p><%= fav.header_image %></p>  
-        <p>Title: <%= fav.name %></p>
-        <p>Description: <%= fav.description %></p>
-      </div>
-      <author>@<%= fav.user_id %></author> 
-    </section>
-</div>
-<% } %>
-
+    <% } %>
+    </div>
   </div>
+ 
 
-
-
-</body>
+  <div class="maps-heading"> FAV MAPS </div>
+    <div class="map-list-containers">
+    <% for (let fav of favs) { %>
+    <div class="mini-map-containers">
+        <section class="mini-maps">
+          <div class="maps-list">
+            <img src="<%= fav.header_image %>" alt="map_image" >
+            <p class="map-name"><%= fav.name %></p>
+            <p class="map-desc"><%= fav.description %></p><div class="icon-container">
+              <!-- <span class="wm-icon-flag icon"></span> -->
+              <!-- <span class="wm-icon-favorite icon"></span> -->
+              <div class="icons">
+                <span class="wm-icon-like icon"></span>
+                <span class="wm-icon-reply icon"></span>
+                <span class="wm-icon-send icon"></span>
+              </div>
+              <author>@<%= fav.user_id %></author> 
+            </div>
+          </div>
+        </section>
+    </div>
+    <% } %>
+    </div>
+  </div>
 </html>
