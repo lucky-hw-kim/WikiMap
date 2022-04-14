@@ -20,22 +20,28 @@
     <h1>WIKI MAP</h>
     </div>
     <div class="line-break"></div>
-    <h2 class="map-title"><%= maps[0].name %></h2>
-    <p class="description"><%= maps[0].description %></p>
-    <p> <i><strong>Date Created:</strong></i> <%= maps[0].date_created %></p>
-    <p><i><strong>Created By:</strong></i> <%= maps[0].user_id %></p>
-     <!-- Need to change data -->
-    <p><i><strong>Collaborators:</strong></i> @fake_id</p>
-    <div class="line-break"></div>
-    <img id="header-image" src="<%= maps[0].header_image %>" alt="fake-image">
-    <div class="line-break"></div>
-    <div id="view-footer">
+      <h2 class="map-title"><%= maps[0].name %></h2>
+      <p class="description"><%= maps[0].description %></p>
+      <p> <i><strong>Date Created:</strong></i> <%= maps[0].date_created %></p>
+      <p><i><strong>Created By:</strong></i> <%= maps[0].user_id %></p>
       <!-- Need to change data -->
-    <span class="empty-span"></span>
-    <span class="number-under-line">0</span>
-    <span class="likes">Likes</span>
+      <p><i><strong>Collaborators:</strong></i> @fake_id</p>
+      <div class="line-break"></div>
+      <img id="header-image" src="<%= maps[0].header_image %>" alt="fake-image">
+      <div class="line-break"></div>
+      <div id="view-footer">
+        <!-- Need to change data -->
+      <span class="empty-span"></span>
+      <span><a href="/maps/<%= maps[0].user_id %>/<%= maps[0].id %>/edit"><button type="button" id="editMap" name="editMap">Edit Map</button></span></a>
+      <span>
+        <form action="/maps/<%= maps[0].user_id %>/<%= maps[0].id %>/delete" method="post">
+          <input id="deleteMap" name="deleteMap" value="Delete Map" type="submit">
+        </form>
+        
+      <span class="empty-span"></span>
+      <span class="number-under-line">0</span>
+     <span class="likes">Likes</span>
     </div>
-    
   </aside>
   <div id="map"></div>
 

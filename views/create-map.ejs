@@ -18,7 +18,6 @@
   <aside id="create-map" class="animate__animated animate__bounceInLeft">
     <h1>WikiMap Logo</h1>
 
-      <label for="map-description">Description</label>
       <form action="/maps" enctype="multipart/form-data" method="post">
 
       <label for="name">Title</label>
@@ -28,20 +27,11 @@
       <textarea type="text" id="description" name="description" rows="2" cols="1" required></textarea>
 
       <fieldset>
-        <legend>Gallery</legend>
-
+        <legend>Image</legend>
         <label for="header_image">Select a file:</label>
-        <input type="file" name="header_image" accept='image/*'>
-
-        <input type="submit" value="Upload">
-        <button id="create-pin" type="button">Add Pin to Map</button>
+        <input type="file" name="header_image" accept='image/*' required>
       </fieldset>
-        
-      <!-- </form> -->
-      <!-- <input type="file" id="myfile" name="header_image">
-      <input type="hidden" value = "true" name = "public">
-      <br><br>
-      <input type="submit" value="Submit"> -->
+      <input type="submit" value="Save Map">
 
     </form>
   </aside>

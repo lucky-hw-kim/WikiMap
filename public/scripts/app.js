@@ -22,6 +22,8 @@ $(()=>{
       tileSize: 512,
       zoomOffset: -1
     }).addTo(map);
+
+    L.control.locate().addTo(map);
     
     /* End of LeafLetJS */
 
@@ -61,7 +63,7 @@ $(()=>{
       
       const geolocation = `${e.latlng.lat} ${e.latlng.lng}`;
       const popupFormat = `
-        <form action="/maps/6/2/pins" method="post">
+        <form action="/maps/2/6/pins" method="post">
           <label for="name">Title</label>
           <input type="text" id="name" name="name" placeholder="Optional">
           <input type="hidden" id="location" name="location" value="${geolocation}">
@@ -231,14 +233,61 @@ $(()=>{
 
     $("#refresh-btn").click(()=>{
       alert('trigger about modal');
-      // pinsQueries.getAllPinsFromAllMaps();
-      // // console.log(getAllPinsFromAllMaps())
-    });
-
-    // Save pin button (on popup)
-    $("#save-pin").click(()=>{
-      // e.preventDefault();
       
+      $.get('/maps/json')
+      .then(
+        (data)=>{
+          console.log(data)
+          let itemID = '';
+          const addMarkers = ()=>{
+            for(let item of data){
+
+              const markerOptions = {
+                alt: item.name,
+                title: item.name,
+                keyboard: true,
+                draggable: true,
+                riseOnHover: true,
+                closeButton: true
+              }
+          
+              const popupOptions = {
+                maxWidth: 560,
+                minWidth: 350
+              }
+           
+              const popupFormat = `
+                  <h1>${item.name}</h1>
+                  <p>${item.description}</p>
+                  <img src="${item.image_url}">
+                  <button id="editPin${item.id}">Edit Pin</button> <button id="deletePin">Delete Pin</button>
+              `;
+
+              itemID = '#editPin' + item.id;
+              let geolocation = item.location.split(' ');
+      
+              L.marker([geolocation[0], geolocation[1]], markerOptions).addTo(map)
+                // .bindPopup(popupFormat, popupOptions)
+                // .openPopup();
+              
+            }            
+          }
+
+          // Save pin button (on popup)
+          $(`${itemID}`).click(()=>{
+            alert("test")
+            // e.preventDefault();
+            
+          });
+
+          addMarkers();
+
+        }
+      )
+      
+
+
+
     });
 
     // Delete pin button (on popup) should ONLY show if the pin is in database.
@@ -277,6 +326,15 @@ $(()=>{
     // Close Button
     $(".modal-content span.close").click(()=>{
       loginModal.attr('display', 'none');
+    });
+
+    // Favorites
+    $("#fav-btn").click(()=>{
+      $.get(`/2/favorites/`)
+      .then((result)=>{
+        $.post(`/maps/list/${result.users_id}/${result.maps_id}/favorite-profile`)
+      })
+      
     });
 
  

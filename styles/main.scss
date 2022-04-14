@@ -110,10 +110,8 @@ $light-background: rgba(128, 128, 128, 0.07);
   color: $base-font-color;
 }
 
-.maps-list > img {
-  width: 375px; 
-  height: 245px; 
-  align-self: center;
+.maps-list img {
+  max-width: 300px;
 }
 
 .maps-list {

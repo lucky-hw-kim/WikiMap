@@ -9,7 +9,7 @@ $button: #5a59a7;
 $commonBorderRadius: 10px;
 $base-font-color: rgba(83, 83, 83, 1);
 $base-font: 'Lato', sans-serif;
-$light-color-gray-gray: rgba(145, 145, 145, 0.2);
+$light-color-gray: rgba(145, 145, 145, 0.2);
 $light-background: rgba(128, 128, 128, 0.07);
 
 
@@ -110,10 +110,9 @@ $light-background: rgba(128, 128, 128, 0.07);
   color: #535353;
 }
 
-.maps-list > img {
-  width: 375px;
-  height: 245px;
-  align-self: center;
+
+.maps-list img {
+  max-width: 300px;
 }
 
 .maps-list {
@@ -140,6 +139,32 @@ $light-background: rgba(128, 128, 128, 0.07);
   justify-content: space-between;
   margin: 0.5em;
 }
+
+.icons {
+  display: flex;
+}
+
+.icon {
+  margin-right: 7px;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.icon:hover  {
+  cursor: pointer;
+  color: #848484;
+
+}
+
+.author-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#fav-btn{
+  all: unset;
+  cursor: pointer;
+}
+
 
 .maps-list > author {
   align-self: flex-end;
