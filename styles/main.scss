@@ -38,7 +38,7 @@ $light-background: rgba(128, 128, 128, 0.07);
 #header-image {
   height: 24vh;
   margin:1em -0.4em 1em -0.4em;
-  border: 10px solid $light-color;
+  border: 10px solid $light-color-gray;
   border-radius: 3px;
   padding: 0;
 }
@@ -46,7 +46,7 @@ $light-background: rgba(128, 128, 128, 0.07);
 .line-break {
   padding: 1.5em 0 2em -1.5em;
   margin: 1em 0em 1em -1.5em;
-  border-bottom: 3px solid $light-color;
+  border-bottom: 3px solid $light-color-gray;
   width: 25vw;
 }
 .map-title {
@@ -94,7 +94,7 @@ $light-background: rgba(128, 128, 128, 0.07);
   color: $primary;
   font-family: $base-font;
   letter-spacing: 2px;
-  box-shadow: 10px 10px $light-color;
+  box-shadow: 10px 10px $light-color-gray;
   width: fit-content;
 }
 

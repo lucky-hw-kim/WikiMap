@@ -20,14 +20,14 @@
       <div class="mini-map-containers">
         <section class="mini-maps">
           <div class="maps-list">
-            <img src="<%= map.header_image %>" alt="map_image" >
+            <a href="/maps/list/<%= map.id %>"><img src="<%= map.header_image %>"  title="<%= map.name %>" alt="<%= map.description %>" ></a>
             <p class="map-name"><%= map.name %></p>
             <p class="map-desc"><%= map.description %></p>
             <div class="icon-container">
-              <!-- <span class="wm-icon-flag icon"></span> -->
-              <!-- <span class="wm-icon-favorite icon"></span> -->
               <div class="icons">
-                <span class="wm-icon-like icon"></span>
+                <form action= '/maps/list/<%= user_id %>/<%= map.id %>/favorite' method="post">
+                  <button id="fav-btn" name="favorite" value="favorite" type="submit" onclick="alert('<3')"><span  class="wm-icon-like icon"></span></button>
+                </form>
                 <span class="wm-icon-reply icon"></span>
                 <span class="wm-icon-send icon"></span>
               </div>

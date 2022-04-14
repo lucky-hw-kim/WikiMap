@@ -16,17 +16,17 @@
 
   <aside class="view-aside">
     <div id="logo-placement">
-    <h1>WIKI MAP</h1>
+    <h1>WIKI MAP</h>
     </div>
     <div class="line-break"></div>
-    <h2 class="map-title"><%= name %></h2>
-    <p class="description"><%= description %></p>
-    <p> <i><strong>Date Created:</strong></i> <%= date_created %></p>
-    <p><i><strong>Created By:</strong></i> <%= user_id %></p>
+    <h2 class="map-title"><%= maps[0].name %></h2>
+    <p class="description"><%= maps[0].description %></p>
+    <p> <i><strong>Date Created:</strong></i> <%= maps[0].date_created %></p>
+    <p><i><strong>Created By:</strong></i> <%= maps[0].user_id %></p>
      <!-- Need to change data -->
     <p><i><strong>Collaborators:</strong></i> @fake_id</p>
     <div class="line-break"></div>
-    <img id="header-image" src="../public/styles/assets/wiki map-logos_transparent.png" alt="fake-image">
+    <img id="header-image" src="<%= maps[0].header_image %>" alt="fake-image">
     <div class="line-break"></div>
     <div id="view-footer">
       <!-- Need to change data -->

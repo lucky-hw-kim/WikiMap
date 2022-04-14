@@ -116,11 +116,6 @@ $(()=>{
       window.location.href = "/maps/list";
     });
 
-    // create a map button (Footer)
-    // $("#favorite-map-btn").click(()=>{
-    //   window.location.href = "/maps/2/favorites";
-    // });
-
     // Profile button (Footer)
     $("#saved-map-btn").click(()=>{
       window.location.href = "maps/2/profile";
@@ -131,6 +126,9 @@ $(()=>{
     $(".modal-content span.close").click(()=>{
       loginModal.attr('display', 'none');
     });
+
+ 
+
 
     /* End of Button onClick Triggers */
 
