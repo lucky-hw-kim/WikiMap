@@ -7,10 +7,19 @@ const sharp = require('sharp');
 const fs = require('fs');
 const mapsQueries = require('../lib/maps-queries');
 const pinsQueries = require('../lib/pins-queries');
-const user_id = 2;
+const { render } = require('sass');
+// Hard coded user Id
+const user_id = 3;
+
+/*
+* Path to user or user login require: maps/:userId
+* Path map accessing: maps/:mapId
+* Path to Pins : maps/list/:mapId/pins/:pinId
+* Modifying or Creating Pins : /maps/:mapId/pins/:pinId
+*/
 
 //Assigns location for image storage
-const storage = multer.diskStorage({
+const storage1 = multer.diskStorage({
   destination: function(req, file, cb) {
       cb(null, 'public/styles/condensed_image/uploads');
       // public/condensed_image/uploads/
@@ -20,8 +29,20 @@ const storage = multer.diskStorage({
       cb(null, file.fieldname + '-' + Date.now() + '.webp');
   }
 });
-let upload = multer({ storage: storage })
+let upload1 = multer({ storage: storage1 })
 
+//Assigns location for image storage
+const storage2 = multer.diskStorage({
+  destination: function(req, file, cb) {
+      cb(null, 'public/styles/condensed_image/uploads');
+      // public/condensed_image/uploads/
+  },
+//Creates new filename for reformatted image!
+  filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + '.webp');
+  }
+});
+let upload2 = multer({ storage: storage2 })
 
 
 /*
@@ -32,22 +53,19 @@ router.get('/', (req, res) => {
   pinsQueries.getAllPinsFromAllMaps()
     .then( maps => {
       res.render("maps",{maps});
-      // res.json({maps});
     })
     .catch(err => {
       res
         .status(500)
         .json({ error: err.message });
     });
-    // res.render("maps");
-
 })
 
 // GET /maps/ -- Get all the maps
 router.get('/list', (req, res) => {
   mapsQueries.getAllMaps()
     .then( maps => {
-      res.render("map-list", {maps});
+      res.render("map-list", {maps, user_id});
     })
     .catch(err => {
       res
@@ -57,6 +75,7 @@ router.get('/list', (req, res) => {
 })
 
 // GET /maps//:userId/profile
+// GET /maps/:userId/profile
 //-- Profile Page (fav & saved)
 router.get('/:userId/profile', (req, res) => {
     const user_id = req.params.userId;
@@ -67,6 +86,7 @@ router.get('/:userId/profile', (req, res) => {
         const temp = {
           saved: maps,
           favs: favdb,
+          user_id
         }
         console.log(temp.favs);
         res.render("saved", temp);
@@ -85,27 +105,46 @@ router.get('/:userId/profile', (req, res) => {
 })
 
 // GET /maps/:id -- Get specific map user cliked
-router.get('/:mapId', (req, res) => {
-  const mapId = req.params.mapId;
-  mapsQueries.getSelectedMap(mapId)
-    .then( map => {
-      res.json({map});
+router.get('/list/:mapId', (req, res) => {
+  const map_Id = req.params.mapId;
+  mapsQueries.getSelectedMap(map_Id)
+    .then( maps => {
+      res.render("view-map", {maps});
     })
     .catch(err => {
+      // res.render("errorPage404");
       res
         .status(500)
         .json({ error: err.message });
     });
 })
 
-// POST /maps/:id/edit -- Edit a map
-router.post('/:mapId/edit', (req, res) => {
-  //add user
+// GET /maps/:userId/:id/edit -- Open Edit Map Page
+router.get('/:userId/:mapId/edit', (req, res) => {
+  const user_id = req.params.userId;
   const map_id = req.params.mapId;
-  const mapDetails = { map_id, ...req.body };
+  mapsQueries.getSelectedMap(map_id)
+  .then( maps => {
+    res.render("edit-map", {maps});
+  })
+  .catch(err => {
+    // res.render("errorPage404");
+    res
+      .status(500)
+      .json({ error: err.message });
+  });
+});
+
+// POST /maps/:userId/:id/edit -- Edit a map (submission)
+router.post('/:userId/:mapId/edit', upload2.single('header_image'), (req, res, next) => {
+  let header_image = '/styles/condensed_image/uploads/resized/' + req.file.filename
+  const map_id = req.params.mapId;
+  const mapDetails = {map_id, ...req.body, header_image};
+
   mapsQueries.editMap(mapDetails)
     .then( maps => {
-      res.send({maps});
+      // res.render("view-map",{maps});
+      next()
     })
     .catch(err => {
       res
@@ -115,17 +154,32 @@ router.post('/:mapId/edit', (req, res) => {
 });
 
 
+//Reformats image to given criteria
+router.post('/:userId/:mapId/edit', upload2.single('header_image'),async (req, res, next) => {
+  const { filename: image } = req.file;
+  console.log(req.file);
+   await sharp(req.file.path)
+    .resize(375, 245)
+    .webp({ quality: 90 })
+    .toFile(
+        path.resolve(req.file.destination,'resized',image)
+    )
+    fs.unlinkSync(req.file.path)
+    res.redirect('/maps/list');
+});
+
+
+
+
 // POST /maps/ -- Create a map
-router.post('/',upload.single('header_image') ,(req, res, next) => {
+router.post('/',upload1.single('header_image') ,(req, res, next) => {
   let header_image =
   '/styles/condensed_image/uploads/resized/' + req.file.filename
   console.log("Req.File:", header_image);
   let mapDetails = { user_id, ...req.body, header_image};
   mapsQueries.addMap(mapDetails)
     .then( maps => {
-      // res.json(maps);
-      console.log("mapDetails:", mapDetails);
-      next();
+      next()
     })
     .catch(err => {
       res
@@ -139,25 +193,98 @@ router.post('/',upload.single('header_image') ,(req, res, next) => {
  */
 
 //Takes any image given
-router.get('/1/create', (req, res) => {
-  res.sendFile("./views/create-map.ejs");
-});
-
-//Reformats image to given criteria
-// router.post('/', upload.single('header_image'),async (req, res, e) => {
-//   const { filename: image } = req.file;
-//   //console.log("Path:",path.resolve(req.file.destination,'resized',image));
-//    await sharp(req.file.path)
-//     .resize(375, 245)
-//     .webp({ quality: 90 })
-//     .toFile(
-//         path.resolve(req.file.destination,'resized',image)
-//     )
-//     fs.unlinkSync(req.file.path);
-//     e.preventdefault();
-//     // res.redirect('/maps');
+// router.get('/9/create', (req, res) => {
+//   res.sendFile("./views/create-map.ejs");
 // });
 
+//Reformats image to given criteria
+router.post('/', upload1.single('header_image'),async (req, res, next) => {
+  const { filename: image } = req.file;
+   await sharp(req.file.path)
+    .resize(375, 245)
+    .webp({ quality: 90 })
+    .toFile(
+        path.resolve(req.file.destination,'resized',image)
+    )
+    fs.unlinkSync(req.file.path)
+    res.redirect('maps/list');
+});
+
+
+/*
+ * Redirect back to list page
+ */
+// POST /maps/favorite -- Add favorite map or Delete
+router.post('/list/:userId/:mapId/favorite', (req, res) => {
+  // check if there is already a same map id with same user id
+  const map_id = req.params.mapId;
+  const user_id = req.params.userId;
+  mapsQueries.checkIfFavoriteExist(map_id, user_id)
+    .then (check => {
+      let temp = {...check};
+      for( let i in temp){
+        if(temp[i].check){
+          return mapsQueries.deleteFavorite(map_id, user_id)
+          .then( fav => {
+             res.redirect('/maps/list')
+          })
+          .catch(err => {
+            res
+              .status(500)
+              .json({ error: err.message });
+          })
+        }
+      }
+      return mapsQueries.addFavorite(map_id, user_id)
+      .then( fav => {
+         res.redirect('/maps/list')
+      })
+    })
+})
+
+/*
+ * Redirect back to profile page
+ */
+// POST /maps/favorite -- Add favorite map or Delete
+router.post('/list/:userId/:mapId/favorite-profile', (req, res) => {
+  const map_id = req.params.mapId;
+  const user_id = req.params.userId;
+  mapsQueries.checkIfFavoriteExist(map_id, user_id)
+    .then (check => {
+      let temp = {...check};
+      for( let i in temp){
+        if(temp[i].check){
+          return mapsQueries.deleteFavorite(map_id, user_id)
+          .then( fav => {
+             res.redirect('/maps/list')
+          })
+          .catch(err => {
+            res
+              .status(500)
+              .json({ error: err.message });
+          })
+        }
+      }
+      return mapsQueries.addFavorite(map_id, user_id)
+      .then( fav => {
+         res.redirect(`/maps/${user_id}/profile`)
+      })
+    })
+})
+
+// GET /maps -- Search maps
+router.get('/', (req, res) => {
+const title = req.body;
+mapsQueries.searchMaps(title)
+  .then( maps => {
+    res.json(maps);
+  })
+  .catch(err => {
+    res
+      .status(500)
+      .json({ error: err.message });
+  });
+})
 
 // Render create map page
 router.get('/:userId/create', (req, res) => {
@@ -189,36 +316,6 @@ router.post('/:userId/:mapId/delete', (req, res) => {
     });
 });
 
-// POST /maps/favorite -- Add favorite map
-router.post('/:userId/', (req, res) => {
-  const map_id = req.params.mapId;
-  const user_id = req.params.userId;
-  mapsQueries.addFavorite(map_id, user_id)
-    .then( fav => {
-      res.json(fav);
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
-})
-
-// GET /maps -- Search maps
-router.get('/', (req, res) => {
-  const title = req.body;
-  mapsQueries.searchMaps(title)
-    .then( maps => {
-      res.json(maps);
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
-})
-
-
 /*
 ********* Pins router
 */
@@ -238,7 +335,7 @@ router.get('/:userId/:mapId/pins', (req, res) => {
 })
 
 // GET /maps/:mapId/pins/:pinId -- Get specific pin user cliked
-router.get('/:userId/:mapId/pins/:pinId', (req, res) => {
+router.get('/list/:mapId/pins/:pinId', (req, res) => {
   const user_id = req.params.userId;
   const map_id = req.params.mapId;
   const pinId = req.params.pinId;
@@ -271,7 +368,7 @@ router.post('/:userId/:mapId/pins/:pinId/edit', (req, res) => {
 })
 
 // POST /maps/:mapId/pins -- Add a pin
-router.post('/:userId/:mapId/pins',upload.single('Pin_image'), (req, res, next) => {
+router.post('/:userId/:mapId/pins',upload1.single('Pin_image'), (req, res, next) => {
   const user_id = req.params.userId;
   const map_id = req.params.mapId;
   const pinDetails = { map_id, user_id, ...req.body }
@@ -306,9 +403,13 @@ router.post('/:userId/:mapId/pins/:pinId/delete', (req, res) => {
     });
 });
 
+// router.get('maps/*', (req, res) => {
+//   res.render("errorPage404");
+// })
 
 
-router.post('/:userId/:mapId/pins', upload.single('Pin_image'),async (req, res, e) => {
+
+router.post('/:userId/:mapId/pins', upload1.single('Pin_image'),async (req, res, e) => {
   const { filename: image } = req.file;
    await sharp(req.file.path)
     .resize(295, 160)
@@ -329,7 +430,7 @@ router.get('/2/create', (req, res) => {
 
 
 //Reformats image to given criteria
-  router.post('/', upload.single('header_image'),async (req, res, e) =>  {
+  router.post('/', upload1.single('header_image'),async (req, res, e) =>  {
     const { filename: image } = req.file;
       await sharp(req.file.path)
       .resize(200, 200)

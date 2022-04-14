@@ -19,14 +19,20 @@
     <h1>WikiMap Logo</h1>
 
     <!-- Required to update: action="target the post route for create-maps"-->
-      <h2>Title</h2> <button class="btn">Edit</button>
-      The top shops in Vancouver
+    <form id="edit-form" action="/maps/<%= maps[0].user_id %>/<%= maps[0].id %>/edit" enctype="multipart/form-data" method="post">
+      <label for="name">Title</label>
+      <input type="text" id="map_name" name="name" value="<%= maps[0].name %>" >
+      <label for="description">Description</label>
+      <input type="text" id="map_description" name="description" value="<%= maps[0].description %>" >
+        <legend>Image</legend>
+        <label for="header_image">Select a file:</label>
+        <input type="file" name="header_image" accept='image/*'>
+        <input type="submit" value="Upload">
+      <!-- <input type="submit" value="Upload"> -->
 
-      <h3>Description</h3> <button class="btn">Edit</button>
-      "These are the top shops I've found across the years of viewing Vancouver."
-  
-      <br><br>
-      <button class="btn"><a href="/create">Edit Map</a></button>
+
+      <!-- <a href="/maps/list/<%= maps[0].user_id  %>"></a> -->
+    </form>
   </aside>
   <div id="map"></div>
 

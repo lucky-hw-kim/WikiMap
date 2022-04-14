@@ -16,14 +16,15 @@
     <div class="mini-map-containers">
       <section class="mini-maps">
         <div class="maps-list">
-          <img src="<%= sav.header_image %>" alt="map_image" >
+          <a href="/maps/list/<%= sav.id %>"><img src="<%= sav.header_image %>"  title="<%= sav.name %>" alt="<%= sav.description %>" ></a>
           <p class="map-name"><%= sav.name %></p>
           <p class="map-desc"><%= sav.description %></p>
           <div class="icon-container">
-            <!-- <span class="wm-icon-flag icon"></span> -->
-            <!-- <span class="wm-icon-favorite icon"></span> -->
             <div class="icons">
-              <span class="wm-icon-like icon"></span>
+              <form action= '/maps/list/<%= user_id %>/<%= sav.id %>/favorite-profile' method="post">
+                <button id="fav-btn" name="favorite" value="favorite" type="submit" onclick="alert('<3')"><span  class="wm-icon-like icon"></span></button>
+              </form>
+              <!-- <span class="wm-icon-like icon"></span> -->
               <span class="wm-icon-reply icon"></span>
               <span class="wm-icon-send icon"></span>
             </div>
@@ -43,13 +44,14 @@
     <div class="mini-map-containers">
         <section class="mini-maps">
           <div class="maps-list">
-            <img src="<%= fav.header_image %>" alt="map_image" >
+            <a href="/maps/list/<%= fav.id %>"><img src="<%= fav.header_image %>"  title="<%= fav.name %>" alt="<%= fav.description %>" ></a>
             <p class="map-name"><%= fav.name %></p>
             <p class="map-desc"><%= fav.description %></p><div class="icon-container">
-              <!-- <span class="wm-icon-flag icon"></span> -->
-              <!-- <span class="wm-icon-favorite icon"></span> -->
               <div class="icons">
-                <span class="wm-icon-like icon"></span>
+                <form action= '/maps/list/<%= user_id %>/<%= fav.id %>/favorite-profile' method="post">
+                  <button id="fav-btn" name="favorite" value="favorite" type="submit" onclick="alert('<3')"><span  class="wm-icon-like icon"></span></button>
+                </form>
+                <!-- <span class="wm-icon-like icon"></span> -->
                 <span class="wm-icon-reply icon"></span>
                 <span class="wm-icon-send icon"></span>
               </div>
