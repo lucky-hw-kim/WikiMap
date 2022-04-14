@@ -54,7 +54,8 @@ app.use("/maps", mapsRoutes);
 // Separate them into separate routes files (see above).
 
 app.get("/", (req, res) => {
-  res.render("index");
+  res.redirect("/maps");
+  // res.render("index");
 });
 
 app.get("/map/:id/add", (req, res) => {
