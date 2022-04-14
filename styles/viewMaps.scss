@@ -12,6 +12,7 @@ $base-font: 'Lato', sans-serif;
 $light-color-gray: rgba(145, 145, 145, 0.2);
 $light-background: rgba(128, 128, 128, 0.07);
 
+
 /*
 * After creating or clicking a map aside bar
 */
@@ -34,6 +35,8 @@ $light-background: rgba(128, 128, 128, 0.07);
   height: 24vh;
   margin:1em -0.4em 1em -0.4em;
   border: 10px solid $light-color-gray;
+  margin: 1em -0.4em 1em -0.4em;
+  border: 10px solid rgba(145, 145, 145, 0.2);
   border-radius: 3px;
   padding: 0;
 }

@@ -22,6 +22,8 @@ $(()=>{
       tileSize: 512,
       zoomOffset: -1
     }).addTo(map);
+
+    L.control.locate().addTo(map);
     
     /* End of LeafLetJS */
 
@@ -61,7 +63,7 @@ $(()=>{
       
       const geolocation = `${e.latlng.lat} ${e.latlng.lng}`;
       const popupFormat = `
-        <form action="/maps/6/2/pins" method="post">
+        <form action="/maps/2/6/pins" method="post">
           <label for="name">Title</label>
           <input type="text" id="name" name="name" placeholder="Optional">
           <input type="hidden" id="location" name="location" value="${geolocation}">
@@ -133,23 +135,69 @@ $(()=>{
 
     }
     
-    const modalTest = ()=>{
+    const firstLogin = (header,message)=>{
+      
       const modalContainer = `
+      <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
       <div id="modalContainer">
-        <section>
-          <header>Header</header>
-          <p>Modal information</p>
-        </section>
+        <main class="modal-content animate__animated animate__jackInTheBox">
+          <div class="modal-message">
+            <div>
+              <h1>${header}</h1>
+              <p>${message}</p>
+              <div>
+              <button id="exploreGuest">Explore as a Guest</button>
+              <button id="signUp">Sign Up</button>
+              <button id="login">Login</button>
+              </div>
+            </div>
+            <div>
+              <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_Tdoufu.json"  background="transparent"  speed="0.5" autoplay></lottie-player>
+            </div>
+          </div>
+        </main>
+        
       </div>
       `;
       $("body").append(modalContainer);
     }
+   
+    const firstTime = localStorage.getItem("first_time");
+    if(!firstTime) {
+        localStorage.setItem("first_time","1");
+        firstLogin('Welcome to our WikiMaps!', `This looks like your first time here, please let us know how you'd like to use WikiMaps.`);
+      }
 
-    $("#modalTest").click(()=>{
-      alert("modal triggered")
-      modalTest();
-    });
+    $('#readyToStart').click(()=>{
+      $('#modalContainer').remove()
+    })
 
+    /* Explore as a Guest button (First time Login) */
+    $('#exploreGuest').click(()=>{
+
+      /* Remove the animateIn class */
+      $('#modalContainer > main').removeClass('animate__jackInTheBox');
+      
+      /* Time the Modal Disapear */
+      setInterval(()=>{
+        $('#modalContainer > main').addClass('animate__zoomOutDown');
+      } ,0)        
+      
+      /* Time the background fade */
+      setInterval(()=>{
+        $('#modalContainer').addClass('animate__animated');  
+        $('#modalContainer').addClass('animate__fadeOut');
+      } ,1000)
+      
+      /* Destroy the modal */
+      setInterval(()=>{
+        /* Destroy the Modal*/
+        $('#modalContainer').remove();  
+      } ,2000)
+
+
+          
+    })
     // e.preventDefault();
     const onMapClick = (e) => {
       createMarker(e);
@@ -185,14 +233,61 @@ $(()=>{
 
     $("#refresh-btn").click(()=>{
       alert('trigger about modal');
-      // pinsQueries.getAllPinsFromAllMaps();
-      // // console.log(getAllPinsFromAllMaps())
-    });
-
-    // Save pin button (on popup)
-    $("#save-pin").click(()=>{
-      // e.preventDefault();
       
+      $.get('/maps/json')
+      .then(
+        (data)=>{
+          console.log(data)
+          let itemID = '';
+          const addMarkers = ()=>{
+            for(let item of data){
+
+              const markerOptions = {
+                alt: item.name,
+                title: item.name,
+                keyboard: true,
+                draggable: true,
+                riseOnHover: true,
+                closeButton: true
+              }
+          
+              const popupOptions = {
+                maxWidth: 560,
+                minWidth: 350
+              }
+           
+              const popupFormat = `
+                  <h1>${item.name}</h1>
+                  <p>${item.description}</p>
+                  <img src="${item.image_url}">
+                  <button id="editPin${item.id}">Edit Pin</button> <button id="deletePin">Delete Pin</button>
+              `;
+
+              itemID = '#editPin' + item.id;
+              let geolocation = item.location.split(' ');
+      
+              L.marker([geolocation[0], geolocation[1]], markerOptions).addTo(map)
+                // .bindPopup(popupFormat, popupOptions)
+                // .openPopup();
+              
+            }            
+          }
+
+          // Save pin button (on popup)
+          $(`${itemID}`).click(()=>{
+            alert("test")
+            // e.preventDefault();
+            
+          });
+
+          addMarkers();
+
+        }
+      )
+      
+
+
+
     });
 
     // Delete pin button (on popup) should ONLY show if the pin is in database.
@@ -231,6 +326,15 @@ $(()=>{
     // Close Button
     $(".modal-content span.close").click(()=>{
       loginModal.attr('display', 'none');
+    });
+
+    // Favorites
+    $("#fav-btn").click(()=>{
+      $.get(`/2/favorites/`)
+      .then((result)=>{
+        $.post(`/maps/list/${result.users_id}/${result.maps_id}/favorite-profile`)
+      })
+      
     });
 
  

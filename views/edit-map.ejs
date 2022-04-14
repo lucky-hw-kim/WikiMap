@@ -24,16 +24,16 @@
       <input type="text" id="map_name" name="name" value="<%= maps[0].name %>" >
       <label for="description">Description</label>
       <input type="text" id="map_description" name="description" value="<%= maps[0].description %>" >
+       
+      <fieldset>
         <legend>Image</legend>
         <label for="header_image">Select a file:</label>
-        <input type="file" name="header_image" accept='image/*'>
-        <input type="submit" value="Upload">
-      <!-- <input type="submit" value="Upload"> -->
-
-
-      <!-- <a href="/maps/list/<%= maps[0].user_id  %>"></a> -->
+        <input type="file" name="header_image" accept='image/*' required>
+      </fieldset>
+      <input type="submit" value="Save Map">
     </form>
   </aside>
+  
   <div id="map"></div>
 
 </body>

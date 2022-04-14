@@ -8,65 +8,13 @@ $commonBorderRadius: 15px;
 
 body,
 html {
+  font-family: 'Montserrat', sans-serif;
   margin: 0;
 }
 
-/* Navbar container */
-
-  /* The dropdown container */
-  .dropdown {
-    float: left;
-    overflow: hidden;
-  }
-
-  .dropdown .dropbtn {
-      cursor: pointer;
-      border: none;
-      outline: none;
-      font-size: 1.5em;
-      color: white;
-      padding: 14px 16px;
-      margin: 0;
-      text-transform: uppercase;
-      background-color: $primary;
-  }
-
-  /* Add a red background color to navbar links on hover */
-  .dropdown:hover .dropbtn {
-  background-color: darken($primary, 15%);
-  }
-
-  /* Dropdown content (hidden by default) */
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: rgba($background, .75);
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 99999;
-    min-width: 176px;
-  }
-
-  /* Links inside the dropdown */
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-
-  /* Add a grey background color to dropdown links on hover */
-  .dropdown-content a:hover {
-  background-color: #ddd;
-  }
-
-  /* Show the dropdown menu on hover */
-  .dropdown:hover .dropdown-content {
-  display: block;
-  }
-
-// Anything set default to display:none
-.hidden { display:none; }
+.hidden { 
+  display:none; 
+}
 
 #create-map ul{
   list-style:none;
@@ -178,6 +126,55 @@ form#searchForm input#search{
   width: 100%;
 }
 
+
+    .dropdown {
+      float: left;
+      overflow: hidden;
+    }
+
+    .dropdown .dropbtn {
+        cursor: pointer;
+        border: none;
+        outline: none;
+        font-size: 1.5em;
+        color: white;
+        padding: 14px 16px;
+        margin: 0;
+        text-transform: uppercase;
+        background-color: $primary;
+    }
+
+    .dropdown:hover .dropbtn {
+    background-color: darken($primary, 15%);
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: rgba($background, .75);
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 99999;
+      min-width: 176px;
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+    background-color: #ddd;
+    }
+
+    .dropdown:hover .dropdown-content {
+    display: block;
+    }
+
+
+
 nav li.crumb button, .btn{
   font-size: 2em;
   color: $button;
@@ -278,27 +275,62 @@ textarea, input{
 /* Favorite / Saved Maps Layouts END */
 
 
-/* The Modal (background) */
-.modal {
-  display: none;
+div#modalContainer {
+  z-index: 9999;
   position: fixed;
-  z-index: 99999;
-  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
   top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: hsla(0, 0%, 0%, 0.6);
+}
+
+#modalContainer > main > div > div:nth-child(2) {
+  height: 10em;
+}
+
+#modalContainer > main > div > p {
+    font-size: 1.3em;
+}
+
+lottie-player {
+  width: fit-content;
 }
 
 /* Modal Content/Box */
 .modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  background-color: $background;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 50vw;
+  flex-direction: column;
+  border-radius: 1em;
+}
+
+.modal-message {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+/* Modal H1*/
+#modalContainer > main > div > div:nth-child(1) > h1 {
+  margin: 1em 0 0.5em 0.5em;
+}
+
+/* Modal Paragraph */
+#modalContainer > main > div > div:nth-child(1) > p {
+  width: inherit;
+  margin: 0em 1em;
+}
+
+/* Modal Buttons */
+#modalContainer > main > div > div:nth-child(1) > div {
+    margin: 1em;
 }
 
 /* The Close Button */
