@@ -7,6 +7,7 @@ const sharp = require('sharp');
 const fs = require('fs');
 const mapsQueries = require('../lib/maps-queries');
 const pinsQueries = require('../lib/pins-queries');
+const { render } = require('sass');
 // Hard coded user Id
 const user_id = 3;
 
@@ -29,7 +30,6 @@ const storage = multer.diskStorage({
   }
 });
 let upload = multer({ storage: storage })
-
 
 
 /*
@@ -92,26 +92,44 @@ router.get('/:userId/profile', (req, res) => {
 
 // GET /maps/:id -- Get specific map user cliked
 router.get('/list/:mapId', (req, res) => {
-  const mapId = req.params.mapId;
-  mapsQueries.getSelectedMap(mapId)
+  const map_Id = req.params.mapId;
+  mapsQueries.getSelectedMap(map_Id)
     .then( maps => {
       res.render("view-map", {maps});
     })
     .catch(err => {
+      // res.render("errorPage404");
       res
         .status(500)
         .json({ error: err.message });
     });
 })
 
-// POST /maps/:id/edit -- Edit a map
-router.post('/:mapId/edit', (req, res) => {
-  //add user
+// GET /maps/:userId/:id/edit -- Open Edit Map Page
+router.get('/:userId/:mapId/edit', (req, res) => {
+  const user_id = req.params.userId;
   const map_id = req.params.mapId;
-  const mapDetails = { map_id, ...req.body };
+  mapsQueries.getSelectedMap(map_id)
+  .then( maps => {
+    res.render("edit-map", {maps});
+  })
+  .catch(err => {
+    // res.render("errorPage404");
+    res
+      .status(500)
+      .json({ error: err.message });
+  });
+});
+
+// POST /maps/:userId/:id/edit -- Edit a map (submission)
+router.post('/:userId/:mapId/edit', (req, res) => {
+  console.log(req);
+  const map_id = req.params.mapId;
+  const mapDetails = {map_id, ...req.body};
+
   mapsQueries.editMap(mapDetails)
     .then( maps => {
-      console.log(maps);
+      res.render("view-map",{maps});
     })
     .catch(err => {
       res
@@ -161,6 +179,49 @@ router.post('/', upload.single('header_image'),async (req, res, next) => {
     res.redirect('maps/list');
 });
 
+
+// POST /maps/favorite -- Add favorite map or Delete
+router.post('/list/:userId/:mapId/favorite', (req, res) => {
+  // check if there is already a same map id with same user id
+  const map_id = req.params.mapId;
+  const user_id = req.params.userId;
+  mapsQueries.checkIfFavoriteExist(map_id, user_id)
+    .then (check => {
+      let temp = {...check};
+      for( let i in temp){
+        if(temp[i].check){
+          return mapsQueries.deleteFavorite(map_id, user_id)
+          .then( fav => {
+             res.redirect('/maps/list')
+          })
+          .catch(err => {
+            res
+              .status(500)
+              .json({ error: err.message });
+          })
+        }
+      }
+      return mapsQueries.addFavorite(map_id, user_id)
+      .then( fav => {
+         res.redirect('/maps/list')
+      })
+    })
+})
+
+// GET /maps -- Search maps
+router.get('/', (req, res) => {
+const title = req.body;
+mapsQueries.searchMaps(title)
+  .then( maps => {
+    res.json(maps);
+  })
+  .catch(err => {
+    res
+      .status(500)
+      .json({ error: err.message });
+  });
+})
+
 // Render create map page
 router.get('/:userId/create', (req, res) => {
   const user_id = req.params.userId;
@@ -190,49 +251,6 @@ router.post('/:userId/:mapId/delete', (req, res) => {
         .json({ error: err.message });
     });
 });
-
-// POST /maps/favorite -- Add favorite map or Delete
-  router.post('/list/:userId/:mapId/favorite', (req, res) => {
-    // check if there is already a same map id with same user id
-    const map_id = req.params.mapId;
-    const user_id = req.params.userId;
-    mapsQueries.checkIfFavoriteExist(map_id, user_id)
-      .then (check => {
-        let temp = {...check};
-        for( let i in temp){
-          if(temp[i].check){
-            return mapsQueries.deleteFavorite(map_id, user_id)
-            .then( fav => {
-               res.redirect('/maps/list')
-            })
-            .catch(err => {
-              res
-                .status(500)
-                .json({ error: err.message });
-            })
-          }
-        }
-        return mapsQueries.addFavorite(map_id, user_id)
-        .then( fav => {
-           res.redirect('/maps/list')
-        })
-      })
-  })
-
-// GET /maps -- Search maps
-router.get('/', (req, res) => {
-  const title = req.body;
-  mapsQueries.searchMaps(title)
-    .then( maps => {
-      res.json(maps);
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
-})
-
 
 /*
 ********* Pins router
@@ -319,6 +337,10 @@ router.post('/:userId/:mapId/pins/:pinId/delete', (req, res) => {
         .json({ error: err.message });
     });
 });
+
+// router.get('maps/*', (req, res) => {
+//   res.render("errorPage404");
+// })
 
 
 module.exports = router;
