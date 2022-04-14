@@ -1,6 +1,7 @@
 // Client facing scripts here
 $(()=>{
 
+  // const { getAllPinsFromAllMaps } = require('../../lib/pins-queries');
     /* Start of LeafLetJS */
     // setup map
 
@@ -9,22 +10,7 @@ $(()=>{
 
     latitude = 49.273376;
     longitude = -123.103834;
-
-    // function getLocation() {
-    //   if (navigator.geolocation) {
-    //     navigator.geolocation.getCurrentPosition(showPosition);
-    //   } else {
-    //     alert("Geolocation is not supported by this browser.");
-    //   }
-    // }
-
-    // function showPosition(position) {
-    //   latitude = position.coords.latitude;
-    //   longitude = position.coords.longitude;
-    // }
-
-    // getLocation();
-    
+        
     const zoomLevel = 13;
     const map = L.map('map').setView([latitude, longitude], zoomLevel);
 
@@ -45,12 +31,6 @@ $(()=>{
     const titleTemplate = `Science World!`;
     const descriptionTemplate = `This is an awesome place to check out science events!`;
     const authorTemplate = `Email of user (Or their ID unless we add a username)`;
-
-    /* Science World Test Marker SEED DATA */
-    L.marker([latitude, longitude])
-      .addTo(map)
-        .bindPopup(`<h1>${titleTemplate}</h1>${descriptionTemplate}${imageTemplate}<br><br>${authorTemplate}`); // (May need to sanitize this input)
-
 
     // tracks the markers for adjustment if needed.
     let markerGroup = L.layerGroup().addTo(map);
@@ -205,8 +185,8 @@ $(()=>{
 
     $("#refresh-btn").click(()=>{
       alert('trigger about modal');
-      pinsQueries.getAllPinsFromAllMaps();
-      console.log(pinsQueries.getAllPinsFromAllMaps())
+      // pinsQueries.getAllPinsFromAllMaps();
+      // // console.log(getAllPinsFromAllMaps())
     });
 
     // Save pin button (on popup)
