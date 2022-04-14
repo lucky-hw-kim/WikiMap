@@ -16,29 +16,27 @@ $light-background: rgba(128, 128, 128, 0.07);
 /*
 * After creating or clicking a map aside bar
 */
-
 .view-aside {
-  color: $base-font-color;
+  color: #535353;
 }
-// Header with logo
 
 #logo-placement {
   display: flex;
   justify-content: center;
-  color: $primary;
-  font-size: 2em;
+  color: #5a59a7;
+  font-size: 1.8em;
 }
 
 #logo-placement > h1 {
   margin: 0.2em 0.2em 0.5em 0.2em;
 }
 
-// Main Element
-
 #header-image {
   height: 24vh;
   margin:1em -0.4em 1em -0.4em;
   border: 10px solid $light-color-gray;
+  margin: 1em -0.4em 1em -0.4em;
+  border: 10px solid rgba(145, 145, 145, 0.2);
   border-radius: 3px;
   padding: 0;
 }
@@ -49,19 +47,21 @@ $light-background: rgba(128, 128, 128, 0.07);
   border-bottom: 3px solid $light-color-gray;
   width: 25vw;
 }
+
 .map-title {
   font-size: 2.7em;
   margin: 0.3em 0.1em 0.4em 0.1em;
 }
+
 .view-aside > p {
   font-size: 1.2em;
   margin: 0.4em;
 }
+
 .view-aside > .description {
   font-size: 1.5em;
 }
 
-// View Footer
 #view-footer {
   display: flex;
   justify-content: right;
@@ -69,30 +69,30 @@ $light-background: rgba(128, 128, 128, 0.07);
   margin-right: 0.4em;
   padding-bottom: 0.4em;
   font-size: 1.4em;
-  border-bottom: 0.1em solid rgba(145, 145, 145, 1);
+  border-bottom: 0.1em solid #919191;
   font-weight: 600;
   align-self: flex-end;
 }
+
 .empty-span {
   padding-left: 2em;
 }
 
 .number-under-line {
   margin-right: 3em;
-
 }
 
 /*
 * List of maps & Profile
 */
-
 .maps-heading {
-  font-size: 3em;
-  text-align: center;
+
+  font-size: 2.5em;
   margin-top: 1em;
-  margin-left: 40%;
-  color: $primary;
-  font-family: $base-font;
+  margin-bottom: -0.5em;
+  margin-left: 43%;
+  color: #5a59a7;
+  font-family: "Lato", sans-serif;
   letter-spacing: 2px;
   box-shadow: 10px 10px $light-color-gray;
   width: fit-content;
@@ -101,18 +101,18 @@ $light-background: rgba(128, 128, 128, 0.07);
 .map-list-containers {
   display: flex;
   justify-content: center;
-  font-family: $base-font;
+  font-family: "Lato", sans-serif;
   width: 100vw;
   height: auto;
   margin: 2em 0 2em 0;
   padding: 2em 0 2em 0;
   flex-wrap: wrap;
-  color: $base-font-color;
+  color: #535353;
 }
 
 .maps-list > img {
-  width: 375px; 
-  height: 245px; 
+  width: 375px;
+  height: 245px;
   align-self: center;
 }
 
@@ -124,16 +124,21 @@ $light-background: rgba(128, 128, 128, 0.07);
   border-radius: 10px;
   margin: 1em;
   min-height: 395px;
-  background-color: white;
+  background-color: rgba(128, 128, 128, 0.07);
 }
 
 .maps-list > .map-name {
   font-size: 1.2em;
   font-weight: 600;
+  margin-bottom: 0;
 }
 
-.maps-list > .map-desc {
-  margin: 3em;
+.icon-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin: 0.5em;
 }
 
 .maps-list > author {
