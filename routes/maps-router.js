@@ -21,28 +21,28 @@ const user_id = 2;
 //Assigns location for image storage
 const storage1 = multer.diskStorage({
   destination: function(req, file, cb) {
-      cb(null, 'public/styles/condensed_image/uploads');
-      // public/condensed_image/uploads/
+    cb(null, 'public/styles/condensed_image/uploads');
+    // public/condensed_image/uploads/
   },
-//Creates new filename for reformatted image!
+  //Creates new filename for reformatted image!
   filename: function(req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now() + '.webp');
+    cb(null, file.fieldname + '-' + Date.now() + '.webp');
   }
 });
-let upload1 = multer({ storage: storage1 })
+let upload1 = multer({ storage: storage1 });
 
 //Assigns location for image storage
 const storage2 = multer.diskStorage({
   destination: function(req, file, cb) {
-      cb(null, 'public/styles/condensed_image/uploads');
-      // public/condensed_image/uploads/
+    cb(null, 'public/styles/condensed_image/uploads');
+    // public/condensed_image/uploads/
   },
-//Creates new filename for reformatted image!
+  //Creates new filename for reformatted image!
   filename: function(req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now() + '.webp');
+    cb(null, file.fieldname + '-' + Date.now() + '.webp');
   }
 });
-let upload2 = multer({ storage: storage2 })
+let upload2 = multer({ storage: storage2 });
 
 
 /*
@@ -51,7 +51,7 @@ let upload2 = multer({ storage: storage2 })
 // GET /maps/ -- Get all the pins to one map
 router.get('/', (req, res) => {
   pinsQueries.getAllPinsFromAllMaps()
-    .then( maps => {
+    .then(maps => {
       res.render("maps",{maps});
     })
     .catch(err => {
@@ -59,12 +59,12 @@ router.get('/', (req, res) => {
         .status(500)
         .json({ error: err.message });
     });
-})
+});
 
 // GET /maps/json/ -- Return JSON pin data
 router.get('/json', (req, res) => {
   pinsQueries.getAllPinsFromAllMaps()
-    .then( pins => {
+    .then(pins => {
       res.json(pins);
     })
     .catch(err => {
@@ -72,12 +72,12 @@ router.get('/json', (req, res) => {
         .status(500)
         .json({ error: err.message });
     });
-})
+});
 
-// GET /maps/ -- Get all the maps 
+// GET /maps/ -- Get all the maps
 router.get('/list', (req, res) => {
   mapsQueries.getAllMaps()
-    .then( maps => {
+    .then(maps => {
       res.render("map-list", {maps, user_id});
     })
     .catch(err => {
@@ -85,42 +85,43 @@ router.get('/list', (req, res) => {
         .status(500)
         .json({ error: err.message });
     });
-})
+});
 
-// GET /maps/:userId/profile 
+// GET /maps/:userId/profile
 //-- Profile Page (fav & saved)
 router.get('/:userId/profile', (req, res) => {
-    const user_id = req.params.userId;
-    mapsQueries.getFavoriteMaps(user_id)
+  const user_id = req.params.userId;
+  mapsQueries.getFavoriteMaps(user_id)
     .then((favdb) => {
       mapsQueries.getSavedMaps(user_id)
-      .then( (maps) => {
-        const temp = {
-          saved: maps,
-          favs: favdb,
-          user_id
-        }
-        console.log(temp.favs);
-        res.render("saved", temp);
-      })
+        .then((maps) => {
+          const temp = {
+            saved: maps,
+            favs: favdb,
+            user_id
+          };
+          console.log(temp.favs);
+          res.render("saved", temp);
+        })
+        .catch(err => {
+          res
+            .status(500)
+            .json({ error: err.message });
+        });
+    })
     .catch(err => {
       res
         .status(500)
         .json({ error: err.message });
     });
-  })
-  .catch(err => {
-    res
-      .status(500)
-      .json({ error: err.message });
-  });
-})
+});
 
 // GET /maps/:id -- Get specific map user cliked
 router.get('/list/:mapId', (req, res) => {
   const map_Id = req.params.mapId;
   mapsQueries.getSelectedMap(map_Id)
-    .then( maps => {
+    .then(maps => {
+      
       res.render("view-map", {maps});
     })
     .catch(err => {
@@ -129,34 +130,34 @@ router.get('/list/:mapId', (req, res) => {
         .status(500)
         .json({ error: err.message });
     });
-})
+});
 
 // GET /maps/:userId/:id/edit -- Open Edit Map Page
 router.get('/:userId/:mapId/edit', (req, res) => {
   const user_id = req.params.userId;
   const map_id = req.params.mapId;
   mapsQueries.getSelectedMap(map_id)
-  .then( maps => {
-    res.render("edit-map", {maps});
-  })
-  .catch(err => {
+    .then(maps => {
+      res.render("edit-map", {maps});
+    })
+    .catch(err => {
     // res.render("errorPage404");
-    res
-      .status(500)
-      .json({ error: err.message });
-  });
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
 });
 
 // POST /maps/:userId/:id/edit -- Edit a map (submission)
 router.post('/:userId/:mapId/edit', upload2.single('header_image'), (req, res, next) => {
-  let header_image = '/styles/condensed_image/uploads/resized/' + req.file.filename
+  let header_image = '/styles/condensed_image/uploads/resized/' + req.file.filename;
   const map_id = req.params.mapId;
   const mapDetails = {map_id, ...req.body, header_image};
 
   mapsQueries.editMap(mapDetails)
-    .then( maps => {
+    .then(maps => {
       // res.render("view-map",{maps});
-      next()
+      next();
     })
     .catch(err => {
       res
@@ -167,17 +168,17 @@ router.post('/:userId/:mapId/edit', upload2.single('header_image'), (req, res, n
 
 
 //Reformats image to given criteria
-router.post('/:userId/:mapId/edit', upload2.single('header_image'),async (req, res, next) => {
+router.post('/:userId/:mapId/edit', upload2.single('header_image'),async(req, res, next) => {
   const { filename: image } = req.file;
   console.log(req.file);
-   await sharp(req.file.path)
+  await sharp(req.file.path)
     .resize(375, 245)
     .webp({ quality: 90 })
     .toFile(
-        path.resolve(req.file.destination,'resized',image)
-    )
-    fs.unlinkSync(req.file.path)
-    res.redirect('/maps/list');
+      path.resolve(req.file.destination,'resized',image)
+    );
+  fs.unlinkSync(req.file.path);
+  res.redirect('/maps/list');
 });
 
 
@@ -185,12 +186,12 @@ router.post('/:userId/:mapId/edit', upload2.single('header_image'),async (req, r
 
 // POST /maps/ -- Create a map
 router.post('/',upload1.single('header_image') ,(req, res, next) => {
-  let header_image = 
-  '/styles/condensed_image/uploads/resized/' + req.file.filename
+  let header_image =
+  '/styles/condensed_image/uploads/resized/' + req.file.filename;
   console.log("Req.File:", header_image);
   let mapDetails = { user_id, ...req.body, header_image};
   mapsQueries.addMap(mapDetails)
-    .then( maps => {
+    .then(maps => {
 
       next();
     })
@@ -199,10 +200,10 @@ router.post('/',upload1.single('header_image') ,(req, res, next) => {
         .status(500)
         .json({ error: err.message });
     });
-})
+});
 
 /*
- * Image compression and save 
+ * Image compression and save
  */
 
 //Takes any image given
@@ -211,16 +212,16 @@ router.post('/',upload1.single('header_image') ,(req, res, next) => {
 // });
 
 //Reformats image to given criteria
-router.post('/', upload1.single('header_image'),async (req, res, next) => {
+router.post('/', upload1.single('header_image'),async(req, res, next) => {
   const { filename: image } = req.file;
-   await sharp(req.file.path)
+  await sharp(req.file.path)
     .resize(375, 245)
     .webp({ quality: 90 })
     .toFile(
-        path.resolve(req.file.destination,'resized',image)
-    )
-    fs.unlinkSync(req.file.path)
-    res.redirect('maps/list');
+      path.resolve(req.file.destination,'resized',image)
+    );
+  fs.unlinkSync(req.file.path);
+  res.redirect('maps/list');
 });
 
 
@@ -233,27 +234,27 @@ router.post('/list/:userId/:mapId/favorite', (req, res) => {
   const map_id = req.params.mapId;
   const user_id = req.params.userId;
   mapsQueries.checkIfFavoriteExist(map_id, user_id)
-    .then (check => {
+    .then(check => {
       let temp = {...check};
-      for( let i in temp){
-        if(temp[i].check){
+      for (let i in temp) {
+        if (temp[i].check) {
           return mapsQueries.deleteFavorite(map_id, user_id)
-          .then( fav => {
-             res.redirect('/maps/list')
-          })
-          .catch(err => {
-            res
-              .status(500)
-              .json({ error: err.message });
-          })
+            .then(fav => {
+              res.redirect('/maps/list');
+            })
+            .catch(err => {
+              res
+                .status(500)
+                .json({ error: err.message });
+            });
         }
       }
       return mapsQueries.addFavorite(map_id, user_id)
-      .then( fav => {
-         res.redirect('/maps/list')
-      })
-    })
-})
+        .then(fav => {
+          res.redirect('/maps/list');
+        });
+    });
+});
 
 /*
  * Redirect back to profile page
@@ -263,61 +264,61 @@ router.post('/list/:userId/:mapId/favorite-profile', (req, res) => {
   const map_id = req.params.mapId;
   const user_id = req.params.userId;
   mapsQueries.checkIfFavoriteExist(map_id, user_id)
-    .then (check => {
+    .then(check => {
       let temp = {...check};
-      for( let i in temp){
-        if(temp[i].check){
+      for (let i in temp) {
+        if (temp[i].check) {
           return mapsQueries.deleteFavorite(map_id, user_id)
-          .then( fav => {
-             res.redirect(`/maps/${user_id}/profile`)
-          })
-          .catch(err => {
-            res
-              .status(500)
-              .json({ error: err.message });
-          })
+            .then(fav => {
+              res.redirect(`/maps/${user_id}/profile`);
+            })
+            .catch(err => {
+              res
+                .status(500)
+                .json({ error: err.message });
+            });
         }
       }
       return mapsQueries.addFavorite(map_id, user_id)
-      .then( fav => {
-         res.redirect(`/maps/${user_id}/profile`)
-      })
-    })
-})
+        .then(fav => {
+          res.redirect(`/maps/${user_id}/profile`);
+        });
+    });
+});
 
 // GET /maps -- Search maps
 router.get('/', (req, res) => {
-const title = req.body;
-mapsQueries.searchMaps(title)
-  .then( maps => {
-    res.json(maps);
-  })
-  .catch(err => {
-    res
-      .status(500)
-      .json({ error: err.message });
-  });
-})
+  const title = req.body;
+  mapsQueries.searchMaps(title)
+    .then(maps => {
+      res.json(maps);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+});
 
 // GET /getFavoriteMaps -- Search getFavoriteMaps
 router.get('/:userId/favorites/', (req, res) => {
-const userID = req.params.userId;
-mapsQueries.getFavoriteMaps(userID)
-  .then( getFavoriteMaps => {
-    res.json(getFavoriteMaps);
-  })
-  .catch(err => {
-    res
-      .status(500)
-      .json({ error: err.message });
-  });
-})
+  const userID = req.params.userId;
+  mapsQueries.getFavoriteMaps(userID)
+    .then(getFavoriteMaps => {
+      res.json(getFavoriteMaps);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+});
 
 // Render create map page
 router.get('/:userId/create', (req, res) => {
   const user_id = req.params.userId;
   mapsQueries.getAllMaps()
-    .then( maps => {
+    .then(maps => {
       res.render('create-map');
     })
     .catch(err => {
@@ -325,7 +326,7 @@ router.get('/:userId/create', (req, res) => {
         .status(500)
         .json({ error: err.message });
     });
-})
+});
 
 
 // POST /maps/:id/delete -- Delete a map
@@ -333,8 +334,8 @@ router.post('/:userId/:mapId/delete', (req, res) => {
   const user_id = req.params.userId;
   const map_id = req.params.mapId;
   mapsQueries.deleteMap(map_id, user_id)
-    .then( maps => {
-      res.redirect(`/maps/${user_id}/profile`)
+    .then(maps => {
+      res.redirect(`/maps/${user_id}/profile`);
     })
     .catch(err => {
       res
@@ -351,7 +352,7 @@ router.post('/:userId/:mapId/delete', (req, res) => {
 router.get('/:userId/:mapId/pins', (req, res) => {
   const map_id = req.params.mapId;
   pinsQueries.getAllPins(map_id)
-    .then( pins => {
+    .then(pins => {
       res.json(pins);
     })
     .catch(err => {
@@ -359,7 +360,7 @@ router.get('/:userId/:mapId/pins', (req, res) => {
         .status(500)
         .json({ error: err.message });
     });
-})
+});
 
 // GET /maps/:mapId/pins/:pinId -- Get specific pin user cliked
 router.get('/list/:mapId/pins/:pinId', (req, res) => {
@@ -367,7 +368,7 @@ router.get('/list/:mapId/pins/:pinId', (req, res) => {
   const map_id = req.params.mapId;
   const pinId = req.params.pinId;
   pinsQueries.getSelectedPin(map_id, pinId)
-    .then( pin => {
+    .then(pin => {
       res.json(pin);
     })
     .catch(err => {
@@ -375,16 +376,16 @@ router.get('/list/:mapId/pins/:pinId', (req, res) => {
         .status(500)
         .json({ error: err.message });
     });
-})
+});
 
 // POST /maps/:mapId/pins/:pidId/edit -- Edit a pin
 router.post('/:userId/:mapId/pins/:pinId/edit', (req, res) => {
   const user_id = req.params.userId;
   const map_id = req.params.mapId;
   const pinId = req.params.pinId;
-  const pinDetails = { ...req, pinId, map_id}
+  const pinDetails = { ...req, pinId, map_id};
   pinsQueries.editPin(pinDetails)
-    .then( maps => {
+    .then(maps => {
       res.json(maps);
     })
     .catch(err => {
@@ -392,16 +393,16 @@ router.post('/:userId/:mapId/pins/:pinId/edit', (req, res) => {
         .status(500)
         .json({ error: err.message });
     });
-})
+});
 
 // POST /maps/:mapId/pins -- Add a pin
 router.post('/:userId/:mapId/pins', (req, res) => {
   const user_id = req.params.userId;
   const map_id = req.params.mapId;
-  const pinDetails = { map_id, user_id, ...req.body }
+  const pinDetails = { map_id, user_id, ...req.body };
 
   pinsQueries.addPin(pinDetails)
-    .then( pins => {
+    .then(pins => {
       res.json(pins);
     })
     .catch(err => {
@@ -409,17 +410,17 @@ router.post('/:userId/:mapId/pins', (req, res) => {
         .status(500)
         .json({ error: err.message });
     });
-})
+});
 
 // POST /maps/:mapId/pins/:pinId/delete -- Delete a pin
 router.post('/:userId/:mapId/pins/:pinId/delete', (req, res) => {
   const user_id = req.params.userId;
   const pin_id = req.params.pinId;
   const map_id = req.params.mapId;
-  const pinDetails = {pin_id, user_id, map_id}
+  const pinDetails = {pin_id, user_id, map_id};
 
   pinsQueries.deletePin(pinDetails)
-    .then( pins => {
+    .then(pins => {
       res.json(pins);
     })
     .catch(err => {
