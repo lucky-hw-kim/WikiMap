@@ -13,32 +13,35 @@
 <body>
   
   <%- include('./partials/header'); %>
-  
-    <div class="maps-heading"> LIST OF MAPS </div>
+  <div id="createdMaps">
+    <div class="maps-heading">List of Maps</div>
     <div class="map-list-containers">
       <% for (let map of maps) { %>
-      <div class="mini-map-containers">
-        <section class="mini-maps">
-          <div class="maps-list">
-            <a href="/maps/list/<%= map.id %>"><img src="<%= map.header_image %>"  title="<%= map.name %>" alt="<%= map.description %>" ></a>
-            <p class="map-name"><%= map.name %></p>
-            <p class="map-desc"><%= map.description %></p>
-            <div class="icon-container">
-              <div class="icons">
-                <form action= '/maps/list/<%= user_id %>/<%= map.id %>/favorite' method="post">
-                  <button id="fav-btn" name="favorite" value="favorite" type="submit" onclick="alert('<3')"><span  class="wm-icon-like icon"></span></button>
-                </form>
-                <span class="wm-icon-reply icon"></span>
-                <span class="wm-icon-send icon"></span>
+        <div class="mini-map-containers">
+          <section class="mini-maps">
+            <div class="maps-list">
+              <a href="/maps/list/<%= map.id %>"><img src="<%= map.header_image %>"  title="<%= map.name %>" alt="<%= map.description %>" ></a>
+              <div class="information">
+                <p class="map-name"><%= map.name %></p>
+                <p class="map-desc"><%= map.description %></p>
               </div>
-              <author id="author_id">@<%= map.user_id %></author> 
-            </div>
+              <div class="icon-container">
+                <div class="icons">
+                  <form action= '/maps/list/<%= user_id %>/<%= map.id %>/favorite' method="post">
+                    <button id="fav-btn" name="favorite" value="favorite" type="submit" onclick="alert('<3')"><span class="wm-icon-like icon"></span></button>
+                  </form>
+                  <button class="wm-icon-reply icon"></button>
+                  <button type="button" class="wm-icon-send icon"></button>
+                </div>
+                <author id="author_id">@<%= map.user_id %></author> 
+              </div>
           </div>
         </section>
       </div>
       <% } %>
       </div>
     </div>
+  </div>
 
 </body>
 </html>

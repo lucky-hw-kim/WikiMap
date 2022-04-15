@@ -9,7 +9,7 @@ const mapsQueries = require('../lib/maps-queries');
 const pinsQueries = require('../lib/pins-queries');
 const { render } = require('sass');
 // Hard coded user Id
-const user_id = 2;
+const user_id = 3;
 
 /*
 * Path to user or user login require: maps/:userId
@@ -121,7 +121,6 @@ router.get('/list/:mapId', (req, res) => {
   const map_Id = req.params.mapId;
   mapsQueries.getSelectedMap(map_Id)
     .then(maps => {
-      
       res.render("view-map", {maps});
     })
     .catch(err => {
@@ -139,6 +138,7 @@ router.get('/:userId/:mapId/edit', (req, res) => {
   mapsQueries.getSelectedMap(map_id)
     .then(maps => {
       res.render("edit-map", {maps});
+    // res.json(maps);
     })
     .catch(err => {
     // res.render("errorPage404");
@@ -383,7 +383,7 @@ router.post('/:userId/:mapId/pins/:pinId/edit', (req, res) => {
   const user_id = req.params.userId;
   const map_id = req.params.mapId;
   const pinId = req.params.pinId;
-  const pinDetails = { ...req, pinId, map_id};
+  const pinDetails = { ...req.body, pinId, map_id, user_id};
   pinsQueries.editPin(pinDetails)
     .then(maps => {
       res.json(maps);
