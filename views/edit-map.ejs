@@ -18,7 +18,7 @@
   <aside id="create-map" class="animate__animated animate__bounceInLeft">
     <h1>WikiMap Logo</h1>
 
-    <!-- Required to update: action="target the post route for create-maps"-->
+  
     <form id="edit-form" action="/maps/<%= maps[0].user_id %>/<%= maps[0].id %>/edit" enctype="multipart/form-data" method="post">
       <label for="name">Title</label>
       <input type="text" id="map_name" name="name" value="<%= maps[0].name %>" >
@@ -30,7 +30,7 @@
         <label for="header_image">Select a file:</label>
         <input type="file" name="header_image" accept='image/*' required>
       </fieldset>
-      <input type="submit" value="Save Map">
+      <input id="saveBtn" type="submit" value="Save Map">
     </form>
   </aside>
   
