@@ -9,7 +9,7 @@ const mapsQueries = require('../lib/maps-queries');
 const pinsQueries = require('../lib/pins-queries');
 const { render } = require('sass');
 // Hard coded user Id
-const user_id = 2;
+const user_id = 3;
 
 /*
 * Path to user or user login require: maps/:userId
@@ -61,9 +61,7 @@ router.get('/', (req, res) => {
     });
 })
 
-<<<<<<< HEAD
 // GET /maps/ -- Get all the maps
-=======
 // GET /maps/json/ -- Return JSON pin data
 router.get('/json', (req, res) => {
   pinsQueries.getAllPinsFromAllMaps()
@@ -77,8 +75,7 @@ router.get('/json', (req, res) => {
     });
 })
 
-// GET /maps/ -- Get all the maps 
->>>>>>> 2ea75143edf79d01f8042e1f98db9e7c3b04f845
+// GET /maps/ -- Get all the maps
 router.get('/list', (req, res) => {
   mapsQueries.getAllMaps()
     .then( maps => {

@@ -10,7 +10,7 @@ $(()=>{
 
     latitude = 49.273376;
     longitude = -123.103834;
-        
+
     const zoomLevel = 13;
     const map = L.map('map').setView([latitude, longitude], zoomLevel);
 
@@ -24,7 +24,7 @@ $(()=>{
     }).addTo(map);
 
     L.control.locate().addTo(map);
-    
+
     /* End of LeafLetJS */
 
     let imageTemplate = `<fieldset><legend>Gallery</legend>
@@ -43,10 +43,10 @@ $(()=>{
      * * Alt, and Title tags for accesability
      * * keyboard control
      * * riseOnHover to reduce cluttered pins
-     * @param {EventHandler} e 
+     * @param {EventHandler} e
      */
     const createMarker = (e)=>{
-     
+
       const markerOptions = {
         alt: titleTemplate,
         title: titleTemplate,
@@ -60,7 +60,7 @@ $(()=>{
         maxWidth: 560,
         minWidth: 350
       }
-      
+
       const geolocation = `${e.latlng.lat} ${e.latlng.lng}`;
       const popupFormat = `
         <form action="/maps/2/1/pins" method="post">
@@ -69,13 +69,11 @@ $(()=>{
           <input type="hidden" id="location" name="location" value="${geolocation}">
           <label for="description">Description</label>
           <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
-
           <fieldset>
           <legend>Gallery</legend>
           <label for="image_url">Select a file:</label>
           <input type="file" id="image_url" name="image_url">
           </fieldset>
-
           <input type="submit" id="save-pin" value="Save Pin"></input>
         </form>
       `;
@@ -86,12 +84,11 @@ $(()=>{
 
       /* - create element
         - modify the element with given id OR
-
          - REMOVE DELETE UNTIL SAVED
         - receive as an array, itterate through array
         - JQUERY check if page isload THEN run through array
       */
-      
+
     }
 
     const loadPins = () => {
@@ -109,7 +106,7 @@ $(()=>{
         maxWidth: 560,
         minWidth: 350
       }
-      
+
       const geolocation = `${e.latlng.lat} ${e.latlng.lng}`;
       const popupFormat = `
         <form action="/maps/1/3/pins" method="post">
@@ -118,13 +115,11 @@ $(()=>{
           <input type="hidden" id="location" name="location" value="${geolocation}">
           <label for="description">Description</label>
           <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
-
           <fieldset>
           <legend>Gallery</legend>
           <label for="image_url">Select a file:</label>
           <input type="file" id="image_url" name="image_url">
           </fieldset>
-
           <input type="submit" id="save-pin" value="Save Pin"></input>
         </form>
       `;
@@ -134,9 +129,9 @@ $(()=>{
       .openPopup();
 
     }
-    
+
     const firstLogin = (header,message)=>{
-      
+
       const modalContainer = `
       <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
       <div id="modalContainer">
@@ -156,12 +151,12 @@ $(()=>{
             </div>
           </div>
         </main>
-        
+
       </div>
       `;
       $("body").append(modalContainer);
     }
-   
+
     const firstTime = localStorage.getItem("first_time");
     if(!firstTime) {
         localStorage.setItem("first_time","1");
@@ -177,42 +172,42 @@ $(()=>{
 
       /* Remove the animateIn class */
       $('#modalContainer > main').removeClass('animate__jackInTheBox');
-      
+
       /* Time the Modal Disapear */
       setInterval(()=>{
         $('#modalContainer > main').addClass('animate__zoomOutDown');
-      } ,0)        
-      
+      } ,0)
+
       /* Time the background fade */
       setInterval(()=>{
-        $('#modalContainer').addClass('animate__animated');  
+        $('#modalContainer').addClass('animate__animated');
         $('#modalContainer').addClass('animate__fadeOut');
       } ,1000)
-      
+
       /* Destroy the modal */
       setInterval(()=>{
         /* Destroy the Modal*/
-        $('#modalContainer').remove();  
+        $('#modalContainer').remove();
       } ,2000)
 
 
-          
+
     })
     // e.preventDefault();
     const onMapClick = (e) => {
 
      alert("You clicked the map at " + e);
       createMarker(e);
-      
+
       // L.marker(e.latlng).addTo(map)
       // .bindPopup(`Longitude & Latitude: ${e.latlng}`)
       // .openPopup();
     }
-    
+
     // Create a pin on map
     $("#create-pin").click(()=>{
       alert("Click on the map to create a pin");
-      map.on('click', onMapClick);    
+      map.on('click', onMapClick);
     });
 
     /* Start of Button onClick Triggers */
@@ -231,16 +226,18 @@ $(()=>{
       alert('trigger about modal');
     });
     let pinData;
+
+
     // $(document).ready(()=>{
       $.get('/maps/json')
       .then(
         (data)=>{
           pinData = data;
           console.log(data)
-          
+
           const addMarkers = ()=>{
             for(let item of data){
-              
+
               const markerOptions = {
                 alt: item.name,
                 title: item.name,
@@ -249,43 +246,62 @@ $(()=>{
                 riseOnHover: true,
                 closeButton: true
               }
-          
+
               const popupOptions = {
                 maxWidth: 560,
                 minWidth: 350
               }
-         
+
+              function onPopupOpen() {
+
+                var tempMarker = this;
+
+                // To remove marker on click of delete button in the popup of marker
+                $(".deletePin:visible").click(function () {
+                    map.removeLayer(tempMarker);
+                });
+            }
+
               let geolocation = item.location.split(' ');
               const popupFormat = `
-              <div id="editPinDetails">
+              <div class="marker-position" id="editPinDetails">
                   <h1>${item.name}</h1>
                   <p>${item.description}</p>
                   <img src="${item.image_url}">
-                  <button data-mapid="${item.map_id}" data-geo="${geolocation}" class="editPin" id="editPin${item.id}" >Edit Pin</button> <button id="deletePin">Delete Pin</button>
+                  <button data-mapid="${item.map_id}" data-geo="${geolocation}" class="editPin" id="editPin${item.id}" >Edit Pin</button> <button type="button" class="deletePin" id="deletePin">Delete Pin</button>
                   </div>
                   `;
-                  
+
+                  function removeMarker() {
+                    const marker = this;
+                    const btn = document.querySelector(".remove");
+                    btn.addEventListener("click", function () {
+                      const markerPlace = document.querySelector(".marker-position");
+                      markerPlace.textContent = "goodbye marker 💩";
+                      map.removeLayer(marker);
+                    });
+                  }
 
               itemID = '#editPin' + item.id;
-      
+
               const marker = L.marker([geolocation[0], geolocation[1]], markerOptions).addTo(map);
 
-                marker.bindPopup(popupFormat, popupOptions)
+                marker.bindPopup(popupFormat, popupOptions, onPopupOpen)
                 .openPopup();
-              const editPinForm = ` 
+              const editPinForm = `
               <form action="/maps/2/1/pins" method="post">
               <label for="name">Title</label>
               <input type="text" id="name" name="name" placeholder="Optional">
               <input type="hidden" id="location" name="location" value="${geolocation}">
               <label for="description">Description</label>
               <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
-    
+
               <fieldset>
               <legend>Gallery</legend>
               <label for="image_url">Select a file:</label>
               <input type="file" id="image_url" name="image_url">
               </fieldset>
-    
+
               <input type="submit" id="save-pin" value="Save Pin"></input>
             </form>`
               // setTimeout(()=>{
@@ -297,39 +313,39 @@ $(()=>{
               // },1000)
 
                 // Save pin button (on popup)
-            }            
+            }
           }
          addMarkers();
         }
       )
 
     // });
-    // const editPinForm = ` 
+    // const editPinForm = `
     //           <form action="/maps/2/6/pins" method="post">
     //           <label for="name">Title</label>
     //           <input type="text" id="name" name="name" placeholder="Optional">
     //           <input type="hidden" id="location" name="location" value="">
     //           <label for="description">Description</label>
     //           <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
-    
+
     //           <fieldset>
     //           <legend>Gallery</legend>
     //           <label for="image_url">Select a file:</label>
     //           <input type="file" id="image_url" name="image_url">
     //           </fieldset>
-    
+
     //           <input type="submit" id="save-pin" value="Save Pin"></input>
     //         </form>`
-      
+
             const createPinEditForm = (geo) => {
-              const form = $( ` 
+              const form = $( `
               <form>
               <label for="name">Title</label>
               <input type="text" id="name" name="name" placeholder="Optional">
               <input type="hidden" id="location" name="location" value="${geo}">
               <label for="description">Description</label>
               <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
-    
+
               <fieldset>
               <legend>Gallery</legend>
               <label for="image_url">Select a file:</label>
@@ -368,12 +384,18 @@ $(()=>{
 
 
     // Delete pin button (on popup) should ONLY show if the pin is in database.
-    $("#map").on('click', '#delete-pin', ()=>{
+    $("#map").on('click', '.deletePin', (e)=>{
       e.preventDefault();
-      console.log("came from editPin", e.target.dataset);
-      $.post(`/3/1/pins/3/delete`,()=> {
+      const regex = /editPin\[0-9]/g;
+      const pinId = e.target.parentElement.toString().search(regex);
+
+
+      console.log("came from deletePin",  e.target.parentElement);
+      console.log("integer came from deletePin", pinId);
+      $.post(`/maps/3/1/pins/3/delete`,()=> {
       })
-      markerGroup.removeLayer(2)
+
+      // markerGroup.removeLayer(2)
     });
 
     // create a map button (Footer)
@@ -413,7 +435,7 @@ $(()=>{
       .then((result)=>{
         $.post(`/maps/list/${result.users_id}/${result.maps_id}/favorite-profile`)
       })
-      
+
     });
 
 
