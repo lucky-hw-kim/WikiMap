@@ -385,16 +385,16 @@ $(()=>{
 
     // Delete pin button (on popup) should ONLY show if the pin is in database.
     $("#map").on('click', '.deletePin', (e)=>{
-      e.preventDefault();
+
       const regex = /editPin\[0-9]/g;
       const pinId = e.target.parentElement.toString().search(regex);
 
-
       console.log("came from deletePin",  e.target.parentElement);
       console.log("integer came from deletePin", pinId);
-      $.post(`/maps/3/1/pins/3/delete`,()=> {
+      $.post(`/maps/3/1/pins/2/delete`,()=> {
       })
-
+      window.location.href = "/maps"
+      res.redirect('/maps');
       // markerGroup.removeLayer(2)
     });
 
