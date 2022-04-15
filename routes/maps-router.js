@@ -9,7 +9,7 @@ const mapsQueries = require('../lib/maps-queries');
 const pinsQueries = require('../lib/pins-queries');
 const { render } = require('sass');
 // Hard coded user Id
-const user_id = 3;
+const user_id = 2;
 
 /*
 * Path to user or user login require: maps/:userId
@@ -61,7 +61,24 @@ router.get('/', (req, res) => {
     });
 })
 
+<<<<<<< HEAD
 // GET /maps/ -- Get all the maps
+=======
+// GET /maps/json/ -- Return JSON pin data
+router.get('/json', (req, res) => {
+  pinsQueries.getAllPinsFromAllMaps()
+    .then( pins => {
+      res.json(pins);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+})
+
+// GET /maps/ -- Get all the maps 
+>>>>>>> 2ea75143edf79d01f8042e1f98db9e7c3b04f845
 router.get('/list', (req, res) => {
   mapsQueries.getAllMaps()
     .then( maps => {
@@ -179,7 +196,8 @@ router.post('/',upload1.single('header_image') ,(req, res, next) => {
   let mapDetails = { user_id, ...req.body, header_image};
   mapsQueries.addMap(mapDetails)
     .then( maps => {
-      next()
+
+      next();
     })
     .catch(err => {
       res
@@ -256,7 +274,7 @@ router.post('/list/:userId/:mapId/favorite-profile', (req, res) => {
         if(temp[i].check){
           return mapsQueries.deleteFavorite(map_id, user_id)
           .then( fav => {
-             res.redirect('/maps/list')
+             res.redirect(`/maps/${user_id}/profile`)
           })
           .catch(err => {
             res
@@ -286,6 +304,20 @@ mapsQueries.searchMaps(title)
   });
 })
 
+// GET /getFavoriteMaps -- Search getFavoriteMaps
+router.get('/:userId/favorites/', (req, res) => {
+const userID = req.params.userId;
+mapsQueries.getFavoriteMaps(userID)
+  .then( getFavoriteMaps => {
+    res.json(getFavoriteMaps);
+  })
+  .catch(err => {
+    res
+      .status(500)
+      .json({ error: err.message });
+  });
+})
+
 // Render create map page
 router.get('/:userId/create', (req, res) => {
   const user_id = req.params.userId;
@@ -307,7 +339,7 @@ router.post('/:userId/:mapId/delete', (req, res) => {
   const map_id = req.params.mapId;
   mapsQueries.deleteMap(map_id, user_id)
     .then( maps => {
-      res.json(maps);
+      res.redirect(`/maps/${user_id}/profile`)
     })
     .catch(err => {
       res
