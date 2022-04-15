@@ -82,7 +82,7 @@ $(()=>{
       // <input type="button" id="delete-pin" name="delete-pin" value="Delete Pin"></input>
       L.marker(e.latlng, markerOptions).addTo(markerGroup)
       .bindPopup(popupFormat, popupOptions)
-      .openPopup();
+      // .openPopup();
 
       /* - create element
         - modify the element with given id OR
@@ -94,46 +94,46 @@ $(()=>{
       
     }
 
-    const loadPins = () => {
+    // const loadPins = () => {
 
-      const markerOptions = {
-        alt: titleTemplate,
-        title: titleTemplate,
-        keyboard: true,
-        draggable: true,
-        riseOnHover: true,
-        closeButton: true
-      }
+    //   const markerOptions = {
+    //     alt: titleTemplate,
+    //     title: titleTemplate,
+    //     keyboard: true,
+    //     draggable: true,
+    //     riseOnHover: true,
+    //     closeButton: true
+    //   }
 
-      const popupOptions = {
-        maxWidth: 560,
-        minWidth: 350
-      }
+    //   const popupOptions = {
+    //     maxWidth: 560,
+    //     minWidth: 350
+    //   }
       
-      const geolocation = `${e.latlng.lat} ${e.latlng.lng}`;
-      const popupFormat = `
-        <form action="/maps/1/3/pins" method="post">
-          <label for="name">Title</label>
-          <input type="text" id="name" name="name" placeholder="Optional">
-          <input type="hidden" id="location" name="location" value="${geolocation}">
-          <label for="description">Description</label>
-          <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
+    //   const geolocation = `${e.latlng.lat} ${e.latlng.lng}`;
+    //   const popupFormat = `
+    //     <form action="/maps/1/3/pins" method="post">
+    //       <label for="name">Title</label>
+    //       <input type="text" id="name" name="name" placeholder="Optional">
+    //       <input type="hidden" id="location" name="location" value="${geolocation}">
+    //       <label for="description">Description</label>
+    //       <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
 
-          <fieldset>
-          <legend>Gallery</legend>
-          <label for="image_url">Select a file:</label>
-          <input type="file" id="image_url" name="image_url">
-          </fieldset>
+    //       <fieldset>
+    //       <legend>Gallery</legend>
+    //       <label for="image_url">Select a file:</label>
+    //       <input type="file" id="image_url" name="image_url">
+    //       </fieldset>
 
-          <input type="submit" id="save-pin" value="Save Pin"></input>
-        </form>
-      `;
-      // <input type="button" id="delete-pin" name="delete-pin" value="Delete Pin"></input>
-      L.marker(e.latlng, markerOptions).addTo(markerGroup)
-      .bindPopup(popupFormat, popupOptions)
-      .openPopup();
+    //       <input type="submit" id="save-pin" value="Save Pin"></input>
+    //     </form>
+    //   `;
+    //   // <input type="button" id="delete-pin" name="delete-pin" value="Delete Pin"></input>
+    //   L.marker(e.latlng, markerOptions).addTo(markerGroup)
+    //   .bindPopup(popupFormat, popupOptions)
+    //   .openPopup();
 
-    }
+    // }
     
     const firstLogin = (header,message)=>{
       
@@ -201,7 +201,7 @@ $(()=>{
     // e.preventDefault();
     const onMapClick = (e) => {
 
-     alert("You clicked the map at " + e);
+    //  alert("You clicked the map at " + e);
       createMarker(e);
       
       // L.marker(e.latlng).addTo(map)
@@ -365,6 +365,35 @@ $(()=>{
       $(e.target.parentElement).empty()
       .append(createPinEditForm(geo));
     });
+
+    $("#map").on('click', '#save-pin-add', (e)=>{
+      console.log("event3", e.target.parentElement);
+      e.preventDefault();
+      const pinName = e.target.parentElement.name.value
+      const pinDesc = e.target.parentElement.description.value
+      const pinImage = e.target.parentElement.image_url.value
+      pinImage = fileInput.value.replace("C:\\fakepath\\", "/styles/condensed_image/uploads/resized/");
+      const pinGeo = e.target.parentElement.dataset.geo
+      const pinId = e.target.parentElement.id.value
+  
+      const template2 = `
+      <div id="editPinDetails">
+      <h1>${pinName}</h1>
+      <p>${pinDesc}</p>
+      <img src="${pinImage}">
+      <button data-mapid="1" data-geo="${pinGeo}" class="editPin" id="editPin${pinId}">Edit Pin</button> <button id="deletePin">Delete Pin</button>
+      </div>`
+     
+      console.log("event1",e.target);
+      const newPinId = itemID.replace('#editPin', '');
+      // console.log("came from savepin!!!", e.target.draggable);
+      const geo = e.target.dataset.geo
+      $(e.target.parentElement).empty().append(template2)
+      $.post(`/maps/3/1/pins/${newPinId}/edit`, {
+        pinName, pinDesc, pinImage, pinGeo, newPinId
+        })
+    })
+ 
 
 
     // Delete pin button (on popup) should ONLY show if the pin is in database.
