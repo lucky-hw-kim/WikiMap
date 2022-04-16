@@ -32,15 +32,18 @@
       <div id="view-footer">
         <!-- Need to change data -->
       <span class="empty-span"></span>
+      <span><a href="/maps/<%= maps[0].id %>/pins"><button type="button" id="create-pin" name="create-pin">Add Pin</button></span></a><span>
       <span><a href="/maps/<%= maps[0].user_id %>/<%= maps[0].id %>/edit"><button type="button" id="editMap" name="editMap">Edit Map</button></span></a>
       <span>
         <form action="/maps/<%= maps[0].user_id %>/<%= maps[0].id %>/delete" method="post">
           <input id="deleteMap" name="deleteMap" value="Delete Map" type="submit">
         </form>
-        
-      <span class="empty-span"></span>
-      <span class="number-under-line">0</span>
-     <span class="likes">Likes</span>
+      </span>
+      <span>
+        <span class="empty-span"></span>
+        <span class="number-under-line">3 Likes</span>
+      </span>
+     
     </div>
   </aside>
   <div id="map"></div>

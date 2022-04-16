@@ -76,13 +76,13 @@ $(()=>{
           <input type="file" id="image_url" name="image_url">
           </fieldset>
 
-          <input type="submit" id="save-pin" value="Save Pin"></input>
+          <input type="submit" id="save-pin-create" value="Save Pin"></input>
         </form>
       `;
-      // <input type="button" id="delete-pin" name="delete-pin" value="Delete Pin"></input>
+ 
       L.marker(e.latlng, markerOptions).addTo(markerGroup)
       .bindPopup(popupFormat, popupOptions)
-      // .openPopup();
+      .openPopup();
 
       /* - create element
         - modify the element with given id OR
@@ -198,22 +198,39 @@ $(()=>{
 
           
     })
-    // e.preventDefault();
     const onMapClick = (e) => {
+ 
+      console.log("You clicked the map at " + e.target);
+       createMarker(e);
+   
+     }
+   
+     // Create a pin on map
+     $("#create-pins").click(()=>{
+       alert("Click on the map to create a pin");
+       map.on('click', onMapClick);
+     });
 
-    //  alert("You clicked the map at " + e);
-      createMarker(e);
-      
-      // L.marker(e.latlng).addTo(map)
-      // .bindPopup(`Longitude & Latitude: ${e.latlng}`)
-      // .openPopup();
-    }
+    //  $("#create-pins").click(()=>{
+    //   e.preventDefault();
+    //   // alert("Click on the map to create a pin");
+    //   // map.on('click', onMapClick);  
+    //   onMapClick(e);
+    // });
+  
+    // // e.preventDefault();
+    // const onMapClick = (e) => {
+
+    //   createMarker(e);
+    // }
     
     // Create a pin on map
-    $("#create-pin").click(()=>{
-      alert("Click on the map to create a pin");
-      map.on('click', onMapClick);    
-    });
+    // $("#create-pins").click(()=>{
+    //   e.preventDefault();
+    //   // alert("Click on the map to create a pin");
+    //   // map.on('click', onMapClick);  
+    //   onMapClick(e);
+    // });
 
     /* Start of Button onClick Triggers */
 
@@ -223,15 +240,13 @@ $(()=>{
       // $("#login-modal").attr('display', 'block');
       // alert('trigger login modal');
     });
-    let itemID = '';
     // About Button
     $("#about-btn").click(()=>{
 
       $("#about-modal").attr('display', 'block');
       alert('trigger about modal');
     });
-    let pinData;
-    // $(document).ready(()=>{
+  
       $.get('/maps/json')
       .then(
         (data)=>{
@@ -265,96 +280,52 @@ $(()=>{
                   </div>
                   `;
                   
+//Edit pin and save
 
               itemID = '#editPin' + item.id;
       
               const marker = L.marker([geolocation[0], geolocation[1]], markerOptions).addTo(map);
 
                 marker.bindPopup(popupFormat, popupOptions)
-                .openPopup();
-              const editPinForm = ` 
-              <form action="/maps/2/1/pins" method="post">
-              <label for="name">Title</label>
-              <input type="text" id="name" name="name" placeholder="Optional">
-              <input type="hidden" id="location" name="location" value="${geolocation}">
-              <label for="description">Description</label>
-              <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
-    
-              <fieldset>
-              <legend>Gallery</legend>
-              <label for="image_url">Select a file:</label>
-              <input type="file" id="image_url" name="image_url">
-              </fieldset>
-    
-              <input type="submit" id="save-pin" value="Save Pin"></input>
-            </form>`
-              // setTimeout(()=>{
-              //   $('.editPin').on('click',(e)=>{
-              //     // e.preventDefault();
-              //     console.log("EditPinHERE!");
-              //     console.log($('#editFormDetails').html());
-              //   })
-              // },1000)
-
-                // Save pin button (on popup)
+                // .openPopup();
             }            
           }
          addMarkers();
         }
       )
 
-    // });
-    // const editPinForm = ` 
-    //           <form action="/maps/2/6/pins" method="post">
-    //           <label for="name">Title</label>
-    //           <input type="text" id="name" name="name" placeholder="Optional">
-    //           <input type="hidden" id="location" name="location" value="">
-    //           <label for="description">Description</label>
-    //           <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
-    
-    //           <fieldset>
-    //           <legend>Gallery</legend>
-    //           <label for="image_url">Select a file:</label>
-    //           <input type="file" id="image_url" name="image_url">
-    //           </fieldset>
-    
-    //           <input type="submit" id="save-pin" value="Save Pin"></input>
-    //         </form>`
+    // Save create Pin
+
+    // $("#map").on('click', "#save-pin-create", (e)=>{
+    //   console.log("event3", e.target.parentElement);
+    //   e.preventDefault();
+    //   const pinName = e.target.parentElement.name.value
+    //   const pinDesc = e.target.parentElement.description.value
+    //   const pinImage = e.target.parentElement.image_url.value
+    //   pinImage = fileInput.value.replace("C:\\fakepath\\", "/styles/condensed_image/uploads/resized/");
+    //   const pinGeo = e.target.parentElement.dataset.geo
+    //   const pinId = e.target.parentElement.id.value
+  
+    //   const template2 = `
+    //   <div id="editPinDetails">
+    //   <h1>${pinName}</h1>
+    //   <p>${pinDesc}</p>
+    //   <img src="${pinImage}">
+    //   <button data-mapid="1" data-geo="${pinGeo}" class="editPin" id="editPin${pinId}">Edit Pin</button> <button id="deletePin">Delete Pin</button>
+    //   </div>`
+     
+    //   console.log("event1",e.target);
+    //   const newPinId = itemID.replace('#editPin', '');
+    //   // console.log("came from savepin!!!", e.target.draggable);
+    //   const geo = e.target.dataset.geo
+    //   $(e.target.parentElement).empty().append(template2)
+    //   $.post(`/maps/3/1/pins/${newPinId}/edit`, {
+    //     pinName, pinDesc, pinImage, pinGeo, newPinId
+    //     })
+    //   })
+
       
-            const createPinEditForm = (geo) => {
-              const form = $( ` 
-              <form>
-              <label for="name">Title</label>
-              <input type="text" id="name" name="name" placeholder="Optional">
-              <input type="hidden" id="location" name="location" value="${geo}">
-              <label for="description">Description</label>
-              <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
-    
-              <fieldset>
-              <legend>Gallery</legend>
-              <label for="image_url">Select a file:</label>
-              <input type="file" id="image_url" name="image_url">
-              </fieldset>
-              <input type="submit" id="save-pin" value="Save Pin"></input>
-            </form>`)
-             form.on('submit',(e) => {
-               e.preventDefault();
-              const pinName = e.target.name.value
-              const pinDesc = e.target.description.value
-              const pinImage = e.target.image_url.value
-              const pinGeo = e.target.dataset.geo
-              const pinId = e.target.id.value
-              console.log("event1",e.target);
-              const newPinId = itemID.replace('#editPin', '');
-
-              // let map_id = e.target.dataset.mapid;
-
-               $.post(`/maps/3/1/pins/${newPinId}/edit`, {
-                pinName, pinDesc, pinImage, pinGeo, newPinId
-                })
-             })
-             return form
-            }
+            
 
     $("#map").on('click', '.editPin', (e)=>{
       console.log("event2", e.target);
@@ -392,15 +363,16 @@ $(()=>{
       $.post(`/maps/3/1/pins/${newPinId}/edit`, {
         pinName, pinDesc, pinImage, pinGeo, newPinId
         })
-    })
+      })
+ 
  
 
 
     // Delete pin button (on popup) should ONLY show if the pin is in database.
-    $("#map").on('click', '#delete-pin', ()=>{
+    $("#map").on('click', '#deletePin', (e)=>{
       e.preventDefault();
-      console.log("came from editPin", e.target.dataset);
-      $.post(`/3/1/pins/3/delete`,()=> {
+      alert("came from DELETEPIN", e.target.dataset);
+      $.post(`/maps/3/1/pins/3/delete`,()=> {
       })
       markerGroup.removeLayer(2)
     });
@@ -425,16 +397,19 @@ $(()=>{
       window.location.href = "/maps/list";
     });
 
-    // Profile button (Footer)
-    $("#saved-map-btn").click(()=>{
-      window.location.href = "maps/2/profile";
-    });
+    // // Profile button (Footer)
+    // $("#saved-map-btn").click(()=>{
+    //   window.location.href = "/maps/2/profile";
+    // });
 
 
     // Close Button
     $(".modal-content span.close").click(()=>{
       loginModal.attr('display', 'none');
     });
+
+     
+
 
     // Favorites
     $("#fav-btn").click(()=>{
@@ -451,25 +426,247 @@ $('#editMap').click((e)=>{
   $('body > aside > div:nth-child(8)').load( "/maps/3/3/edit #create-map")
 })
 
+$('#create-pins').click((e)=>{
+  // window.location.href = "/maps/2/profile";
+  $.get('/maps/3/pins').
+  then(()=>{
+    e.preventDefault();
+    $('#map').load( "body > aside")
+  })
+  createMarker(e)
+})
 
-// $('#editBtn').click((e)=>{
-//   e.preventDefault();
-//   $('body > aside > div:nth-child(8)').load( "/maps/3/3/edit #create-map")
-// })
+  /* Start of Button onClick Triggers */
+
+  // Login Button
+  $("#login-btn").click(()=>{
+    window.location.href = "/maps";
+    // $("#login-modal").attr('display', 'block');
+    // alert('trigger login modal');
+  });
+  let itemID = '';
+  // About Button
+  $("#about-btn").click(()=>{
+
+    $("#about-modal").attr('display', 'block');
+    alert('trigger about modal');
+  });
+  let pinData;
+  // $(document).ready(()=>{
+  $.get('/maps/json')
+    .then(
+      (data)=>{
+        pinData = data;
+        console.log(data);
+          
+        const addMarkers = ()=>{
+          for (let item of data) {
+              
+            const markerOptions = {
+              alt: item.name,
+              title: item.name,
+              keyboard: true,
+              draggable: false,
+              riseOnHover: true,
+              closeButton: true
+            };
+          
+            const popupOptions = {
+              maxWidth: 560,
+              minWidth: 350
+            };
+         
+            let geolocation = item.location.split(' ');
+            const popupFormat = `
+              <div id="editPinDetails">
+                  <h1>${item.name}</h1>
+                  <p>${item.description}</p>
+                  <img src="${item.image_url}">
+                  <button data-mapid="${item.map_id}" data-geo="${geolocation}" class="editPin" id="editPin${item.id}" >Edit Pin</button> <button type="button" class="deletePin" id="deletePin">Delete Pin</button>
+                  </div>
+                  `;
+
+                  
+            itemID = '#editPin' + item.id;
+      
+            const marker = L.marker([geolocation[0], geolocation[1]], markerOptions).addTo(map);
+
+            marker.bindPopup(popupFormat, popupOptions)
+              // .openPopup();
+            const editPinForm = ` 
+              <form action="/maps/2/1/pins" method="post">
+              <label for="name">Title</label>
+              <input type="text" id="name" name="name" placeholder="Optional">
+              <input type="hidden" id="location" name="location" value="${geolocation}">
+              <label for="description">Description</label>
+              <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
+    
+              <fieldset>
+              <legend>Gallery</legend>
+              <label for="image_url">Select a file:</label>
+              <input type="file" id="image_url" name="image_url">
+              </fieldset>
+    
+              <input type="submit" id="save-pin" value="Save Pin"></input>
+            </form>`;
+            // setTimeout(()=>{
+            //   $('.editPin').on('click',(e)=>{
+            //     // e.preventDefault();
+            //     console.log("EditPinHERE!");
+            //     console.log($('#editFormDetails').html());
+            //   })
+            // },1000)
+
+            // Save pin button (on popup)
+          }
+        };
+        addMarkers();
+      }
+    );
+
+  // });
+  // const editPinForm = `
+  //           <form action="/maps/2/6/pins" method="post">
+  //           <label for="name">Title</label>
+  //           <input type="text" id="name" name="name" placeholder="Optional">
+  //           <input type="hidden" id="location" name="location" value="">
+  //           <label for="description">Description</label>
+  //           <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
+    
+  //           <fieldset>
+  //           <legend>Gallery</legend>
+  //           <label for="image_url">Select a file:</label>
+  //           <input type="file" id="image_url" name="image_url">
+  //           </fieldset>
+    
+  //           <input type="submit" id="save-pin" value="Save Pin"></input>
+  //         </form>`
+      
+  const createPinEditForm = (geo) => {
+    const form = $(` 
+              <form>
+              <label for="name">Title</label>
+              <input type="text" id="name" name="name" placeholder="Optional">
+              <input type="hidden" id="location" name="location" value="${geo}">
+              <label for="description">Description</label>
+              <textarea type="text" id="description" name="description" rows="2" cols="1" placeholder="Optional"></textarea>
+    
+              <fieldset>
+              <legend>Gallery</legend>
+              <label for="image_url">Select a file:</label>
+              <input type="file" id="image_url" name="image_url">
+              </fieldset>
+              <input type="submit" id="save-pin" value="Save Pin"></input>
+            </form>`);
+    form.on('submit',(e) => {
+      e.preventDefault();
+      const pinName = e.target.name.value;
+      const pinDesc = e.target.description.value;
+      const pinImage = e.target.image_url.value;
+      const pinGeo = e.target.dataset.geo;
+      const pinId = e.target.id.value;
+      console.log("event1",e.target);
+      const newPinId = itemID.replace('#editPin', '');
+
+      // let map_id = e.target.dataset.mapid;
+
+      $.post(`/maps/3/1/pins/${newPinId}/edit`, {
+        pinName, pinDesc, pinImage, pinGeo, newPinId
+      });
+    });
+    return form;
+  };
+
+  $("#map").on('click', '.editPin', (e)=>{
+    console.log("event2", e.target);
+    e.preventDefault();
+    console.log("came from editPin", e.target.dataset);
+    console.log(e.target.parentElement);
+    const geo = e.target.dataset.geo;
+    $(e.target.parentElement).empty()
+      .append(createPinEditForm(geo));
+  });
 
 
-    /* End of Button onClick Triggers */
+  // Delete pin button (on popup) should ONLY show if the pin is in database.
+  $("#map").on('click', '#delete-pin', ()=>{
+    e.preventDefault();
+    console.log("came from editPin", e.target.dataset);
+    $.post(`/3/1/pins/3/delete`,()=> {
+    });
+    markerGroup.removeLayer(2);
+  });
 
-    // Get the <span> element that closes the modal
-    const closeIcon = document.getElementsByClassName("close")[0];
+  // create a map button (Footer)
+  $("#create-map-btn").click(()=>{
+    window.location.href = "/maps/2/create";
+  });
 
-    // // When the user clicks on the button, open the modal
-    // loginBtn.onclick = function() {
-    //   modal.style.display = "block";
-    // }
+  // edit a map button (Footer)
+  $("#edit-map-btn").click(()=>{
+    window.location.href = "/maps/2/edit";
+  });
 
-    // // When the user clicks on <span> (x), close the modal
-    // span.onclick = function() {
-    //   modal.style.display = "none";
-    // }
+  // add a pin button (Footer)
+  $("#add-pin-map-btn").click(()=>{
+    window.location.href = "/map/1/add";
+  });
+
+  // view a map button (Footer)
+  $("#view-map-btn").click(()=>{
+    window.location.href = "/maps/list";
+  });
+
+  // Profile button (Footer)
+  $("#saved-map-btn").click(()=>{
+    window.location.href = "maps/2/profile";
+  });
+
+
+  // Close Button
+  $(".modal-content span.close").click(()=>{
+    loginModal.attr('display', 'none');
+  });
+
+  // Favorites
+  $("#fav-btn").click(()=>{
+    $.get(`/2/favorites/`)
+      .then((result)=>{
+        $.post(`/maps/list/${result.users_id}/${result.maps_id}/favorite-profile`);
+      });
+      
+  });
+
+
+  $('#editMap').click((e)=>{
+    e.preventDefault();
+    $('body > aside > div:nth-child(8)').load("/maps/3/3/edit #create-map");
+  });
+
+
+  // $('#editBtn').click((e)=>{
+  //   e.preventDefault();
+  //   $('body > aside > div:nth-child(8)').load( "/maps/3/3/edit #create-map")
+  // })
+
+
+  /* End of Button onClick Triggers */
+
+  // Get the <span> element that closes the modal
+  const closeIcon = document.getElementsByClassName("close")[0];
+
+  // // When the user clicks on the button, open the modal
+  // loginBtn.onclick = function() {
+  //   modal.style.display = "block";
+  // }
+
+  // // When the user clicks on <span> (x), close the modal
+  // span.onclick = function() {
+  //   modal.style.display = "none";
+  // }
 });
+
+
+
+
+      

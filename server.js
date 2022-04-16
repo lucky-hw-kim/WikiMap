@@ -58,9 +58,9 @@ app.get("/", (req, res) => {
   // res.render("index");
 });
 
-app.get("/map/:id/add", (req, res) => {
-  res.render("add-pin");
-});
+// app.get("/map/:id/add", (req, res) => {
+//   res.render("add-pin");
+// });
 
 app.get("/profile", (req, res) => {
   res.render("profile");

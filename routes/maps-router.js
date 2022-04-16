@@ -9,7 +9,7 @@ const mapsQueries = require('../lib/maps-queries');
 const pinsQueries = require('../lib/pins-queries');
 const { render } = require('sass');
 // Hard coded user Id
-const user_id = 2;
+const user_id = 3;
 
 /*
 * Path to user or user login require: maps/:userId
@@ -117,11 +117,13 @@ router.get('/:userId/profile', (req, res) => {
 })
 
 // GET /maps/:id -- Get specific map user cliked
+// I need map and pin data same time
 router.get('/list/:mapId', (req, res) => {
   const map_Id = req.params.mapId;
   mapsQueries.getSelectedMap(map_Id)
     .then( maps => {
       res.render("view-map", {maps});
+
     })
     .catch(err => {
       // res.render("errorPage404");
@@ -130,6 +132,23 @@ router.get('/list/:mapId', (req, res) => {
         .json({ error: err.message });
     });
 })
+
+// Get all maps and pins info
+router.get('/list/:mapId', (req, res) => {
+  const map_Id = req.params.mapId;
+  pinsQueries.getAllPinsAndMap(map_Id)
+    .then( maps => {
+      res.render("add-pin", {maps});
+    })
+    .catch(err => {
+      // res.render("errorPage404");
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+})
+
+
 
 // GET /maps/:userId/:id/edit -- Open Edit Map Page
 router.get('/:userId/:mapId/edit', (req, res) => {
@@ -152,7 +171,7 @@ router.get('/:userId/:mapId/edit', (req, res) => {
 router.post('/:userId/:mapId/edit', upload2.single('header_image'), (req, res, next) => {
   let header_image = '/styles/condensed_image/uploads/resized/' + req.file.filename
   const map_id = req.params.mapId;
-  const mapDetails = {map_id, ...req.body, header_image};
+  const mapDetails = {map_id, ...req.body, header_image, user_id};
 
   mapsQueries.editMap(mapDetails)
     .then( maps => {
@@ -349,11 +368,11 @@ router.post('/:userId/:mapId/delete', (req, res) => {
 */
 
 // GET /maps/:mapId/pins -- Get all the pins from a map or maps
-router.get('/:userId/:mapId/pins', (req, res) => {
+router.get('/:mapId/pins', (req, res) => {
   const map_id = req.params.mapId;
-  pinsQueries.getAllPins(map_id)
-    .then( pins => {
-      res.json(pins);
+  mapsQueries.getSelectedMap(map_id)
+  .then( maps => {
+    res.render("add-pin", {maps});
     })
     .catch(err => {
       res
@@ -362,28 +381,12 @@ router.get('/:userId/:mapId/pins', (req, res) => {
     });
 })
 
-// GET /maps/:mapId/pins/:pinId -- Get specific pin user cliked
-router.get('/list/:mapId/pins/:pinId', (req, res) => {
-  const user_id = req.params.userId;
-  const map_id = req.params.mapId;
-  const pinId = req.params.pinId;
-  pinsQueries.getSelectedPin(map_id, pinId)
-    .then( pin => {
-      res.json(pin);
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
-})
 
 // POST /maps/:mapId/pins/:pidId/edit -- Edit a pin
 router.post('/:userId/:mapId/pins/:pinId/edit', (req, res) => {
   const user_id = req.params.userId;
   const map_id = req.params.mapId;
-  const pinId = req.params.pinId;
-  const pinDetails = { ...req.body, pinId, map_id, user_id}
+  const pinDetails = { ...req.body, map_id, user_id}
   pinsQueries.editPin(pinDetails)
     .then( maps => {
       res.json(maps);
@@ -412,14 +415,27 @@ router.post('/:userId/:mapId/pins', (req, res) => {
     });
 })
 
-// POST /maps/:mapId/pins/:pinId/delete -- Delete a pin
-router.post('/:userId/:mapId/pins/:pinId/delete', (req, res) => {
-  const user_id = req.params.userId;
-  const pin_id = req.params.pinId;
-  const map_id = req.params.mapId;
-  const pinDetails = {pin_id, user_id, map_id}
+// // GET /maps/:mapId/pins/:pinId -- Get specific pin user cliked
+// router.get('/list/:mapId/pins/:pinId', (req, res) => {
+//   const user_id = req.params.userId;
+//   const map_id = req.params.mapId;
+//   const pinId = req.params.pinId;
+//   pinsQueries.getAllPinsAndMap(map_id, pinId)
+//     .then( maps => {
+//       res.render("view-map", maps)
+//     })
+//     .catch(err => {
+//       res
+//         .status(500)
+//         .json({ error: err.message });
+//     });
+// })
 
-  pinsQueries.deletePin(pinDetails)
+
+// POST /maps/:mapId/pins/:pinId/delete -- Delete a pin
+router.post('/:userId/:mapId/pins/:pinId/delete', (req, res) => { 
+const pin_id = req.params.pinId;
+  pinsQueries.deletePin(pin_id)
     .then( pins => {
       res.json(pins);
     })

@@ -8,59 +8,63 @@
     <title>Profile Page - Wiki Maps</title>
 
     <%- include('./partials/head'); %>
-<body>  
-<%- include('./partials/header'); %>
-  <div class="maps-heading"> SAVED MAPS </div>
-  <div class="map-list-containers">
-    <% for (let sav of saved) { %>
-    <div class="mini-map-containers">
-      <section class="mini-maps">
-        <div class="maps-list">
-          <a href="/maps/list/<%= sav.id %>"><img src="<%= sav.header_image %>"  title="<%= sav.name %>" alt="<%= sav.description %>" ></a>
-          <p class="map-name"><%= sav.name %></p>
-          <p class="map-desc"><%= sav.description %></p>
-          <div class="icon-container">
-            <div class="icons">
-              <!-- <form action= '/maps/list/<%= user_id %>/<%= sav.id %>/favorite-profile' method="post"> -->
-                <button id="fav-btn" name="favorite" value="favorite" type="button" onclick="alert('<3')"><span  class="wm-icon-like icon"></span></button>
-              <!-- </form> -->
-              <!-- <span class="wm-icon-like icon"></span> -->
-              <span class="wm-icon-reply icon"></span>
-              <span class="wm-icon-send icon"></span>
+    <body>  
+    <%- include('./partials/header'); %>
+    <div id="createdMaps">
+      <div class="maps-heading">Created Maps</div>
+      <div class="map-list-containers">
+        <% for (let sav of saved) { %>
+        <div class="mini-map-containers">
+          <section class="mini-maps">
+            <div class="maps-list">
+              <a href="/maps/list/<%= sav.id %>"><img src="<%= sav.header_image %>"  title="<%= sav.name %>" alt="<%= sav.description %>" ></a>
+              <div class="information">
+              <p class="map-name"><%= sav.name %></p>
+              <p class="map-desc"><%= sav.description %></p>
+              </div>
+              <div class="icon-container">
+                <div class="icons">
+                  <form action= '/maps/list/<%= user_id %>/<%= sav.id %>/favorite-profile' method="post">
+                    <button id="fav-btn" name="favorite" value="favorite" type="button" onclick="alert('<3')"><span  class="wm-icon-like icon"></span></button>
+                  </form>
+                  <button class="wm-icon-reply icon"></button>
+                  <button type="button" class="wm-icon-send icon"></button>
+                </div>
+                <author>@<%= sav.user_id %></author> 
+              </div>
             </div>
-            <author>@<%= sav.user_id %></author> 
+          </section>
+        </div>
+        <% } %>
+        </div>
+      </div>
+    
+
+    <div id="createdMaps">
+      <div class="maps-heading">Favorite Maps</div>
+        <div class="map-list-containers">
+        <% for (let fav of favs) { %>
+        <div class="mini-map-containers">
+            <section class="mini-maps">
+              <div class="maps-list">
+                <a href="/maps/list/<%= fav.id %>"><img src="<%= fav.header_image %>"  title="<%= fav.name %>" alt="<%= fav.description %>" ></a>
+                <p class="map-name"><%= fav.name %></p>
+                <p class="map-desc"><%= fav.description %></p><div class="icon-container">
+                  <div class="icons">
+                    <form action= '/maps/list/<%= user_id %>/<%= fav.id %>/favorite-profile' method="post">
+                      <button id="fav-btn" name="favorite" value="favorite" type="submit" onclick="alert('<3')"><span  class="wm-icon-like icon"></span></button>
+                    </form>
+                    <button class="wm-icon-reply icon"></button>
+                  <button type="button" class="wm-icon-send icon"></button>
+                  </div>
+                  <author>@<%= fav.user_id %></author> 
+                </div>
+              </div>
+            </section>
+          </div>
+          <% } %>
           </div>
         </div>
-      </section>
+      </div>
     </div>
-    <% } %>
-    </div>
-  </div>
- 
-
-  <div class="maps-heading"> FAV MAPS </div>
-    <div class="map-list-containers">
-    <% for (let fav of favs) { %>
-    <div class="mini-map-containers">
-        <section class="mini-maps">
-          <div class="maps-list">
-            <a href="/maps/list/<%= fav.id %>"><img src="<%= fav.header_image %>"  title="<%= fav.name %>" alt="<%= fav.description %>" ></a>
-            <p class="map-name"><%= fav.name %></p>
-            <p class="map-desc"><%= fav.description %></p><div class="icon-container">
-              <div class="icons">
-                <form action= '/maps/list/<%= user_id %>/<%= fav.id %>/favorite-profile' method="post">
-                  <button id="fav-btn" name="favorite" value="favorite" type="submit" onclick="alert('<3')"><span  class="wm-icon-like icon"></span></button>
-                </form>
-                <!-- <span class="wm-icon-like icon"></span> -->
-                <span class="wm-icon-reply icon"></span>
-                <span class="wm-icon-send icon"></span>
-              </div>
-              <author>@<%= fav.user_id %></author> 
-            </div>
-          </div>
-        </section>
-    </div>
-    <% } %>
-    </div>
-  </div>
 </html>

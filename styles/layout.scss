@@ -1,9 +1,9 @@
 // See: https://sass-lang.com/
 
-$primary: #5a59a7;
-$secondary: #3a397e;
+$primary: #3498db;
+$secondary: #2980b9;
 $background: #f3f3f5;
-$button: #5a59a7;
+$button: #2476D1;
 $commonBorderRadius: 15px;
 
 body,
@@ -213,14 +213,22 @@ aside {
   display: flex;
   flex-direction: column;
   z-index: 9999;
-  top: 23vh;
+  top: 14vh;
   left: 5vw;
-  width: 25vw;
+  width: fit-content;
   height: fit-content;
   background-color: lighten($background, 20%);
   border-right: solid  darken($background, 20%) 2px;
   padding: 1.5em;
   border-radius: $commonBorderRadius;
+}
+
+body > aside > p:nth-child(5) {
+  width: 25vw;
+}
+
+img#header-image {
+  max-width: 39vw !important;
 }
 
 aside label {
