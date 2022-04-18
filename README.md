@@ -75,6 +75,9 @@ Note: Our most recent github merge was directed towards demonstration and some f
 
 - [Leaflet-locatecontrol](https://github.com/domoritz/leaflet-locatecontrol) - A leaflet control to geolocate the user.
 
+- [Lottie Files](https://lottiefiles.com/100626-404-page-error) - Lightweight, scalable JSON Vector animations for your Apps.
+
+
 ### 💻 Screenshots:
 
 * Guest & Login / Register
