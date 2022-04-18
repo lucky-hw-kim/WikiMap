@@ -78,31 +78,31 @@ Note: Our most recent github merge was directed towards demonstration and some f
 ### 💻 Screenshots:
 
 * Guest & Login / Register
-  ![Guest & Login / Register](/doc/00-guest-or-login-and-explore.gif)
+  * ![Guest & Login / Register](/doc/00-guest-or-login-and-explore.gif)
 
 * Create a Map
-  ![Create a Map](/doc/01-create-a-map.gif)
+  * ![Create a Map](/doc/01-create-a-map.gif)
 
 * Create a Pin
-  ![Create a Pin](/doc/02-create-a-pin.gif)
+  * ![Create a Pin](/doc/02-create-a-pin.gif)
 
 * Update a Map
-  ![Update a Map](/doc/03-update-a-map.gif)
+  * ![Update a Map](/doc/03-update-a-map.gif)
 
 * User Geo Location
-  ![User Geo Location](/doc/04-user-geo-location.gif)
+  * ![User Geo Location](/doc/04-user-geo-location.gif)
 
 * File Optimization (Using Multer and Sharp)
-  ![File Optimization](/doc/05-file-optimization.jpg)
+  * ![File Optimization](/doc/05-file-optimization.jpg)
 
 * Favorite Map
-  ![Favorite Maps](/doc/06-favorite-maps.gif)
+  * ![Favorite Maps](/doc/06-favorite-maps.gif)
 
 * List of Maps
-  ![List of Maps](/doc/07-list-of-maps.jpg)
+  * ![List of Maps](/doc/07-list-of-maps.jpg)
 
 * Call to Actions
-  ![Call to Actions](/doc/08-call-to-actions.gif)
+  * ![Call to Actions](/doc/08-call-to-actions.gif)
 
-* Page not Found Support
-  ![Page not Found Support](/doc/09-page-not-found.gif)
+* Page not Found Support 
+  * ![Page not Found Support](/doc/09-page-not-found.gif)
