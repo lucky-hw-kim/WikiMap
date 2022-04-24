@@ -14,12 +14,12 @@ Wiki Maps is a web app that allows users to collaborate to create maps, list mul
 
 ### 🚧 This was published for collaborative learning purposes.
 
-This project was created and published by [Lucky Lim](https://github.com/lucky-hw-kim), [Matt Lawson](https://github.com/MattLawson98), and [Matthew Seligman](https://github.com/MattSeligman) as part of our midterm project at Lighthouse Labs. We welcome any feedback!
+This project was created and published by [Lucky Kim](https://github.com/lucky-hw-kim), [Matt Lawson](https://github.com/MattLawson98), and [Matthew Seligman](https://github.com/MattSeligman) as part of our midterm project at Lighthouse Labs. We welcome any feedback!
 
 Note: Our most recent github merge was directed towards demonstration and some features may have become non-functional after our most recent merge.
 
 ### 💬 Contributors
-- [Lucky Lim](https://github.com/lucky-hw-kim)
+- [Lucky kim](https://github.com/lucky-hw-kim)
 - [Matt Lawson](https://github.com/MattLawson98)
 - [Matthew Seligman](https://github.com/MattSeligman)
 
